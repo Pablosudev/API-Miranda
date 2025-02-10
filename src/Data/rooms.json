@@ -1,0 +1,362 @@
+[
+    {
+      "room_number": 5,
+      "id": 1,
+      "room_price": 489.66,
+      "room_offer": 15 ,
+      "status": "Booked",
+      "room_type": "Single Bed",
+      "amenities": "TV"
+    },
+    {
+      "room_number": 83,
+      "id": 2,
+      "room_price": 123.4,
+      "room_offer": 15 ,
+      "status": "Available",
+      "room_type": "Double Superior",
+      "amenities": "Minibar"
+    },
+    {
+      "room_number": 73,
+      "id": 3,
+      "room_price": 330.2,
+      "room_offer": 15 ,
+      "status": "Available",
+      "room_type": "Suite",
+      "amenities": "Double Bed"
+    },
+    {
+      "room_number": 43,
+      "id": 4,
+      "room_price": 90.11,
+      "room_offer": 15 ,
+      "status": "Available",
+      "room_type": "Double Superior",
+      "amenities": "Towel"
+    },
+    {
+      "room_number": 30,
+      "id": 5,
+      "room_price": 55.55,
+      "room_offer": 10,
+      "status": "Available",
+      "room_type": "Single Bed",
+      "amenities": "Minibar"
+    },
+    {
+      "room_number": 85,
+      "id": 6,
+      "room_price": 411.43,
+      "room_offer": 10,
+      "status": "Booked",
+      "room_type": "Double Superior",
+      "amenities": "LED TV"
+    },
+    {
+      "room_number": 39,
+      "id": 7,
+      "room_price": 99.73,
+      "room_offer": 10,
+      "status": "Available",
+      "room_type": "Double Superior",
+      "amenities": "AC"
+    },
+    {
+      "room_number": 74,
+      "id": 8,
+      "room_price": 246.01,
+      "room_offer": 10,
+      "status": "Booked",
+      "room_type": "Double Bed",
+      "amenities": "Towel"
+    },
+    {
+      "room_number": 92,
+      "id": 9,
+      "room_price": 391.02,
+      "room_offer": 15,
+      "status": "Booked",
+      "room_type": "Suite",
+      "amenities": "LED TV"
+    },
+    {
+      "room_number": 20,
+      "id": 10,
+      "room_price": 52.5,
+      "room_offer": 10,
+      "status": "Booked",
+      "room_type": "Suite",
+      "amenities": "AC"
+    },
+    {
+      "room_number": 53,
+      "id": 11,
+      "room_price": 241.75,
+      "room_offer": 10,
+      "status": "Booked",
+      "room_type": "Single Bed",
+      "amenities": "AC"
+    },
+    {
+      "room_number": 20,
+      "id": 12,
+      "room_price": 446.28,
+      "room_offer": 15,
+      "status": "Available",
+      "room_type": "Double Superior",
+      "amenities": "TV"
+    },
+    {
+      "room_number": 91,
+      "id": 13,
+      "room_price": 271.01,
+      "room_offer": 15,
+      "status": "Available",
+      "room_type": "Double Bed",
+      "amenities": "TV"
+    },
+    {
+      "room_number": 23,
+      "id": 14,
+      "room_price": 295.38,
+      "room_offer": 15,
+      "status": "Available",
+      "room_type": "Single Bed",
+      "amenities": "TV"
+    },
+    {
+      "room_number": 70,
+      "id": 15,
+      "room_price": 185.04,
+      "room_offer": 15,
+      "status": "Available",
+      "room_type": "Single Bed",
+      "amenities": "Double Bed"
+    },
+    {
+      "room_number": 24,
+      "id": 16,
+      "room_price": 226.68,
+      "room_offer": 15,
+      "status": "Booked",
+      "room_type": "Double Superior",
+      "amenities": "LED TV"
+    },
+    {
+      "room_number": 24,
+      "id": 17,
+      "room_price": 427.07,
+      "room_offer": 10,
+      "status": "Booked",
+      "room_type": "Double Superior",
+      "amenities": "Shower"
+    },
+    {
+      "room_number": 59,
+      "id": 18,
+      "room_price": 473.18,
+      "room_offer": 10,
+      "status": "Available",
+      "room_type": "Double Bed",
+      "amenities": "Bathup"
+    },
+    {
+      "room_number": 81,
+      "id": 19,
+      "room_price": 327.78,
+      "room_offer": 10,
+      "status": "Available",
+      "room_type": "Double Superior",
+      "amenities": "TV"
+    },
+    {
+      "room_number": 6,
+      "id": 20,
+      "room_price": 319.18,
+      "room_offer": 10,
+      "status": "Booked",
+      "room_type": "Single Bed",
+      "amenities": "Bathup"
+    },
+    {
+      "room_number": 62,
+      "id": 21,
+      "room_price": 336.53,
+      "room_offer": 20,
+      "status": "Booked",
+      "room_type": "Double Superior",
+      "amenities": "AC"
+    },
+    {
+      "room_number": 12,
+      "id": 22,
+      "room_price": 200.44,
+      "room_offer": 20,
+      "status": "Booked",
+      "room_type": "Double Bed",
+      "amenities": "TV"
+    },
+    {
+      "room_number": 94,
+      "id": 23,
+      "room_price": 396.89,
+      "room_offer": 10,
+      "status": "Booked",
+      "room_type": "Suite",
+      "amenities": "Wifi"
+    },
+    {
+      "room_number": 33,
+      "id": 24,
+      "room_price": 497.66,
+      "room_offer": 15,
+      "status": "Booked",
+      "room_type": "Suite",
+      "amenities": "TV"
+    },
+    {
+      "room_number": 67,
+      "id": 25,
+      "room_price": 101.63,
+      "room_offer":10,
+      "status": "Booked",
+      "room_type": "Double Bed",
+      "amenities": "AC"
+    },
+    {
+      "room_number": 44,
+      "id": 26,
+      "room_price": 215.62,
+      "room_offer":10,
+      "status": "Booked",
+      "room_type": "Suite",
+      "amenities": "Double Bed"
+    },
+    {
+      "room_number": 76,
+      "id": 27,
+      "room_price": 434.81,
+      "room_offer": 10,
+      "status": "Booked",
+      "room_type": "Suite",
+      "amenities": "TV"
+    },
+    {
+      "room_number": 66,
+      "id": 28,
+      "room_price": 134.79,
+      "room_offer": 15,
+      "status": "Available",
+      "room_type": "Suite",
+      "amenities": "TV"
+    },
+    {
+      "room_number": 35,
+      "id": 29,
+      "room_price": 92.23,
+      "room_offer": 15,
+      "status": "Available",
+      "room_type": "Single Bed",
+      "amenities": "Shower"
+    },
+    {
+      "room_number": 20,
+      "id": 30,
+      "room_price": 473.53,
+      "room_offer": 10,
+      "status": "Booked",
+      "room_type": "Single Bed",
+      "amenities": "TV"
+    },
+    {
+      "room_number": 28,
+      "id": 31,
+      "room_price": 364.16,
+      "room_offer": 10,
+      "status": "Available",
+      "room_type": "Double Bed",
+      "amenities": "AC"
+    },
+    {
+      "room_number": 61,
+      "id": 32,
+      "room_price": 162.62,
+      "room_offer": 10,
+      "status": "Booked",
+      "room_type": "Single Bed",
+      "amenities": "LED TV"
+    },
+    {
+      "room_number": 26,
+      "id": 33,
+      "room_price": 262.63,
+      "room_offer": 15,
+      "status": "Available",
+      "room_type": "Suite",
+      "amenities": "Minibar"
+    },
+    {
+      "room_number": 96,
+      "id": 34,
+      "room_price": 328.67,
+      "room_offer": 10,
+      "status": "Booked",
+      "room_type": "Suite",
+      "amenities": "Minibar"
+    },
+    {
+      "room_number": 8,
+      "id": 35,
+      "room_price": 162.03,
+      "room_offer": 10,
+      "status": "Booked",
+      "room_type": "Double Superior",
+      "amenities": "Towel"
+    },
+    {
+      "room_number": 26,
+      "id": 36,
+      "room_price": 461.58,
+      "room_offer": 10,
+      "status": "Booked",
+      "room_type": "Single Bed",
+      "amenities": "Bathup"
+    },
+    {
+      "room_number": 96,
+      "id": 37,
+      "room_price": 429.01,
+      "room_offer": 10,
+      "status": "Booked",
+      "room_type": "Double Superior",
+      "amenities": "Bathup"
+    },
+    {
+      "room_number": 100,
+      "id": 38,
+      "room_price": 298.78,
+      "room_offer": 10,
+      "status": "Booked",
+      "room_type": "Double Superior",
+      "amenities": "Minibar"
+    },
+    {
+      "room_number": 44,
+      "id": 39,
+      "room_price": 280.29,
+      "room_offer": 15,
+      "status": "Available",
+      "room_type": "Single Bed",
+      "amenities": "Bathup"
+    },
+    {
+      "room_number": 7,
+      "id": 40,
+      "room_price": 163.94,
+      "room_offer": 10,
+      "status": "Booked",
+      "room_type": "Single Bed",
+      "amenities": "LED TV"
+    }
+  ]
