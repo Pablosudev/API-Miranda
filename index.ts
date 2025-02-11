@@ -3,7 +3,7 @@ const app = express()
 const port = 3000
 
 
-app.get('/live', (req: Request, res: Response) => {         // Ruta de ejemplo con fecha actual
+app.get('/live', (req: Request, res: Response) => {         
   res.send(`${new Date().toISOString()}`)
 })
 
