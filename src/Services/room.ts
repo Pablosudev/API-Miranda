@@ -3,28 +3,26 @@ import { RoomsInterface } from "../Interfaces/RoomsInterface";
 import rooms from "../Data/rooms.json"
 
 export class RoomServices implements ServiceInterface<RoomsInterface>{
-    private rooms : RoomsInterface [] = rooms;
+    private rooms : RoomsInterface [] = rooms as RoomsInterface [];
 
     fetchAll(): RoomsInterface[] {
         return this.rooms;
     }
 
-    fetchById(id: number): RoomsInterface | undefined {
-        return this.rooms.find((rooms) => rooms.id === id);
+    fetchById(id: number ){
+        return rooms.find((room) => room.id === id);
     }
-    create(room: RoomsInterface): RoomsInterface {
+    create(room: RoomsInterface ): RoomsInterface  {
         const newRoom = { ...room, id: this.rooms.length + 1 };
         this.rooms.push(newRoom);
         return newRoom;
     }
     update(id: number, room: RoomsInterface): RoomsInterface | null {
-        const roomToUpdate = this.rooms.filter((room) => room.id === id);
-        if (roomToUpdate.length > 0) {
-            const updatedRoom = { ...roomToUpdate[0], ...room };
-            const finalList = this.rooms.filter((room) => room.id !== id);
-            finalList.push(updatedRoom);
-            this.rooms = finalList;
-            return updatedRoom;
+        console.log(id)
+        const roomToUpdate = this.rooms.find((room) => room.id === Number(id)); 
+        if (roomToUpdate) { 
+            Object.assign(roomToUpdate, room); 
+            return roomToUpdate;
         }
         return null;
     }

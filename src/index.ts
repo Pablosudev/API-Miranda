@@ -30,16 +30,12 @@ app.use(roomsRouter);
 app.use(bookingsRouter);
 app.use(contactRouter);
 app.use(userRouter);
-
-
+app.use(express.json());
 
 
 app.get('/live', (req: Request, res: Response) => {         
   res.send(`${new Date().toISOString()}`)
 })
-
-
-
 app.use("", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 app.listen(port, () => {

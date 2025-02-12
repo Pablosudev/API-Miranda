@@ -1,16 +1,9 @@
 import { Request, Response, Router } from "express";
 import { RoomServices } from "../Services/room";
 
-export const roomsRouter = Router    ();
-const roomsService = new RoomServices
+export const roomsRouter = Router();
+const roomsService = new RoomServices();
 
-
-/**
- * @swagger
- * tags:
- *   - name: rooms
- *     description: Operaciones relacionadas con habitaciones
- */
 /**
  * @swagger
  * /api/v1/rooms :
@@ -28,51 +21,203 @@ const roomsService = new RoomServices
  *                 type: object
  *                 properties:
  *                   id:
- *                     type: integer
+ *                     type: number
  *                     example: 1
- *                   nombre:
+ *                   room_number:
+ *                     type: number
+ *                     example: 40
+ *                   room_price:
+ *                     type: number
+ *                     example: 192
+ *                   room_offer:
+ *                     type: number
+ *                     example: 80
+ *                   status:
  *                     type: string
- *                     example: Servidor 1
- *                   ip:
+ *                     example: Booked
+ *                   room_type:
+ *                      type: string
+ *                      example: suite
+ *                   amenities:
+ *                      type: string
+ *                      example: 
+ * 
+ * @swagger
+ * /api/v1/rooms/:id :
+ *   delete:
+ *     summary: Borra un habitación
+ *     tags: [Rooms]
+ *     responses:
+ *       200:
+ *         description: Elimina habitación
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   id:
+ *                     type: number
+ *                     example: 1
+ *                   room_number:
+ *                     type: number
+ *                     example: 40
+ *                   room_price:
+ *                     type: number
+ *                     example: 192
+ *                   room_offer:
+ *                     type: number
+ *                     example: 80
+ *                   status:
  *                     type: string
- *                     example: 192.168.1.1
- *                   puerto:
- *                     type: integer
- *                     example: 8080
- *                   estado:
+ *                     example: Booked
+ *                   room_type:
+ *                      type: string
+ *                      example: suite
+ *                   amenities:
+ *                      type: string
+ *                      example: WIFI
+ 
+ * @swagger
+ * /api/v1/rooms/:id :
+ *   get:
+ *     summary: Obtiene una habitación
+ *     tags: [Rooms]
+ *     responses:
+ *       200:
+ *         description: Habitación por id
+ *         content:
+ *           application/json:
+ *             schema:
+ *               
+ *                 type: object
+ *                 properties:
+ *                   id:
+ *                     type: number
+ *                     example: 1
+ *                   room_number:
+ *                     type: number
+ *                     example: 40
+ *                   room_price:
+ *                     type: number
+ *                     example: 192
+ *                   room_offer:
+ *                     type: number
+ *                     example: 80
+ *                   status:
  *                     type: string
- *                     example: activo
+ *                     example: Booked
+ *                   room_type:
+ *                      type: string
+ *                      example: suite
+ *                   amenities:
+ *                      type: string
+ *                      example: WIFI
+ * @swagger
+ * /api/v1/rooms/create :
+ *   post:
+ *     summary: Crear una habitación
+ *     tags: [Rooms]
+ *     responses:
+ *       200:
+ *         description: Crea una habitación
+ *         content:
+ *           application/json:
+ *             schema:
+ *               
+ *                 type: object
+ *                 properties:
+ *                   id:
+ *                     type: number
+ *                     example: 4131
+ *                   room_number:
+ *                     type: number
+ *                     example: 12
+ *                   room_price:
+ *                     type: number
+ *                     example: 213
+ *                   room_offer:
+ *                     type: number
+ *                     example: 150
+ *                   status:
+ *                     type: string
+ *                     example: Active
+ *                   room_type:
+ *                      type: string
+ *                      example: Suite
+ *                   amenities:
+ *                      type: string
+ *                      example: WIFI
+ *  @swagger
+ * /api/v1/rooms/edit/:id :
+ *   put:
+ *     summary: Edita una habitación
+ *     tags: [Rooms]
+ *     responses:
+ *       200:
+ *         description: Edita una habitación
+ *         content:
+ *           application/json:
+ *             schema:
+ *               
+ *                 type: object
+ *                 properties:
+ *                   id:
+ *                     type: number
+ *                     example: 1
+ *                   room_number:
+ *                     type: number
+ *                     example: 40
+ *                   room_price:
+ *                     type: number
+ *                     example: 192
+ *                   room_offer:
+ *                     type: number
+ *                     example: 80
+ *                   status:
+ *                     type: string
+ *                     example: Booked
+ *                   room_type:
+ *                      type: string
+ *                      example: suite
+ *                   amenities:
+ *                      type: string
+ *                      example: WIFI
  */
 
 roomsRouter.get("/api/v1/rooms", (req: Request, res: Response) => {
-    const roomList = roomsService.fetchAll();
-    res.json(roomList);
-  });
-roomsRouter.get('/api/v1/rooms/:id', (req: Request, res: Response) => {
-    const room = roomsService.fetchById(parseInt(req.params.id));
-    if (room) {
-        res.json(room);
-    } else {
-        res.status(404).json({ message: 'Room not found' });
-    }
+  const roomList = roomsService.fetchAll();
+  res.json(roomList);
 });
-roomsRouter.post('/api/v1/rooms/create', (req: Request , res: Response) => {
-    const newRoom = roomsService.create(req.body);
-    res.status(201).json(newRoom)
+roomsRouter.get("/api/v1/rooms/:id", (req: Request, res: Response) => {
+  const roomsId = roomsService.fetchById(parseInt(req.params.id));
+  if (roomsId) {
+    res.json(roomsId);
+  } else {
+    res.status(404).json({ message: "Habitación no encontrada" });
+  }
 });
-roomsRouter.put('/api/v1/rooms/edit/:id', (req: Request, res: Response) => {
-    const updatedRoom = roomsService.update(parseInt(req.params.id), req.body);
-    if (updatedRoom !== null) {
-        res.status(204).json(updatedRoom);
-    } else {
-        res.status(404).json({ message: 'Room not found' });
-    }
+roomsRouter.post("/api/v1/rooms/create", (req: Request, res: Response) => {
+  console.log(req.body);
+  const newRoom = roomsService.create(req.body);
+  res.status(201).json(newRoom);
 });
-roomsRouter.delete('/api/v1/rooms/:id', (req: Request, res: Response) => {
-    const deletedRoom = roomsService.delete(parseInt(req.params.id));
-    if (deletedRoom) {
-        res.status(204).json({ message: 'Room deleted' });
-    } else {
-        res.status(404).json({ message: 'Room not found' });
-    }
+roomsRouter.put("/api/v1/rooms/edit/:id", (req: Request, res: Response) => {
+  const roomId = parseInt(req.params.id);
+  const updatedRoom = roomsService.update(roomId, req.body);
+  if (updatedRoom) {
+    res.json(updatedRoom);
+  } else {
+    res.status(404).json({ message: "Room not found" });
+  }
+});
+roomsRouter.delete("/api/v1/rooms/:id", (req: Request, res: Response) => {
+  const roomId = parseInt(req.params.id);
+  const deletedRoom = roomsService.delete(roomId);
+  if (deletedRoom) {
+    res.status(200).json({ message: "Room deleted" });
+  } else {
+    res.status(404).json({ message: "Room not found" });
+  }
 });
