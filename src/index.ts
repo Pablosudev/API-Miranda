@@ -8,6 +8,7 @@ const port = 3000
 const  swaggerUi  =  require ( 'swagger-ui-express' ) ; 
 const swaggerJsDoc = require('swagger-jsdoc');
 
+//CONFIGURACIÓN SWAGGER
 const swaggerOptions = {
   definition: {
     openapi: '3.0.0',
@@ -26,17 +27,27 @@ const swaggerOptions = {
 };
 
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
+
+
+
+
+//CONFIGURACIÓN JWT
+const dotenv = require('dotenv');
+
+dotenv.config();
+
+process.env.TOKEN_SECRET;
+
 app.use(roomsRouter);
 app.use(bookingsRouter);
 app.use(contactRouter);
 app.use(userRouter);
 app.use(express.json());
-
+app.use("", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 app.get('/live', (req: Request, res: Response) => {         
   res.send(`${new Date().toISOString()}`)
 })
-app.use("", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)

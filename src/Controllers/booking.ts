@@ -40,16 +40,16 @@ const bookingService = new BookingServices();
  *                     example: extra towels
  *                   room_type:
  *                     type: string
- *                     example: single 
+ *                     example: single
  *                   number_room:
  *                     type: number
  *                     example: 3
- *                   status: 
+ *                   status:
  *                     type: string
  *                     example: Check-In
- *                   price: 
+ *                   price:
  *                     type: number
- *                     example: 
+ *                     example:
  * @swagger
  * /api/v1/bookings/details/:id :
  *   get:
@@ -85,14 +85,14 @@ const bookingService = new BookingServices();
  *                     example: extra towels
  *                   room_type:
  *                     type: string
- *                     example: single 
+ *                     example: single
  *                   number_room:
  *                     type: number
  *                     example: 3
- *                   status: 
+ *                   status:
  *                     type: string
  *                     example: Check-In
- *                   price: 
+ *                   price:
  *                     type: number
  *                     example: 150
  * @swagger
@@ -130,14 +130,14 @@ const bookingService = new BookingServices();
  *                     example: extra towels
  *                   room_type:
  *                     type: string
- *                     example: single 
+ *                     example: single
  *                   number_room:
  *                     type: number
  *                     example: 3
- *                   status: 
+ *                   status:
  *                     type: string
  *                     example: Check-In
- *                   price: 
+ *                   price:
  *                     type: number
  *                     example: 150
  * @swagger
@@ -175,24 +175,24 @@ const bookingService = new BookingServices();
  *                     example: extra towels
  *                   room_type:
  *                     type: string
- *                     example: single 
+ *                     example: single
  *                   number_room:
  *                     type: number
  *                     example: 3
- *                   status: 
+ *                   status:
  *                     type: string
  *                     example: Check-In
- *                   price: 
+ *                   price:
  *                     type: number
  *                     example: 150
  * @swagger
  * /api/v1/bookings/edit/:id :
- *   delete:
- *     summary: Borrar una Reserva
+ *   put:
+ *     summary: Editar una Reserva
  *     tags: [Bookings]
  *     responses:
  *       200:
- *         description: Borrar una reserva
+ *         description: Editar una reserva
  *         content:
  *           application/json:
  *             schema:
@@ -220,14 +220,14 @@ const bookingService = new BookingServices();
  *                     example: extra towels
  *                   room_type:
  *                     type: string
- *                     example: single 
+ *                     example: single
  *                   number_room:
  *                     type: number
  *                     example: 3
- *                   status: 
+ *                   status:
  *                     type: string
  *                     example: Check-In
- *                   price: 
+ *                   price:
  *                     type: number
  *                     example: 150
  */
@@ -268,14 +268,11 @@ bookingsRouter.put(
     }
   }
 );
-bookingsRouter.delete(
-  "/api/v1/bookings/:id",
-  (req: Request, res: Response) => {
-    const deletedBooking = bookingService.delete(parseInt(req.params.id));
-    if (deletedBooking) {
-      res.status(204).json({ message: "Booking deleted" });
-    } else {
-      res.status(404).json({ message: "Booking not found" });
-    }
+bookingsRouter.delete("/api/v1/bookings/:id", (req: Request, res: Response) => {
+  const deletedBooking = bookingService.delete(parseInt(req.params.id));
+  if (deletedBooking) {
+    res.status(204).json({ message: "Booking deleted" });
+  } else {
+    res.status(404).json({ message: "Booking not found" });
   }
-);
+});

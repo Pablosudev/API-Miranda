@@ -80,7 +80,7 @@ const roomsService = new RoomServices();
  *                      example: WIFI
  
  * @swagger
- * /api/v1/rooms/:id :
+ * /api/v1/rooms/5 :
  *   get:
  *     summary: Obtiene una habitación
  *     tags: [Rooms]
@@ -199,7 +199,6 @@ roomsRouter.get("/api/v1/rooms/:id", (req: Request, res: Response) => {
   }
 });
 roomsRouter.post("/api/v1/rooms/create", (req: Request, res: Response) => {
-  console.log(req.body);
   const newRoom = roomsService.create(req.body);
   res.status(201).json(newRoom);
 });
@@ -207,7 +206,7 @@ roomsRouter.put("/api/v1/rooms/edit/:id", (req: Request, res: Response) => {
   const roomId = parseInt(req.params.id);
   const updatedRoom = roomsService.update(roomId, req.body);
   if (updatedRoom) {
-    res.json(updatedRoom);
+    res.status(204).json(updatedRoom);
   } else {
     res.status(404).json({ message: "Room not found" });
   }

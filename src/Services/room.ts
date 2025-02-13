@@ -13,7 +13,8 @@ export class RoomServices implements ServiceInterface<RoomsInterface>{
         return rooms.find((room) => room.id === id);
     }
     create(room: RoomsInterface ): RoomsInterface  {
-        const newRoom = { ...room, id: this.rooms.length + 1 };
+        console.log(room)
+        const newRoom = { ...room, id: this.rooms.length + 1};
         this.rooms.push(newRoom);
         return newRoom;
     }
