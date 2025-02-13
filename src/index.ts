@@ -3,6 +3,9 @@ import { roomsRouter } from './Controllers/room';
 import { bookingsRouter } from './Controllers/booking';
 import { contactRouter } from './Controllers/contact';
 import { userRouter } from './Controllers/user';
+import { loginRouter } from './Controllers/login';
+import dotenv from 'dotenv';
+dotenv.config();
 const app = express()
 const port = 3000
 const  swaggerUi  =  require ( 'swagger-ui-express' ) ; 
@@ -29,19 +32,11 @@ const swaggerOptions = {
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
 
 
-
-
-//CONFIGURACIÓN JWT
-const dotenv = require('dotenv');
-
-dotenv.config();
-
-process.env.TOKEN_SECRET;
-
 app.use(roomsRouter);
 app.use(bookingsRouter);
 app.use(contactRouter);
 app.use(userRouter);
+app.use(loginRouter)
 app.use(express.json());
 app.use("", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 

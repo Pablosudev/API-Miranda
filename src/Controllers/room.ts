@@ -1,9 +1,9 @@
 import { Request, Response, Router } from "express";
 import { RoomServices } from "../Services/room";
-
+import { RoomsValidators } from "../Validators/RoomsValidators";
 export const roomsRouter = Router();
 const roomsService = new RoomServices();
-
+const roomsValidators = new RoomsValidators();
 /**
  * @swagger
  * /api/v1/rooms :
@@ -199,10 +199,12 @@ roomsRouter.get("/api/v1/rooms/:id", (req: Request, res: Response) => {
   }
 });
 roomsRouter.post("/api/v1/rooms/create", (req: Request, res: Response) => {
+  
   const newRoom = roomsService.create(req.body);
   res.status(201).json(newRoom);
 });
 roomsRouter.put("/api/v1/rooms/edit/:id", (req: Request, res: Response) => {
+  const error: string [] = roomsValidators.validateProperties(req.body)
   const roomId = parseInt(req.params.id);
   const updatedRoom = roomsService.update(roomId, req.body);
   if (updatedRoom) {
