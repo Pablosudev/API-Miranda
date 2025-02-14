@@ -8,6 +8,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 const app = express()
 const port = 3000
+app.use(express.json())
 const  swaggerUi  =  require ( 'swagger-ui-express' ) ; 
 const swaggerJsDoc = require('swagger-jsdoc');
 
@@ -37,7 +38,6 @@ app.use(bookingsRouter);
 app.use(contactRouter);
 app.use(userRouter);
 app.use(loginRouter)
-app.use(express.json());
 app.use("", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 app.get('/live', (req: Request, res: Response) => {         
