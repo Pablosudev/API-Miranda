@@ -21,13 +21,13 @@ export class ContactValidators {
 
     return errorMessages;
     }
-    validateContacts(rooms: ContactsInterface[]): string[] {
+    validateContacts(contact: ContactsInterface[]): string[] {
         const errorMessages: string[] = [];
     
-        rooms.forEach((contact, index) => {
+        contact.forEach((contact, index) => {
           const contactErrors = this.validateProperties(contact);
           if (contactErrors.length > 0) {
-            errorMessages.push(`Errores en la habitación ${index + 1}:`);
+            errorMessages.push(`Errores en el contacto ${index + 1}:`);
             errorMessages.push(...contactErrors);
           }
         });

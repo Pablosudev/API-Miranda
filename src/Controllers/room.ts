@@ -90,7 +90,8 @@ const roomsValidators = new RoomsValidators();
  *         content:
  *           application/json:
  *             schema:
- *               
+ *               type: array
+ *               items:
  *                 type: object
  *                 properties:
  *                   id:
@@ -125,7 +126,8 @@ const roomsValidators = new RoomsValidators();
  *         content:
  *           application/json:
  *             schema:
- *               
+ *               type: array
+ *               items:
  *                 type: object
  *                 properties:
  *                   id:
@@ -160,7 +162,8 @@ const roomsValidators = new RoomsValidators();
  *         content:
  *           application/json:
  *             schema:
- *               
+ *               type: array
+ *               items:
  *                 type: object
  *                 properties:
  *                   id:

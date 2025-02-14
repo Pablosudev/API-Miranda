@@ -9,7 +9,7 @@ export const loginRouter = Router();
 loginRouter.post("/api/v1/login", (req: Request, res: Response) => {
   const { email, password } = req.body;
 
-  const adminValue: AdminInterface[] = admin.filter((u) => u.email === email);
+  const adminValue: AdminInterface[] = admin.filter((admin) => admin.email === email);
   if (adminValue.length === 0) {
     res.status(400).send("Admin no encontrado");
   }
@@ -19,7 +19,7 @@ loginRouter.post("/api/v1/login", (req: Request, res: Response) => {
 
   const validPassword = bcrypt
     .compare(password, adminValue[0].password)
-    .then((result) => {
+    .then(() => {
       if (!validPassword) {
         return res
           .status(400)
