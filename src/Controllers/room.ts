@@ -1,9 +1,9 @@
 import { Request, Response, Router } from "express";
 import { RoomServices } from "../Services/room";
-import { RoomsValidators } from "../Validators/RoomsValidators";
+import { validateRooms } from "../Validators/RoomsValidators";
 export const roomsRouter = Router();
 const roomsService = new RoomServices();
-const roomsValidators = new RoomsValidators();
+
 /**
  * @swagger
  * /api/v1/rooms :
@@ -189,11 +189,11 @@ const roomsValidators = new RoomsValidators();
  *                      example: WIFI
  */
 
-roomsRouter.get("/api/v1/rooms", (req: Request, res: Response) => {
+roomsRouter.get("/", (req: Request, res: Response) => {
   const roomList = roomsService.fetchAll();
   res.json(roomList);
 });
-roomsRouter.get("/api/v1/rooms/:id", (req: Request, res: Response) => {
+roomsRouter.get("/:id", (req: Request, res: Response) => {
   const roomsId = roomsService.fetchById(parseInt(req.params.id));
   if (roomsId) {
     res.json(roomsId);
@@ -201,13 +201,19 @@ roomsRouter.get("/api/v1/rooms/:id", (req: Request, res: Response) => {
     res.status(404).json({ message: "Habitación no encontrada" });
   }
 });
-roomsRouter.post("/api/v1/rooms/create", (req: Request, res: Response) => {
-  
+roomsRouter.post("/", (req: Request, res: Response) => {
+  const validationError = validateRooms(req, res);
+  if(validationError) {
+    return;
+  }
   const newRoom = roomsService.create(req.body);
   res.status(201).json(newRoom);
 });
-roomsRouter.put("/api/v1/rooms/edit/:id", (req: Request, res: Response) => {
-  const error: string [] = roomsValidators.validateProperties(req.body)
+roomsRouter.put("/:id", (req: Request, res: Response) => {
+  const validationError = validateRooms(req, res);
+  if(validationError) {
+    return;
+  }
   const roomId = parseInt(req.params.id);
   const updatedRoom = roomsService.update(roomId, req.body);
   if (updatedRoom) {
@@ -216,11 +222,11 @@ roomsRouter.put("/api/v1/rooms/edit/:id", (req: Request, res: Response) => {
     res.status(404).json({ message: "Room not found" });
   }
 });
-roomsRouter.delete("/api/v1/rooms/:id", (req: Request, res: Response) => {
+roomsRouter.delete("/:id", (req: Request, res: Response) => {
   const roomId = parseInt(req.params.id);
   const deletedRoom = roomsService.delete(roomId);
   if (deletedRoom) {
-    res.status(200).json({ message: "Room deleted" });
+    res.status(204).json({ message: "Room deleted" });
   } else {
     res.status(404).json({ message: "Room not found" });
   }

@@ -24,6 +24,7 @@ class AuthService {
         );
 
         return token;
+        
     }
 }
 

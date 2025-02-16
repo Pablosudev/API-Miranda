@@ -3,16 +3,14 @@ import { roomsRouter } from './Controllers/room';
 import { bookingsRouter } from './Controllers/booking';
 import { contactRouter } from './Controllers/contact';
 import { userRouter } from './Controllers/user';
-import { loginRouter } from './Controllers/login';
 import dotenv from 'dotenv';
 dotenv.config();
 const app = express()
 const port = 3000
-app.use(express.json())
 const  swaggerUi  =  require ( 'swagger-ui-express' ) ; 
 const swaggerJsDoc = require('swagger-jsdoc');
 
-//CONFIGURACIÓN SWAGGER
+
 const swaggerOptions = {
   definition: {
     openapi: '3.0.0',
@@ -32,12 +30,12 @@ const swaggerOptions = {
 
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
 
+app.use(express.json())
 
-app.use(roomsRouter);
-app.use(bookingsRouter);
-app.use(contactRouter);
-app.use(userRouter);
-app.use(loginRouter)
+app.use('/api/v1/rooms',roomsRouter);
+app.use('/api/v1/bookings',bookingsRouter);
+app.use('/api/v1/contacts',contactRouter);
+app.use('/api/v1/users',userRouter);
 app.use("", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 app.get('/live', (req: Request, res: Response) => {         

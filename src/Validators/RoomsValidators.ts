@@ -1,38 +1,38 @@
 import { RoomsInterface } from "../Interfaces/RoomsInterface";
+import { Response, Request } from "express";
 
-export class RoomsValidators {
-  validateProperties(room: RoomsInterface): string[] {
-    const errorMessages: string[] = [];
-    const requiredProperties: string[] = [
-      'room_number',
-      'id',
-      'room_price',
-      'room_offer',
-      'status',
-      'room_type',
-      'amenities'
-    ];
-
-    requiredProperties.forEach((property) => {
-      if (!(property in room)) {
-        errorMessages.push(`La propiedad [${property}] es obligatoria en Rooms.`);
-      }
-    });
-
-    return errorMessages;
+export const validateRooms = (req: Request, res: Response,) => {
+  const { number, id, price, offer, status, type, amenities } =
+    req.body as RoomsInterface;
+  if (typeof number !== "number" || number === 0) {
+    return res.status(400).json({ error: "Invalid number room" });
   }
-
-  validateRooms(rooms: RoomsInterface[]): string[] {
-    const errorMessages: string[] = [];
-
-    rooms.forEach((room, index) => {
-      const roomErrors = this.validateProperties(room);
-      if (roomErrors.length > 0) {
-        errorMessages.push(`Errores en la habitación ${index + 1}:`);
-        errorMessages.push(...roomErrors);
-      }
-    });
-
-    return errorMessages;
+  if (typeof id !== "number" || id === 0) {
+    return res.status(400).json({ error: "Invalid Id" });
   }
-}
+  if (typeof price !== "number" || price === 0) {
+    return res.status(400).json({ error: "Invalida price" });
+  }
+  if (typeof offer !== "number") {
+    return res.status(400).json({ error: "Invalid offer" });
+  }
+  if (
+    typeof status !== "string" ||
+    (status !== "Booked" && status !== "Available")
+  ) {
+    return res.status(400).json({ error: "Invalid status room" });
+  }
+  if (
+    typeof type !== "string" ||
+    type.length === 0 ||
+    (type !== "Suite" &&
+      type !== "Double Superior" &&
+      type !== "Single Bed" &&
+      type !== "Dobule Bed")
+  ) {
+    return res.status(400).json({ error: "Invalid type room" });
+  }
+  if(typeof amenities !== 'string' || amenities.length === 0){
+    return res.status(400).json({error: 'Invalid amenities'})
+  }
+};

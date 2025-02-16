@@ -19,8 +19,9 @@ loginRouter.post("/api/v1/login", (req: Request, res: Response) => {
 
   const validPassword = bcrypt
     .compare(password, adminValue[0].password)
-    .then(() => {
-      if (!validPassword) {
+    .then((validPassword) => {
+      if (validPassword === false) {
+        
         return res
           .status(400)
           .send({ token: "Usuario o contraseña incorrectos" });

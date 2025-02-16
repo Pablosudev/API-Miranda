@@ -3,7 +3,7 @@ import { RoomsInterface } from "../Interfaces/RoomsInterface";
 import rooms from "../Data/rooms.json"
 
 export class RoomServices implements ServiceInterface<RoomsInterface>{
-    private rooms : RoomsInterface [] = rooms as RoomsInterface [];
+    private rooms : RoomsInterface [] = rooms as unknown as RoomsInterface [];
 
     fetchAll(): RoomsInterface[] {
         return this.rooms;

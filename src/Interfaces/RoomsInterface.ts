@@ -1,9 +1,9 @@
 export interface RoomsInterface {
-  room_number: number;
+  number: number;
   id: number;
-  room_price: number;
-  room_offer: number;
+  price: number;
+  offer: number;
   status: string;
-  room_type: string;
-  amenities: string;
+  type: string;
+  amenities: string ;
 }

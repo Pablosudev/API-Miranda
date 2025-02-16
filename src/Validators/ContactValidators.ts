@@ -1,37 +1,43 @@
+import { error } from "console";
 import { ContactsInterface } from "../Interfaces/ContactInterface";
+import { Response, Request } from "express";
 
-export class ContactValidators {
-    validateProperties(contact: ContactsInterface): string [] {
-        const errorMessages: string[] = [];
-    const requiredProperties: string[] = [
-      'date',
-      'id',
-      'full_name',
-      'email',
-      'phone',
-      'asunto',
-      'comment'
-    ];
 
-    requiredProperties.forEach((property) => {
-      if (!(property in contact)) {
-        errorMessages.push(`La propiedad [${property}] es obligatoria en Rooms.`);
-      }
-    });
+const validDate = (date: string): boolean => {
+  const parseDate = new Date(date);
+  return !isNaN(parseDate.getTime());
+};
+const validEmail = (email: string ): boolean => {
+  const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+  return emailRegex.test(email)
+}
+const validContact = (contact: string): boolean => {
+  const phoneRegex = /^[0-9]{9,12}$/;
+  return phoneRegex.test(contact);
+  };
 
-    return errorMessages;
-    }
-    validateContacts(contact: ContactsInterface[]): string[] {
-        const errorMessages: string[] = [];
-    
-        contact.forEach((contact, index) => {
-          const contactErrors = this.validateProperties(contact);
-          if (contactErrors.length > 0) {
-            errorMessages.push(`Errores en el contacto ${index + 1}:`);
-            errorMessages.push(...contactErrors);
-          }
-        });
-    
-        return errorMessages;
-      }
+
+export const validateContact = (req: Request, res: Response) => {
+  const {date, id, name, email, phone, subject, comment }= req.body  as ContactsInterface;
+  if(!validDate(date)){
+    return res.status(400).json({error: 'Invalid Date'})
+  }
+  if(typeof id !== 'number' || id === null){
+    return res.status(400).json({error: 'Invalid id'})
+  }
+  if(typeof name !== 'string' || name.length <= 3){
+    return res.status(400).json({error: 'Invalid name'})
+  }
+  if(!validEmail(email)){
+    return res.status(400).json({error: 'Invalid email'})
+  }
+  if(!validContact(phone)){
+    return res.status(400).json({error: 'Invalid phone'})
+  }
+  if(typeof subject !== 'string'){
+    return res.status(400).json({error: 'Invalid subject'})
+  }
+  if(typeof comment !== 'string'){
+    return res.status(400).json({error: 'Invalid phone'})
+  }
 }

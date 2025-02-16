@@ -1,5 +1,6 @@
 import { Request, Response, Router } from "express";
 import { BookingServices } from "../Services/booking";
+import { validateBookings } from "../Validators/BookingsValidators";
 
 export const bookingsRouter = Router();
 const bookingService = new BookingServices();
@@ -232,12 +233,12 @@ const bookingService = new BookingServices();
  *                     example: 150
  */
 
-bookingsRouter.get("/api/v1/bookings", (req: Request, res: Response) => {
+bookingsRouter.get("/", (req: Request, res: Response) => {
   const bookingList = bookingService.fetchAll();
   res.json(bookingList);
 });
 bookingsRouter.get(
-  "/api/v1/bookings/details/:id",
+  "/:id",
   (req: Request, res: Response) => {
     const booking = bookingService.fetchById(parseInt(req.params.id));
     if (booking) {
@@ -248,15 +249,23 @@ bookingsRouter.get(
   }
 );
 bookingsRouter.post(
-  "/api/v1/bookings/create",
+  "/",
   (req: Request, res: Response) => {
+    const validationError = validateBookings(req, res);
+        if(validationError) {
+          return;
+        }
     const newBooking = bookingService.create(req.body);
     res.status(201).json(newBooking);
   }
 );
 bookingsRouter.put(
-  "/api/v1/bookings/edit/:id",
+  "/:id",
   (req: Request, res: Response) => {
+    const validationError = validateBookings(req, res);
+    if(validationError) {
+      return;
+    }
     const updatedBooking = bookingService.update(
       parseInt(req.params.id),
       req.body
@@ -268,7 +277,7 @@ bookingsRouter.put(
     }
   }
 );
-bookingsRouter.delete("/api/v1/bookings/:id", (req: Request, res: Response) => {
+bookingsRouter.delete("/:id", (req: Request, res: Response) => {
   const deletedBooking = bookingService.delete(parseInt(req.params.id));
   if (deletedBooking) {
     res.status(204).json({ message: "Booking deleted" });
