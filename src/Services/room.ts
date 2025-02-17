@@ -19,11 +19,11 @@ export class RoomServices implements ServiceInterface<RoomsInterface>{
         return newRoom;
     }
     update(id: number, room: RoomsInterface): RoomsInterface | null {
-        console.log(id)
-        const roomToUpdate = this.rooms.find((room) => room.id === Number(id)); 
+        const roomToUpdate = this.rooms.find((room) => room.id ===id); 
         if (roomToUpdate) { 
-            Object.assign(roomToUpdate, room); 
-            return roomToUpdate;
+            const updatedRoom = {...roomToUpdate,...room};
+            this.rooms = this.rooms.map((r) => (r.id === id ? updatedRoom : r))
+            return updatedRoom;
         }
         return null;
     }

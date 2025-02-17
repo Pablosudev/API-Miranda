@@ -18,13 +18,11 @@ export class UserServices implements ServiceInterface<UsersInterface>{
         return newUser;
     }
     update(id: number, user: UsersInterface): UsersInterface | null {
-        const userToUpdate = this.users.filter((user) => user.id === id);
-        if (userToUpdate.length > 0) {
-            const updatedUser = { ...userToUpdate[0], ...user };
-            const finalList = this.users.filter((user) => user.id !== id);
-            finalList.push(updatedUser);
-            this.users = finalList;
-            return updatedUser;
+        const userToUpdate = this.users.find((user) => user.id ===id); 
+        if (userToUpdate) { 
+            const updatedRoom = {...userToUpdate,...user};
+            this.users = this.users.map((r) => (r.id === id ? updatedRoom : r))
+            return updatedRoom;
         }
         return null;
     }

@@ -1,36 +1,37 @@
 import { Request, Response, Router } from "express";
-import { AdminInterface } from "../Interfaces/AdminInterface";
-import admin from "../Data/admin.json";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
+import admin from "../Data/admin.json";
+import { AdminInterface } from "../Interfaces/AdminInterface";
 
 export const loginRouter = Router();
 
-loginRouter.post("/api/v1/login", (req: Request, res: Response) => {
-  const { email, password } = req.body;
+loginRouter.post("/api/v1/login", async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { email, password } = req.body;
 
-  const adminValue: AdminInterface[] = admin.filter((admin) => admin.email === email);
-  if (adminValue.length === 0) {
-    res.status(400).send("Admin no encontrado");
-  }
-  if (!process.env.TOKEN_SECRET) {
-    res.status(500).send(" TOKEN_SECRET no está definido");
-  }
+    const adminValue: AdminInterface | undefined = admin.find((admin) => admin.email === email);
 
-  const validPassword = bcrypt
-    .compare(password, adminValue[0].password)
-    .then((validPassword) => {
-      if (validPassword === false) {
-        
-        return res
-          .status(400)
-          .send({ token: "Usuario o contraseña incorrectos" });
-      }
-      const token = jwt.sign(
-        { email: adminValue[0].email },
-        process.env.TOKEN_SECRET as string,
-        { expiresIn: "1h" }
-      );
-      res.status(200).send({ token: token });
-    });
+    if (!adminValue) {
+      res.status(400).send("Admin not found");
+      return;
+    }
+
+    const isPasswordValid = await bcrypt.compare(password, adminValue.password);
+
+    if (isPasswordValid === null) {
+      res.status(400).send("Invalid password");
+      return;
+    }
+
+    if (process.env.TOKEN_SECRET) {
+      const token = jwt.sign({ email: adminValue.email }, process.env.TOKEN_SECRET, { expiresIn: "1h" });
+      res.status(200).json({ token });
+    } else {
+      res.status(500).send("TOKEN_SECRET is not defined");
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal server error");
+  }
 });

@@ -261,19 +261,18 @@ bookingsRouter.post(
 );
 bookingsRouter.put(
   "/:id",
-  (req: Request, res: Response) => {
+  (req: Request, res: any) => {
     const validationError = validateBookings(req, res);
     if(validationError) {
       return;
     }
-    const updatedBooking = bookingService.update(
-      parseInt(req.params.id),
-      req.body
-    );
-    if (updatedBooking !== null) {
-      res.status(204).json(updatedBooking);
+    const bookingId = Number(req.params.id);
+    const updatedBooking = bookingService.update(bookingId, req.body);
+  
+    if (updatedBooking) {
+      return res.status(200).json(updatedBooking);
     } else {
-      res.status(404).json({ message: "Booking not found" });
+      return res.status(404).json({ error: "Reserva no encontrada" });
     }
   }
 );

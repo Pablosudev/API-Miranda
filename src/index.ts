@@ -4,6 +4,7 @@ import { bookingsRouter } from './Controllers/booking';
 import { contactRouter } from './Controllers/contact';
 import { userRouter } from './Controllers/user';
 import dotenv from 'dotenv';
+import { loginRouter } from './Controllers/login';
 dotenv.config();
 const app = express()
 const port = 3000
@@ -31,11 +32,11 @@ const swaggerOptions = {
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
 
 app.use(express.json())
-
-app.use('/api/v1/rooms',roomsRouter);
-app.use('/api/v1/bookings',bookingsRouter);
-app.use('/api/v1/contacts',contactRouter);
-app.use('/api/v1/users',userRouter);
+app.use('/api/v1/login', loginRouter)
+app.use('/api/v1/rooms', roomsRouter);
+app.use('/api/v1/bookings', bookingsRouter);
+app.use('/api/v1/contacts', contactRouter);
+app.use('/api/v1/users', userRouter);
 app.use("", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 app.get('/live', (req: Request, res: Response) => {         

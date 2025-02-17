@@ -18,13 +18,11 @@ export class BookingServices implements ServiceInterface<BookingsInterface>{
         return newBooking;
     }
     update(id: number, booking: BookingsInterface): BookingsInterface | null {
-        const bookingToUpdate = this.bookings.filter((booking) => booking.id === id);
-        if (bookingToUpdate.length > 0) {
-            const updatedBooking = { ...bookingToUpdate[0], ...booking };
-            const finalList = this.bookings.filter((booking) => booking.id !== id);
-            finalList.push(updatedBooking);
-            this.bookings = finalList;
-            return updatedBooking;
+        const bookingToUpdate = this.bookings.find((booking) => booking.id ===id); 
+        if (bookingToUpdate) { 
+            const updatedRoom = {...bookingToUpdate,...booking};
+            this.bookings = this.bookings.map((r) => (r.id === id ? updatedRoom : r))
+            return updatedRoom;
         }
         return null;
     }

@@ -5,6 +5,11 @@ import { validateUser } from "../Validators/UsersValidators";
 export const userRouter = Router();
 const userServices = new UserServices();
 
+userRouter.get("/", (req: Request, res: Response) => {
+  const userList = userServices.fetchAll();
+  res.json(userList);
+});
+
 /**
  * @swagger
  * /api/v1/users :
@@ -46,7 +51,18 @@ const userServices = new UserServices();
  *                     type: string
  *                     example: finance
  *
- * @swagger
+*/
+
+userRouter.get("/:id", (req: Request, res: Response) => {
+  const user = userServices.fetchById(parseInt(req.params.id));
+  if (user) {
+    res.json(user);
+  } else {
+    res.status(404).json({ message: "User not found" });
+  }
+});
+/**
+ @swagger
  * /api/v1/users/:id :
  *   get:
  *     summary: Obtiene un Usuario
@@ -84,8 +100,18 @@ const userServices = new UserServices();
  *                     example: Active
  *                   department:
  *                     type: string
- *                     example: finance
- * @swagger
+ *                     example: finance 
+ */
+userRouter.post("/", (req: Request, res: Response) => {
+  const validationError = validateUser(req, res);
+    if(validationError) {
+      return;
+    }
+  const newUser = userServices.create(req.body);
+  res.status(201).json(newUser);
+});
+/**
+ @swagger
  * /api/v1/users/create :
  *   post:
  *     summary: Crea un usuario
@@ -124,7 +150,23 @@ const userServices = new UserServices();
  *                   department:
  *                     type: string
  *                     example: finance
- * @swagger
+ */
+userRouter.put("/:id", (req: Request, res: any) => {
+  const validationError = validateUser(req, res);
+    if(validationError) {
+      return;
+    }
+  const userId = Number(req.params.id);
+  const updatedUser = userServices.update(userId, req.body);
+
+  if (updatedUser) {
+    return res.status(200).json(updatedUser);
+  } else {
+    return res.status(404).json({ error: "Usuario no encontrada" });
+  }
+});
+/**
+ @swagger
  * /api/v1/users/edit/:id :
  *   put:
  *     summary: Editar un usuario
@@ -163,7 +205,17 @@ const userServices = new UserServices();
  *                   department:
  *                     type: string
  *                     example: finance
- * @swagger
+ */
+userRouter.delete("/:id", (req: Request, res: Response) => {
+  const deletedUser = userServices.delete(parseInt(req.params.id));
+  if (deletedUser) {
+    res.status(204).json({ message: "User deleted" });
+  } else {
+    res.status(404).json({ message: "User not found" });
+  }
+});
+/**
+ @swagger
  * /api/v1/users/delete :
  *   delete:
  *     summary: Eliminar un usuario
@@ -203,44 +255,3 @@ const userServices = new UserServices();
  *                     type: string
  *                     example: finance
  */
-
-userRouter.get("/", (req: Request, res: Response) => {
-  const userList = userServices.fetchAll();
-  res.json(userList);
-});
-userRouter.get("/:id", (req: Request, res: Response) => {
-  const user = userServices.fetchById(parseInt(req.params.id));
-  if (user) {
-    res.json(user);
-  } else {
-    res.status(404).json({ message: "User not found" });
-  }
-});
-userRouter.post("/", (req: Request, res: Response) => {
-  const validationError = validateUser(req, res);
-    if(validationError) {
-      return;
-    }
-  const newUser = userServices.create(req.body);
-  res.status(201).json(newUser);
-});
-userRouter.put("/:id", (req: Request, res: Response) => {
-  const validationError = validateUser(req, res);
-    if(validationError) {
-      return;
-    }
-  const updatedUser = userServices.update(parseInt(req.params.id), req.body);
-  if (updatedUser !== null) {
-    res.status(204).json(updatedUser);
-  } else {
-    res.status(404).json({ message: "User not found" });
-  }
-});
-userRouter.delete("/:id", (req: Request, res: Response) => {
-  const deletedUser = userServices.delete(parseInt(req.params.id));
-  if (deletedUser) {
-    res.status(204).json({ message: "User deleted" });
-  } else {
-    res.status(404).json({ message: "User not found" });
-  }
-});
