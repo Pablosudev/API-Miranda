@@ -5,11 +5,15 @@ import { contactRouter } from './Controllers/contact';
 import { userRouter } from './Controllers/user';
 import dotenv from 'dotenv';
 import { loginRouter } from './Controllers/login';
+import { connectDB} from "./Utils/database"
 dotenv.config();
 const app = express()
 const port = 3000
 const  swaggerUi  =  require ( 'swagger-ui-express' ) ; 
 const swaggerJsDoc = require('swagger-jsdoc');
+const  mongoose = require('mongoose')
+
+
 
 
 const swaggerOptions = {
@@ -46,3 +50,13 @@ app.get('/live', (req: Request, res: Response) => {
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 })
+
+
+const runServer = async () => {
+  await connectDB();
+  app.listen(port, () => {
+    console.log(`Server is running on port ${port}`);
+  });
+}
+
+runServer();

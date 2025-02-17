@@ -7,7 +7,8 @@
     "description": "Assistant Manager",
     "phone": "357-667-9262",
     "status": "Inactive",
-    "department": "finance"
+    "department": "finance",
+    "password": "1234"
   },
   {
     "name": "Naoma Fryatt",
@@ -17,7 +18,8 @@
     "description": "Environmental Tech",
     "phone": "141-469-2786",
     "status": "Active",
-    "department": "IT"
+    "department": "IT",
+    "password": "1234"
   },
   {
     "name": "Madonna Borrie",
@@ -27,7 +29,8 @@
     "description": "Clinical Specialist",
     "phone": "612-843-3977",
     "status": "Active",
-    "department": "sales"
+    "department": "sales",
+    "password": "1234"
   },
   {
     "name": "Bartel Johananov",
@@ -37,7 +40,8 @@
     "description": "VP Quality Control",
     "phone": "338-685-5233",
     "status": "Inactive",
-    "department": "marketing"
+    "department": "marketing",
+    "password": "1234"
   },
   {
     "name": "Jacqueline Isworth",
@@ -47,7 +51,8 @@
     "description": "Account Executive",
     "phone": "802-272-2858",
     "status": "Inactive",
-    "department": "marketing"
+    "department": "marketing",
+    "password": "1234"
   },
   {
     "name": "Zechariah Yakunikov",
@@ -57,7 +62,8 @@
     "description": "VP Quality Control",
     "phone": "935-419-6971",
     "status": "Inactive",
-    "department": "IT"
+    "department": "IT",
+    "password": "1234"
   },
   {
     "name": "Gretel Birt",
@@ -67,7 +73,8 @@
     "description": "Cost Accountant",
     "phone": "860-524-0977",
     "status": "Inactive",
-    "department": "IT"
+    "department": "IT",
+    "password": "1234"
   },
   {
     "name": "Hort Akehurst",
@@ -77,7 +84,8 @@
     "description": "Quality Engineer",
     "phone": "753-181-9140",
     "status": "Active",
-    "department": "IT"
+    "department": "IT",
+    "password": "1234"
   },
   {
     "name": "Gwendolen Langford",
@@ -87,7 +95,8 @@
     "description": "Geological Engineer",
     "phone": "864-276-3071",
     "status": "Inactive",
-    "department": "finance"
+    "department": "finance",
+    "password": "1234"
   },
   {
     "name": "Lil Reede",
@@ -97,7 +106,8 @@
     "description": "Teacher",
     "phone": "829-488-7261",
     "status": "Active",
-    "department": "finance"
+    "department": "finance",
+    "password": "1234"
   },
   {
     "name": "Rance Lamps",
@@ -107,7 +117,8 @@
     "description": "Safety Technician I",
     "phone": "552-883-0063",
     "status": "Active",
-    "department": "sales"
+    "department": "sales",
+    "password": "1234"
   },
   {
     "name": "Moreen Newnham",
@@ -117,7 +128,8 @@
     "description": "Health Coach I",
     "phone": "901-461-8764",
     "status": "Inactive",
-    "department": "IT"
+    "department": "IT",
+    "password": "1234"
   },
   {
     "name": "Clem Delahunt",
@@ -127,7 +139,8 @@
     "description": "Actuary",
     "phone": "361-412-4348",
     "status": "Inactive",
-    "department": "marketing"
+    "department": "marketing",
+    "password": "1234"
   },
   {
     "name": "Shirl McCandie",
@@ -137,7 +150,8 @@
     "description": "Sales Associate",
     "phone": "551-161-9702",
     "status": "Inactive",
-    "department": "finance"
+    "department": "finance",
+    "password": "1234"
   },
   {
     "name": "Mahala Gowenlock",
@@ -147,7 +161,8 @@
     "description": "Payment Adjustment Coordinator",
     "phone": "238-268-3579",
     "status": "Inactive",
-    "department": "IT"
+    "department": "IT",
+    "password": "1234"
   },
   {
     "name": "Kingsly Suermeiers",
@@ -157,7 +172,8 @@
     "description": "Staff Accountant I",
     "phone": "350-402-3792",
     "status": "Inactive",
-    "department": "finance"
+    "department": "finance",
+    "password": "1234"
   },
   {
     "name": "Bail Moraleda",
@@ -167,7 +183,8 @@
     "description": "Software Consultant",
     "phone": "560-266-8967",
     "status": "Inactive",
-    "department": "marketing"
+    "department": "marketing",
+    "password": "1234"
   },
   {
     "name": "Nanon Hallede",
@@ -177,7 +194,8 @@
     "description": "Pharmacist",
     "phone": "694-362-4653",
     "status": "Inactive",
-    "department": "sales"
+    "department": "sales",
+    "password": "1234"
   },
   {
     "name": "Julia Branson",
@@ -187,7 +205,8 @@
     "description": "Mechanical Systems Engineer",
     "phone": "347-809-8128",
     "status": "Active",
-    "department": "sales"
+    "department": "sales",
+    "password": "1234"
   },
   {
     "name": "Aaren Rizzo",
@@ -197,7 +216,8 @@
     "description": "Automation Specialist IV",
     "phone": "246-780-6456",
     "status": "Inactive",
-    "department": "marketing"
+    "department": "marketing",
+    "password": "1234"
   },
   {
     "name": "Selig Happer",
@@ -207,7 +227,8 @@
     "description": "Graphic Designer",
     "phone": "788-102-5627",
     "status": "Inactive",
-    "department": "sales"
+    "department": "sales",
+    "password": "1234"
   },
   {
     "name": "Brittany Ewing",
@@ -217,7 +238,8 @@
     "description": "Automation Specialist II",
     "phone": "798-256-2871",
     "status": "Inactive",
-    "department": "IT"
+    "department": "IT",
+    "password": "1234"
   },
   {
     "name": "Jarred Flori",
@@ -227,7 +249,8 @@
     "description": "Director of Sales",
     "phone": "943-844-2836",
     "status": "Inactive",
-    "department": "finance"
+    "department": "finance",
+    "password": "1234"
   },
   {
     "name": "Pippa Keig",
@@ -237,7 +260,8 @@
     "description": "Staff Accountant II",
     "phone": "494-295-4434",
     "status": "Active",
-    "department": "marketing"
+    "department": "marketing",
+    "password": "1234"
   },
   {
     "name": "Peria Marrian",
@@ -247,7 +271,8 @@
     "description": "Quality Engineer",
     "phone": "208-185-8520",
     "status": "Inactive",
-    "department": "finance"
+    "department": "finance",
+    "password": "1234"
   },
   {
     "name": "Eryn Rudkin",
@@ -257,7 +282,8 @@
     "description": "Safety Technician IV",
     "phone": "683-445-9654",
     "status": "Inactive",
-    "department": "marketing"
+    "department": "marketing",
+    "password": "1234"
   },
   {
     "name": "Ferd Flores",
@@ -267,7 +293,8 @@
     "description": "VP Accounting",
     "phone": "136-731-0279",
     "status": "Inactive",
-    "department": "finance"
+    "department": "finance",
+    "password": "1234"
   },
   {
     "name": "Mable Tash",
@@ -277,7 +304,8 @@
     "description": "Cost Accountant",
     "phone": "799-190-8577",
     "status": "Inactive",
-    "department": "sales"
+    "department": "sales",
+    "password": "1234"
   },
   {
     "name": "Kalina Osgar",
@@ -287,7 +315,8 @@
     "description": "Health Coach I",
     "phone": "790-493-9881",
     "status": "Active",
-    "department": "finance"
+    "department": "finance",
+    "password": "1234"
   },
   {
     "name": "Emmi Malloch",
@@ -297,206 +326,228 @@
     "description": "Environmental Tech",
     "phone": "355-387-2334",
     "status": "Inactive",
-    "department": "IT"
+    "department": "IT",
+    "password": "1234"
   },
   {
     "name": "Rea Marunchak",
     "id": 31,
     "email": "rmarunchaku@desdev.cn",
-    "start_date": "12/03/2003",
-    "description": "Administrative Officer",
-    "phone": "300-154-6528",
-    "status": "Inactive",
-    "department": "marketing"
+    "start_date": "04/12/2017",
+    "description": "Health Coach II",
+    "phone": "676-276-6872",
+    "status": "Active",
+    "department": "finance",
+    "password": "1234"
   },
   {
-    "name": "Jervis Esson",
+    "name": "Noelina Friesen",
     "id": 32,
-    "email": "jessonv@slate.com",
-    "start_date": "17/09/2006",
-    "description": "Tax Accountant",
-    "phone": "421-647-4972",
+    "email": "nfriesenx@prlog.org",
+    "start_date": "16/06/2010",
+    "description": "Physical Therapy Assistant",
+    "phone": "589-572-2421",
     "status": "Inactive",
-    "department": "finance"
+    "department": "sales",
+    "password": "1234"
   },
   {
-    "name": "Coretta Kiem",
+    "name": "Mickie Ivashkin",
     "id": 33,
-    "email": "ckiemw@newyorker.com",
-    "start_date": "21/11/2014",
-    "description": "Paralegal",
-    "phone": "198-123-0524",
+    "email": "mivashkiny@bbc.co.uk",
+    "start_date": "24/07/2022",
+    "description": "Speech Pathologist",
+    "phone": "973-487-7028",
     "status": "Inactive",
-    "department": "sales"
+    "department": "sales",
+    "password": "1234"
   },
   {
-    "name": "Giulio Titterell",
+    "name": "Herbert Bickerstaffe",
     "id": 34,
-    "email": "gtitterellx@multiply.com",
-    "start_date": "06/11/2002",
-    "description": "Account Representative III",
-    "phone": "643-437-2713",
-    "status": "Inactive",
-    "department": "sales"
+    "email": "hbickerstaffez@domainmarket.com",
+    "start_date": "17/11/2001",
+    "description": "Marketing Manager",
+    "phone": "857-722-8789",
+    "status": "Active",
+    "department": "marketing",
+    "password": "1234"
   },
   {
-    "name": "Coretta Salkeld",
+    "name": "Valeda Needham",
     "id": 35,
-    "email": "csalkeldy@tumblr.com",
-    "start_date": "23/05/2017",
-    "description": "Environmental Tech",
-    "phone": "106-948-2022",
+    "email": "vneedham0@networksolutions.com",
+    "start_date": "21/10/2011",
+    "description": "Health Coach II",
+    "phone": "424-373-5132",
     "status": "Inactive",
-    "department": "finance"
+    "department": "marketing",
+    "password": "1234"
   },
   {
-    "name": "Zondra Justham",
+    "name": "Thorndike Slater",
     "id": 36,
-    "email": "zjusthamz@bigcartel.com",
-    "start_date": "07/12/2018",
-    "description": "Teacher",
-    "phone": "424-247-5081",
+    "email": "tslater1@businessweek.com",
+    "start_date": "23/10/2014",
+    "description": "Geologist I",
+    "phone": "537-688-6020",
     "status": "Inactive",
-    "department": "finance"
+    "department": "sales",
+    "password": "1234"
   },
   {
-    "name": "Brenna Bradshaw",
+    "name": "Clim Jareske",
     "id": 37,
-    "email": "bbradshaw10@boston.com",
-    "start_date": "05/03/2010",
-    "description": "Environmental Tech",
-    "phone": "214-285-1156",
+    "email": "cjareske2@hibu.com",
+    "start_date": "13/05/2013",
+    "description": "Geologist III",
+    "phone": "875-517-5749",
     "status": "Inactive",
-    "department": "IT"
+    "department": "sales",
+    "password": "1234"
   },
   {
-    "name": "Elora Semper",
+    "name": "Wendye Dunsford",
     "id": 38,
-    "email": "esemper11@jiathis.com",
-    "start_date": "18/07/2004",
-    "description": "Engineer III",
-    "phone": "118-216-3404",
+    "email": "wdunsford3@smugmug.com",
+    "start_date": "25/05/2002",
+    "description": "Internal Auditor",
+    "phone": "286-202-7714",
     "status": "Inactive",
-    "department": "sales"
+    "department": "IT",
+    "password": "1234"
   },
   {
-    "name": "Arline Reville",
+    "name": "Shea Millette",
     "id": 39,
-    "email": "areville12@wordpress.org",
-    "start_date": "15/09/2009",
-    "description": "Biostatistician II",
-    "phone": "778-926-4769",
-    "status": "Active",
-    "department": "sales"
-  },
-  {
-    "name": "Edan Clotworthy",
-    "id": 40,
-    "email": "eclotworthy13@boston.com",
-    "start_date": "17/02/2012",
-    "description": "Assistant Media Planner",
-    "phone": "943-208-1084",
-    "status": "Inactive",
-    "department": "marketing"
-  },
-  {
-    "name": "Mikaila McDougal",
-    "id": 41,
-    "email": "mmcdougal14@hibu.com",
-    "start_date": "11/01/2011",
-    "description": "Environmental Tech",
-    "phone": "981-999-3272",
-    "status": "Active",
-    "department": "sales"
-  },
-  {
-    "name": "Brooks Beaven",
-    "id": 42,
-    "email": "bbeaven15@hatena.ne.jp",
-    "start_date": "29/10/2010",
-    "description": "Executive Secretary",
-    "phone": "711-957-7121",
-    "status": "Inactive",
-    "department": "sales"
-  },
-  {
-    "name": "Marge Naismith",
-    "id": 43,
-    "email": "mnaismith16@ftc.gov",
-    "start_date": "21/11/2018",
-    "description": "Software Test Engineer IV",
-    "phone": "425-492-4772",
-    "status": "Inactive",
-    "department": "IT"
-  },
-  {
-    "name": "Brita Schaffner",
-    "id": 44,
-    "email": "bschaffner17@dot.gov",
-    "start_date": "12/01/2012",
-    "description": "Actuary",
-    "phone": "753-341-1482",
-    "status": "Inactive",
-    "department": "sales"
-  },
-  {
-    "name": "Shaughn Pejic",
-    "id": 45,
-    "email": "spejic18@prweb.com",
-    "start_date": "07/06/2002",
-    "description": "Budget/Accounting Analyst I",
-    "phone": "991-297-8761",
-    "status": "Inactive",
-    "department": "marketing"
-  },
-  {
-    "name": "Theobald Shury",
-    "id": 46,
-    "email": "tshury19@hp.com",
-    "start_date": "22/07/2019",
-    "description": "Data Coordiantiator",
-    "phone": "340-243-2748",
-    "status": "Active",
-    "department": "finance"
-  },
-  {
-    "name": "Kelley Sampson",
-    "id": 47,
-    "email": "ksampson20@buzzfeed.com",
-    "start_date": "22/11/2002",
-    "description": "Chemical Engineer",
-    "phone": "220-922-5741",
-    "status": "Inactive",
-    "department": "marketing"
-  },
-  {
-    "name": "Camille Staines",
-    "id": 48,
-    "email": "cstaines21@hibu.com",
-    "start_date": "10/06/2007",
-    "description": "Safety Technician III",
-    "phone": "160-843-8592",
-    "status": "Inactive",
-    "department": "sales"
-  },
-  {
-    "name": "Fleur Markulev",
-    "id": 49,
-    "email": "fmarkulev22@rakuten.co.jp",
-    "start_date": "25/06/2018",
+    "email": "smillette4@issuu.com",
+    "start_date": "01/10/2017",
     "description": "Health Coach III",
-    "phone": "347-740-5315",
-    "status": "Inactive",
-    "department": "sales"
+    "phone": "255-251-3430",
+    "status": "Active",
+    "department": "sales",
+    "password": "1234"
   },
   {
-    "name": "Stella Slater",
-    "id": 50,
-    "email": "sslater23@fotki.com",
-    "start_date": "09/06/2009",
-    "description": "Accounting Assistant I",
-    "phone": "527-110-1203",
+    "name": "Caroljean Maffey",
+    "id": 40,
+    "email": "cmaffey5@oracle.com",
+    "start_date": "26/01/2023",
+    "description": "Software Consultant",
+    "phone": "184-617-7979",
     "status": "Inactive",
-    "department": "finance"
+    "department": "finance",
+    "password": "1234"
+  },
+  {
+    "name": "Petrina Leed",
+    "id": 41,
+    "email": "pleed6@github.com",
+    "start_date": "28/02/2014",
+    "description": "Software Engineer II",
+    "phone": "624-703-5127",
+    "status": "Active",
+    "department": "marketing",
+    "password": "1234"
+  },
+  {
+    "name": "Hana Knobbe",
+    "id": 42,
+    "email": "hknobbe7@twitter.com",
+    "start_date": "12/10/2011",
+    "description": "Account Executive",
+    "phone": "708-212-8752",
+    "status": "Inactive",
+    "department": "finance",
+    "password": "1234"
+  },
+  {
+    "name": "Lyndsey Jochems",
+    "id": 43,
+    "email": "ljochems8@hubpages.com",
+    "start_date": "13/01/2005",
+    "description": "Legal Assistant",
+    "phone": "455-862-4074",
+    "status": "Active",
+    "department": "sales",
+    "password": "1234"
+  },
+  {
+    "name": "Shari Biedenkapp",
+    "id": 44,
+    "email": "sbiedenkapp9@mozilla.org",
+    "start_date": "26/05/2021",
+    "description": "Nuclear Power Engineer",
+    "phone": "151-956-3132",
+    "status": "Active",
+    "department": "finance",
+    "password": "1234"
+  },
+  {
+    "name": "Gerhardt Langmaid",
+    "id": 45,
+    "email": "glangmaid0@multiply.com",
+    "start_date": "14/10/2018",
+    "description": "Senior Financial Analyst",
+    "phone": "749-615-5743",
+    "status": "Inactive",
+    "department": "sales",
+    "password": "1234"
+  },
+  {
+    "name": "Averil Wehling",
+    "id": 46,
+    "email": "awehling1@boston.com",
+    "start_date": "22/07/2013",
+    "description": "Programmer IV",
+    "phone": "295-131-2299",
+    "status": "Inactive",
+    "department": "finance",
+    "password": "1234"
+  },
+  {
+    "name": "Tera McTeer",
+    "id": 47,
+    "email": "tmcteer2@dell.com",
+    "start_date": "26/07/2004",
+    "description": "Biostatistician III",
+    "phone": "390-719-2308",
+    "status": "Active",
+    "department": "finance",
+    "password": "1234"
+  },
+  {
+    "name": "Norah Harrowell",
+    "id": 48,
+    "email": "nharrowell3@domainmarket.com",
+    "start_date": "21/11/2008",
+    "description": "Research Nurse",
+    "phone": "220-669-0905",
+    "status": "Inactive",
+    "department": "sales",
+    "password": "1234"
+  },
+  {
+    "name": "Humphrey Millen",
+    "id": 49,
+    "email": "hmillen4@mapy.cz",
+    "start_date": "24/01/2001",
+    "description": "Marketing Manager",
+    "phone": "223-310-5072",
+    "status": "Active",
+    "department": "finance",
+    "password": "1234"
+  },
+  {
+    "name": "Tammi Gaudion",
+    "id": 50,
+    "email": "tgaudion5@list-manage.com",
+    "start_date": "15/02/2019",
+    "description": "Health Coach II",
+    "phone": "405-458-6584",
+    "status": "Inactive",
+    "department": "sales",
+    "password": "1234"
   }
 ]
+

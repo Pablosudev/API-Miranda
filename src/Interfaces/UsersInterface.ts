@@ -7,5 +7,6 @@ export interface UsersInterface {
     phone: string,
     status: string,
     department: string, 
+    password: string 
 }
 
