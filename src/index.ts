@@ -11,7 +11,7 @@ const app = express()
 const port = 3000
 const  swaggerUi  =  require ( 'swagger-ui-express' ) ; 
 const swaggerJsDoc = require('swagger-jsdoc');
-const  mongoose = require('mongoose')
+
 
 
 
@@ -53,10 +53,15 @@ app.listen(port, () => {
 
 
 const runServer = async () => {
-  await connectDB();
-  app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
-  });
+  try {
+    await connectDB();  
+    app.listen(port, () => {
+      console.log(`Server is running on port ${port}`);
+    });
+  } catch (error) {
+    console.error("Error connecting to the database", error);
+    process.exit(1);  
+  }
 }
 
 runServer();

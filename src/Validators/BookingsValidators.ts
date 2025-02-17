@@ -12,7 +12,7 @@ export const validateBookings = (req:Request, res: Response) => {
   if(typeof name !== 'string' || name.length <= 3){
     return res.status(400).json({error: 'Invalid name'})
   }
-  if(typeof id !== 'number' || id === null){
+  if(typeof id !== 'string' || id === null){
     return res.status(400).json({error: 'Invalid Id'})
   }
   if(!validDate(date) || validDate === null){

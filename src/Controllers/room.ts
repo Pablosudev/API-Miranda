@@ -5,8 +5,8 @@ export const roomsRouter = express.Router();
 const roomsService = new RoomServices();
 
 
-roomsRouter.get("/", (req: Request, res: Response) => {
-  const roomList = roomsService.fetchAll();
+roomsRouter.get("/", async (req: Request, res: Response) => {
+  const roomList = await roomsService.fetchAll();
   res.json(roomList);
 });
 /**
@@ -47,8 +47,8 @@ roomsRouter.get("/", (req: Request, res: Response) => {
  *                      type: string
  *                      example: 
  */
-roomsRouter.get("/:id", (req: Request, res: Response) => {
-  const roomsId = roomsService.fetchById(parseInt(req.params.id));
+roomsRouter.get("/:id", async (req: Request, res: Response) => {
+  const roomsId = await roomsService.fetchById(req.params.id);
   if (roomsId) {
     res.json(roomsId);
   } else {
@@ -93,12 +93,12 @@ roomsRouter.get("/:id", (req: Request, res: Response) => {
  *                      type: string
  *                      example: WIFI
  */
-roomsRouter.post("/", (req: Request, res: Response) => {
+roomsRouter.post("/", async (req: Request, res: Response) => {
   const validationError = validateRooms(req, res);
   if (validationError) {
     return;
   }
-  const newRoom = roomsService.create(req.body);
+  const newRoom = await roomsService.create(req.body);
   res.status(201).json(newRoom);
 });
 /**
@@ -139,13 +139,13 @@ roomsRouter.post("/", (req: Request, res: Response) => {
  *                      type: string
  *                      example: WIFI
  */
-roomsRouter.put("/:id", (req: Request, res: any) => {
+roomsRouter.put("/:id", async (req: Request, res: any) => {
   const validationError = validateRooms(req, res);
   if (validationError) {
     return;
   }
-  const roomId = Number(req.params.id);
-  const updatedRoom = roomsService.update(roomId, req.body);
+  const roomId = req.params.id;
+  const updatedRoom =  await roomsService.update(roomId, req.body);
 
   if (updatedRoom) {
     return res.status(200).json(updatedRoom);
@@ -191,9 +191,9 @@ roomsRouter.put("/:id", (req: Request, res: any) => {
  *                      type: string
  *                      example: WIFI
  */
-roomsRouter.delete("/:id", (req: Request, res: Response) => {
-  const roomId = parseInt(req.params.id);
-  const deletedRoom = roomsService.delete(roomId);
+roomsRouter.delete("/:id", async (req: Request, res: Response) => {
+  const roomId = (req.params.id);
+  const deletedRoom = await roomsService.delete(roomId);
   if (deletedRoom) {
     res.status(204).json({ message: "Room deleted" });
   } else {

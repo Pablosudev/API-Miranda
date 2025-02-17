@@ -5,8 +5,8 @@ import { validateUser } from "../Validators/UsersValidators";
 export const userRouter = Router();
 const userServices = new UserServices();
 
-userRouter.get("/", (req: Request, res: Response) => {
-  const userList = userServices.fetchAll();
+userRouter.get("/", async (req: Request, res: Response) => {
+  const userList = await userServices.fetchAll();
   res.json(userList);
 });
 
@@ -53,8 +53,8 @@ userRouter.get("/", (req: Request, res: Response) => {
  *
 */
 
-userRouter.get("/:id", (req: Request, res: Response) => {
-  const user = userServices.fetchById(parseInt(req.params.id));
+userRouter.get("/:id", async (req: Request, res: Response) => {
+  const user = await userServices.fetchById(req.params.id);
   if (user) {
     res.json(user);
   } else {
@@ -102,12 +102,12 @@ userRouter.get("/:id", (req: Request, res: Response) => {
  *                     type: string
  *                     example: finance 
  */
-userRouter.post("/", (req: Request, res: Response) => {
+userRouter.post("/", async (req: Request, res: Response) => {
   const validationError = validateUser(req, res);
     if(validationError) {
       return;
     }
-  const newUser = userServices.create(req.body);
+  const newUser = await userServices.create(req.body);
   res.status(201).json(newUser);
 });
 /**
@@ -151,13 +151,13 @@ userRouter.post("/", (req: Request, res: Response) => {
  *                     type: string
  *                     example: finance
  */
-userRouter.put("/:id", (req: Request, res: any) => {
+userRouter.put("/:id", async (req: Request, res: any) => {
   const validationError = validateUser(req, res);
     if(validationError) {
       return;
     }
-  const userId = Number(req.params.id);
-  const updatedUser = userServices.update(userId, req.body);
+  const userId = (req.params.id);
+  const updatedUser = await userServices.update(userId, req.body);
 
   if (updatedUser) {
     return res.status(200).json(updatedUser);
@@ -206,8 +206,8 @@ userRouter.put("/:id", (req: Request, res: any) => {
  *                     type: string
  *                     example: finance
  */
-userRouter.delete("/:id", (req: Request, res: Response) => {
-  const deletedUser = userServices.delete(parseInt(req.params.id));
+userRouter.delete("/:id", async (req: Request, res: Response) => {
+  const deletedUser = await userServices.delete(req.params.id);
   if (deletedUser) {
     res.status(204).json({ message: "User deleted" });
   } else {

@@ -22,7 +22,7 @@ export const validateContact = (req: Request, res: Response) => {
   if(!validDate(date)){
     return res.status(400).json({error: 'Invalid Date'})
   }
-  if(typeof id !== 'number' || id === null){
+  if(typeof id !== 'string' || id === null){
     return res.status(400).json({error: 'Invalid id'})
   }
   if(typeof name !== 'string' || name.length <= 3){

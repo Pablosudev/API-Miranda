@@ -1,6 +1,8 @@
-export interface UsersInterface {
+import mongoose from "mongoose"
+
+interface UsersInterface extends mongoose.Document{
     name: string,
-    id: number,
+    id: string,
     email: string,
     start_date: string,
     description: string,
@@ -9,4 +11,4 @@ export interface UsersInterface {
     department: string, 
     password: string 
 }
-
+ export {UsersInterface}

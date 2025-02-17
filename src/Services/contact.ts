@@ -1,40 +1,69 @@
 import { ServiceInterface } from "../Interfaces/ServiceInterface";
 import { ContactsInterface } from "../Interfaces/ContactInterface";
-import contact from "../Data/contact.json"
+import { ContactModel } from "../Models/contact";
 
-export class ContactServices implements ServiceInterface<ContactsInterface>{
-    private contact : ContactsInterface [] = contact;
+export class ContactServices implements ServiceInterface<ContactsInterface> {
+  async fetchAll(): Promise<ContactsInterface[]> {
+    try {
+      const contact: ContactsInterface[] = await ContactModel.find();
+      return contact;
+    } catch (error) {
+      throw error;
+    }
+  }
 
-    fetchAll(): ContactsInterface[] {
-        return this.contact;
+  async fetchById(id: string): Promise<ContactsInterface | undefined> {
+    try {
+      const contactId: ContactsInterface | null = await ContactModel.findById(
+        id
+      );
+      if (!contactId) {
+        throw new Error("Contact not found");
+      }
+      return contactId;
+    } catch (error) {
+      throw error;
     }
+  }
+  async create(contact: ContactsInterface): Promise<ContactsInterface> {
+    try {
+      const newContact = new ContactModel(contact);
+      await newContact.save();
+      return newContact;
+    } catch (error) {
+      throw error;
+    }
+  }
+  async update(
+    id: string,
+    contact: ContactsInterface
+  ): Promise<ContactsInterface | null> {
+    try {
+      const contactToUpdate: ContactsInterface | null =
+        await ContactModel.findById(id);
+      if (contactToUpdate === null) {
+        throw new Error("Contact not found");
+      }
+      const contactObj = contactToUpdate.toObject()
+      const updatedContact = { ...contactObj, ...contact };
+      await ContactModel.findByIdAndUpdate(id, updatedContact, { new: true });
 
-    fetchById(id: number): ContactsInterface | undefined {
-        return this.contact.find((contacts) => contacts.id === id);
+      return updatedContact;
+    } catch (error) {
+      throw error;
     }
-    create(contact: ContactsInterface): ContactsInterface {
-        const newContact = { ...contact, id: this.contact.length + 1 };
-        this.contact.push(newContact);
-        return newContact;
-    }
-    update(id: number, contact: ContactsInterface): ContactsInterface | null {
-        const contactToUpdate = this.contact.filter((contacts) => contacts.id === id);
-        if (contactToUpdate.length > 0) {
-            const updatedContact = { ...contactToUpdate[0], ...contact };
-            const finalList = this.contact.filter((contacts) => contacts.id !== id);
-            finalList.push(updatedContact);
-            this.contact = finalList;
-            return updatedContact;
-        }
-        return null;
-    }
-    delete(id:number): boolean {
-        const contactToDelete = this.contact.filter((contacts) => contacts.id === id);
-        if (contactToDelete.length > 0) {
-            this.contact = this.contact.filter((contacts) => contacts.id !== id);
-            return true;
-        }
-        return false;
-    }
+  }
+  async delete(id: string): Promise<boolean> {
+    try {
+      const contactToDelete = await ContactModel.findById(id);
+      if (!contactToDelete) {
+        throw new Error("HContact not found");
+      }
 
+      await ContactModel.findByIdAndDelete(id);
+      return true;
+    } catch (error) {
+      throw error;
+    }
+  }
 }

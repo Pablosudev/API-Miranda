@@ -1,8 +1,8 @@
 import { RoomsInterface } from "./RoomsInterface";
-
-export interface BookingsInterface {
+import mongoose from "mongoose";
+interface BookingsInterface extends mongoose.Document{
     name: string;
-    id: number;
+    id: string;
     date: string;
     check_in: string;
     check_out: string;
@@ -13,5 +13,5 @@ export interface BookingsInterface {
     status: string;
     price: number;
   }
-  
+  export {BookingsInterface}
   

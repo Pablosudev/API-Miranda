@@ -5,8 +5,12 @@ import { validateContact } from "../Validators/ContactValidators";
 export const contactRouter = Router();
 const contactServices = new ContactServices
 
+contactRouter.get("/", async (req: Request, res: Response) => {
+  const contactList = await contactServices.fetchAll();
+  res.json(contactList);
+});
 /**
- * @swagger
+ @swagger
  * /api/v1/contact :
  *   get:
  *     summary: Obtiene una lista de contactos
@@ -42,80 +46,17 @@ const contactServices = new ContactServices
  *                   comment:
  *                      type: string
  *                      example: "gsfsgfdsg"
- * 
- * @swagger
- * /api/v1/contact/:id :
- *   delete:
- *     summary: Borra un contacto
- *     tags: [Contacts]
- *     responses:
- *       200:
- *         description: Elimina contacto
- *         content:
- *           application/json:
- *             schema:
- *               type: array
- *               items:
- *                 type: object
- *                 properties:
- *                   date:
- *                     type: string
- *                     example: "18-11-2021"
- *                   id:
- *                     type: number
- *                     example: 4
- *                   full_name:
- *                     type: string 
- *                     example: "Pablo"
- *                   email:
- *                     type: string
- *                     example: "11618"
- *                   phone:
- *                     type: string
- *                     example: "616474"
- *                   asunto:
- *                      type: string
- *                      example: Room Service Request
- *                   comment:
- *                      type: string
- *                      example: "gsfsgfdsg"
- * @swagger
- * /api/v1/contact/create :
- *   post:
- *     summary: Crear un contacto
- *     tags: [Contacts]
- *     responses:
- *       200:
- *         description: Crea un contacto
- *         content:
- *           application/json:
- *             schema:
- *               type: array
- *               items:
- *                 type: object
- *                 properties:
- *                   date:
- *                     type: string
- *                     example: "18-11-2021"
- *                   id:
- *                     type: number
- *                     example: 4
- *                   full_name:
- *                     type: string 
- *                     example: "Pablo"
- *                   email:
- *                     type: string
- *                     example: "11618"
- *                   phone:
- *                     type: string
- *                     example: "616474"
- *                   asunto:
- *                      type: string
- *                      example: Room Service Request
- *                   comment:
- *                      type: string
- *                      example: "gsfsgfdsg"
- *  @swagger
+ */
+contactRouter.get('/:id', async (req: Request, res: Response) => {
+    const contact = await contactServices.fetchById(req.params.id);
+    if (contact) {
+        res.json(contact);
+    } else {
+        res.status(404).json({ message: 'User not found' });
+    }
+});
+/**
+ @swagger
  * /api/v1/contact/:id :
  *   get:
  *     summary: Contacto 
@@ -152,34 +93,95 @@ const contactServices = new ContactServices
  *                      type: string
  *                      example: "gsfsgfdsg"
  */
-
-
-contactRouter.get("/", (req: Request, res: Response) => {
-  const contactList = contactServices.fetchAll();
-  res.json(contactList);
-});
-contactRouter.get('/:id', (req: Request, res: Response) => {
-    const contact = contactServices.fetchById(parseInt(req.params.id));
-    if (contact) {
-        res.json(contact);
-    } else {
-        res.status(404).json({ message: 'User not found' });
-    }
-});
-contactRouter.post('/', (req: Request , res: Response) => {
+contactRouter.post('/', async (req: Request , res: Response) => {
     const validationError = validateContact(req, res);
         if(validationError) {
           return;
         }
-    const newContact = contactServices.create(req.body);
+    const newContact =  await contactServices.create(req.body);
     res.status(201).json(newContact)
 });
-
-contactRouter.delete('/:id', (req: Request, res: Response) => {
-    const deletedContact = contactServices.delete(parseInt(req.params.id));
+/**
+ @swagger
+ * /api/v1/contact/create :
+ *   post:
+ *     summary: Crear un contacto
+ *     tags: [Contacts]
+ *     responses:
+ *       200:
+ *         description: Crea un contacto
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   date:
+ *                     type: string
+ *                     example: "18-11-2021"
+ *                   id:
+ *                     type: number
+ *                     example: 4
+ *                   full_name:
+ *                     type: string 
+ *                     example: "Pablo"
+ *                   email:
+ *                     type: string
+ *                     example: "11618"
+ *                   phone:
+ *                     type: string
+ *                     example: "616474"
+ *                   asunto:
+ *                      type: string
+ *                      example: Room Service Request
+ *                   comment:
+ *                      type: string
+ *                      example: "gsfsgfdsg"
+ */
+contactRouter.delete('/:id', async  (req: Request, res: Response) => {
+    const deletedContact = await contactServices.delete(req.params.id);
     if (deletedContact) {
         res.status(204).json({ message: 'User deleted' });
     } else {
         res.status(404).json({ message: 'User not found' });
     }
 });
+/**
+  @swagger
+ * /api/v1/contact/:id :
+ *   delete:
+ *     summary: Borra un contacto
+ *     tags: [Contacts]
+ *     responses:
+ *       200:
+ *         description: Elimina contacto
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   date:
+ *                     type: string
+ *                     example: "18-11-2021"
+ *                   id:
+ *                     type: number
+ *                     example: 4
+ *                   full_name:
+ *                     type: string 
+ *                     example: "Pablo"
+ *                   email:
+ *                     type: string
+ *                     example: "11618"
+ *                   phone:
+ *                     type: string
+ *                     example: "616474"
+ *                   asunto:
+ *                      type: string
+ *                      example: Room Service Request
+ *                   comment:
+ *                      type: string
+ *                      example: "gsfsgfdsg"
+ */

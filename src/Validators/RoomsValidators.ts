@@ -7,7 +7,7 @@ export const validateRooms = (req: Request, res: Response,) => {
   if (typeof number !== "number" || number === 0) {
     return res.status(400).json({ error: "Invalid number room" });
   }
-  if (typeof id !== "number" || id === 0) {
+  if (typeof id !== "string" || id === null) {
     return res.status(400).json({ error: "Invalid Id" });
   }
   if (typeof price !== "number" || price === 0) {

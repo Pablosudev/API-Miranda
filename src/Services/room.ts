@@ -1,11 +1,10 @@
 import { ServiceInterface } from "../Interfaces/ServiceInterface";
 import { RoomsInterface } from "../Interfaces/RoomsInterface";
-import rooms from "../Data/rooms.json"
 import { RoomModel } from "../Models/rooms";
 
 
 export class RoomServices implements ServiceInterface<RoomsInterface>{
-    private rooms : RoomsInterface [] = rooms as unknown as RoomsInterface [];
+    
 
     async fetchAll(): Promise<RoomsInterface[]> {
         try{
@@ -17,7 +16,7 @@ export class RoomServices implements ServiceInterface<RoomsInterface>{
         
     }
 
-    async fetchById(id: number ): Promise<RoomsInterface> {
+    async fetchById(id: string ): Promise<RoomsInterface> {
         try{
             const roomId: RoomsInterface | null = await RoomModel.findById(id)
             if(!roomId){
@@ -37,14 +36,14 @@ export class RoomServices implements ServiceInterface<RoomsInterface>{
             throw error
         }
     }
-    async update(id: number, room: RoomsInterface): Promise<RoomsInterface | null> {
+    async update(id: string, room: RoomsInterface): Promise<RoomsInterface | null> {
         try {
             const roomToUpdate: RoomsInterface | null = await RoomModel.findById(id);
             if (roomToUpdate === null) {
                 throw new Error('Room not found');
             }
-    
-            const updatedRoom = { ...roomToUpdate, ...room };
+            const roomObJ = roomToUpdate.toObject();
+            const updatedRoom = { ...roomObJ, ...room };
             await RoomModel.findByIdAndUpdate(id, updatedRoom, { new: true });
     
             return updatedRoom;
@@ -53,11 +52,11 @@ export class RoomServices implements ServiceInterface<RoomsInterface>{
         }
     }
     
-    async delete(id:number): Promise<boolean> {
+    async delete(id:string): Promise<boolean> {
         try {
             const roomToDelete = await RoomModel.findById(id);
             if (!roomToDelete) {
-                throw new Error('Habitación no encontrada');
+                throw new Error('Room not found');
             }
 
             await RoomModel.findByIdAndDelete(id);
