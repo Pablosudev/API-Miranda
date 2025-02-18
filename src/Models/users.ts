@@ -37,5 +37,6 @@ const UsersSchema = new mongoose.Schema<UsersInterface>({
         required: true
     }
 })
-
+const Users = mongoose.model('Users', UsersSchema)
 export const UsersModel = mongoose.model<UsersInterface>('Users', UsersSchema)
+export default Users

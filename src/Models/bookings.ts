@@ -46,4 +46,6 @@ room:{
 
 }
 })
+const Bookings = mongoose.model('Bookings', BookingsSchema);
 export const BookingModel = mongoose.model<BookingsInterface>('Bookings', BookingsSchema);
+export default Bookings;
