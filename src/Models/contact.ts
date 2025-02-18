@@ -29,4 +29,7 @@ const ContactSchema = new mongoose.Schema<ContactsInterface>({
     }
 
 })
+
+const Contact = mongoose.model('Contact', ContactSchema);
 export const ContactModel = mongoose.model<ContactsInterface>('Contact', ContactSchema)
+export default Contact;

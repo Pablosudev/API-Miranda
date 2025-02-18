@@ -32,7 +32,7 @@ export const validateRooms = (req: Request, res: Response,) => {
   ) {
     return res.status(400).json({ error: "Invalid type room" });
   }
-  if(typeof amenities !== 'string' || amenities.length === 0){
+  if(typeof amenities !== 'string'){
     return res.status(400).json({error: 'Invalid amenities'})
   }
 };

@@ -7,6 +7,6 @@ interface RoomsInterface extends mongoose.Document {
   offer: number;
   status: string;
   type: string;
-  amenities: string ;
+  amenities: string[];
 }
 export {RoomsInterface}

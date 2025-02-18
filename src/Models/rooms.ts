@@ -25,7 +25,7 @@ const RoomSchema = new mongoose.Schema<RoomsInterface>({
     enum: ["Suite", "Double Superior", "Single Bed", "Double Bed"],
   },
   amenities: {
-    type: String,
+    type: [String],
     required: true,
     enum: [
       "FREE WIFI",
@@ -41,4 +41,6 @@ const RoomSchema = new mongoose.Schema<RoomsInterface>({
   },
 });
 
+const Room = mongoose.model('Room', RoomSchema);
 export const RoomModel = mongoose.model<RoomsInterface>('Rooms', RoomSchema);
+export default Room;

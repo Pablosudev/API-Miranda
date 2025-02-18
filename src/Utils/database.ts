@@ -1,4 +1,6 @@
 import mongoose from 'mongoose';
+import dotenv from 'dotenv'
+dotenv.config()
 
 export const connectDB = async (): Promise<void> => {
   try {
@@ -9,3 +11,4 @@ export const connectDB = async (): Promise<void> => {
     process.exit(1);
   }
 };
+export default connectDB
