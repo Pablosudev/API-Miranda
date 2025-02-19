@@ -1,3 +1,11 @@
 /node_modules
-
+/src/Utils/database.js
+/src/Models/bookings.js
+/src/Models/users.js
+/src/Models/contact.js
+/src/Models/rooms.js
+/src/Interfaces/BookingsInterface.js
+/src/Interfaces/ContactInterface.js
+/src/Interfaces/RoomsInterface.js
+/src/Interfaces/UsersInterface.js
 .env
