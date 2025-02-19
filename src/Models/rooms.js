@@ -15,7 +15,7 @@ var RoomSchema = new mongoose_1.default.Schema({
         type: Number,
         required: true,
     },
-    status: {
+    roomStatus: {
         type: String,
         required: true,
         enum: ["Booked", "Available"],

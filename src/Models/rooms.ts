@@ -14,7 +14,7 @@ const RoomSchema = new mongoose.Schema<RoomsInterface>({
     type: Number,
     required: true,
   },
-  status: {
+  roomStatus: {
     type: String,
     required: true,
     enum: ["Booked", "Available"],

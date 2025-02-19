@@ -48,14 +48,14 @@ function main() {
         //RoomsFaker
         function generateRooms() {
             return __awaiter(this, void 0, void 0, function () {
-                var number, price, offer, status, type, amenities, room;
+                var number, price, offer, roomStatus, type, amenities, room;
                 return __generator(this, function (_a) {
                     switch (_a.label) {
                         case 0:
                             number = faker_1.faker.number.int({ min: 1, max: 500 });
                             price = faker_1.faker.commerce.price({ min: 80, max: 1000 });
                             offer = faker_1.faker.number.int({ min: 0, max: 20 });
-                            status = faker_1.faker.helpers.arrayElement(["Booked", "Available"]);
+                            roomStatus = faker_1.faker.helpers.arrayElement(["Booked", "Available"]);
                             type = faker_1.faker.helpers.arrayElement([
                                 "Suite",
                                 "Double Bed",
@@ -75,9 +75,9 @@ function main() {
                             ], { min: 1, max: 5 });
                             room = new rooms_1.default({
                                 number: number,
-                                price: parseFloat(price),
+                                price: price,
                                 offer: offer,
-                                status: status,
+                                roomStatus: roomStatus,
                                 type: type,
                                 amenities: amenities,
                             });
@@ -93,19 +93,19 @@ function main() {
         //ContactFaker
         function generateContact() {
             return __awaiter(this, void 0, void 0, function () {
-                var date, fullName, email, phone, subject, comment, contact;
+                var date, name, email, phone, subject, comment, contact;
                 return __generator(this, function (_a) {
                     switch (_a.label) {
                         case 0:
                             date = faker_1.faker.date.recent();
-                            fullName = faker_1.faker.person.fullName();
+                            name = faker_1.faker.person.fullName();
                             email = faker_1.faker.internet.email();
                             phone = faker_1.faker.phone.number();
                             subject = faker_1.faker.lorem.words(3);
                             comment = faker_1.faker.lorem.paragraph();
                             contact = new contact_1.default({
                                 date: date,
-                                fullName: fullName,
+                                name: name,
                                 email: email,
                                 phone: phone,
                                 subject: subject,
@@ -126,7 +126,7 @@ function main() {
                 return __generator(this, function (_a) {
                     switch (_a.label) {
                         case 0:
-                            name = faker_1.faker.name.fullName();
+                            name = faker_1.faker.person.fullName();
                             email = faker_1.faker.internet.email();
                             start_date = faker_1.faker.date.recent();
                             description = faker_1.faker.lorem.paragraph();
@@ -155,35 +155,54 @@ function main() {
         //Bookings Faker
         function generateBookings() {
             return __awaiter(this, void 0, void 0, function () {
-                var name, date, check_in, check_out, request, roomType, roomNumber, roomStatus, roomPrice, bookings;
+                var name, date, check_in, check_out, request, status, price, type, number, roomStatus, offer, amenities, bookings;
                 return __generator(this, function (_a) {
                     switch (_a.label) {
                         case 0:
-                            name = faker_1.faker.name.fullName();
+                            name = faker_1.faker.person.fullName();
                             date = faker_1.faker.date.past();
                             check_in = faker_1.faker.date.recent();
                             check_out = faker_1.faker.date.future();
                             request = faker_1.faker.lorem.paragraph();
-                            roomType = faker_1.faker.helpers.arrayElement([
-                                "Suite",
-                                "Double Bed",
-                                "Single Bed",
-                                "Double Superior",
+                            status = faker_1.faker.helpers.arrayElement(['In Progress', 'Check-In', 'Check-Out']);
+                            price = faker_1.faker.commerce.price({ min: 80, max: 1000 });
+                            type = faker_1.faker.helpers.arrayElement([
+                                'Suite',
+                                'Double Bed',
+                                'Single Bed',
+                                'Double Superior',
                             ]);
-                            roomNumber = faker_1.faker.number.int({ min: 1, max: 500 });
+                            number = faker_1.faker.number.int({ min: 1, max: 500 });
                             roomStatus = faker_1.faker.helpers.arrayElement(["Booked", "Available"]);
-                            roomPrice = faker_1.faker.commerce.price({ min: 80, max: 1000 });
+                            offer = faker_1.faker.number.int({ min: 0, max: 20 });
+                            amenities = faker_1.faker.helpers.arrayElements([
+                                "FREE WIFI",
+                                "TV LED",
+                                "2 BATHROOM",
+                                "AC",
+                                "3 BED SPACE",
+                                "COFEE SET",
+                                "BATHUP",
+                                "TOWEL",
+                                "SHOWER",
+                            ], { min: 1, max: 5 });
                             bookings = new bookings_1.default({
                                 name: name,
                                 date: date,
                                 check_in: check_in,
                                 check_out: check_out,
                                 request: request,
+                                price: price,
+                                number: number,
+                                status: status,
+                                type: type,
                                 room: {
-                                    roomType: roomType,
-                                    roomNumber: roomNumber,
+                                    type: type,
+                                    number: number,
                                     roomStatus: roomStatus,
-                                    roomPrice: roomPrice
+                                    price: price,
+                                    offer: offer,
+                                    amenities: amenities,
                                 }
                             });
                             return [4 /*yield*/, bookings.save()];

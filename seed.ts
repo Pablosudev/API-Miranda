@@ -14,7 +14,7 @@ async function main() {
     const number = faker.number.int({ min: 1, max: 500 });
     const price = faker.commerce.price({ min: 80, max: 1000 });
     const offer = faker.number.int({ min: 0, max: 20 });
-    const status = faker.helpers.arrayElement(["Booked", "Available"]);
+    const roomStatus = faker.helpers.arrayElement(["Booked", "Available"]);
     const type = faker.helpers.arrayElement([
       "Suite",
       "Double Bed",
@@ -38,9 +38,9 @@ async function main() {
 
     const room = new Room({
       number,
-      price: parseFloat(price),
+      price,
       offer,
-      status,
+      roomStatus,
       type,
       amenities,
     });
@@ -57,7 +57,7 @@ async function main() {
 
   async function generateContact() {
     const date = faker.date.recent();
-    const fullName = faker.name.fullName();
+    const name = faker.person.fullName();
     const email = faker.internet.email();
     const phone = faker.phone.number();
     const subject = faker.lorem.words(3);
@@ -65,7 +65,7 @@ async function main() {
 
     const contact = new Contact({
       date,
-      fullName,
+      name,
       email,
       phone,
       subject,
@@ -79,7 +79,7 @@ async function main() {
 
   //User Faker
   async function generateUser() {
-    const name = faker.name.fullName();
+    const name = faker.person.fullName();
     const email = faker.internet.email();
     const start_date = faker.date.recent();
     const description = faker.lorem.paragraph();
@@ -106,21 +106,36 @@ async function main() {
 
   //Bookings Faker
   async function generateBookings() {
-    const name = faker.name.fullName();
+    const name = faker.person.fullName();
     const date = faker.date.past();
     const check_in = faker.date.recent();
     const check_out = faker.date.future();
     const request = faker.lorem.paragraph();
-
-    const roomType = faker.helpers.arrayElement([
-      "Suite",
-      "Double Bed",
-      "Single Bed",
-      "Double Superior",
+    const status = faker.helpers.arrayElement(['In Progress', 'Check-In', 'Check-Out']);
+    const price = faker.commerce.price({ min: 80, max: 1000 });
+    const type = faker.helpers.arrayElement([
+      'Suite',
+      'Double Bed',
+      'Single Bed',
+      'Double Superior',
     ]);
-    const roomNumber = faker.number.int({ min: 1, max: 500 });
+    const number = faker.number.int({ min: 1, max: 500 });
     const roomStatus = faker.helpers.arrayElement(["Booked", "Available"]);
-    const roomPrice = faker.commerce.price({ min: 80, max: 1000 });
+    const offer = faker.number.int({ min: 0, max: 20 });
+    const amenities = faker.helpers.arrayElements(
+      [
+        "FREE WIFI",
+        "TV LED",
+        "2 BATHROOM",
+        "AC",
+        "3 BED SPACE",
+        "COFEE SET",
+        "BATHUP",
+        "TOWEL",
+        "SHOWER",
+      ],
+      { min: 1, max: 5 }
+    );
 
 
   const bookings = new Bookings ({
@@ -129,11 +144,17 @@ async function main() {
     check_in,
     check_out,
     request,
-    room : {
-      roomType,
-      roomNumber,
+    price,
+    number,
+    status,
+    type,
+    room: {
+      type,
+      number,
       roomStatus,
-      roomPrice
+      price,
+      offer,
+      amenities,
     }
   })
   await bookings.save()

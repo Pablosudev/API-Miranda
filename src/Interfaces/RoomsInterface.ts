@@ -5,7 +5,7 @@ import mongoose from "mongoose";
   id: string;
   price: number;
   offer: number;
-  status: string;
+  roomStatus: string;
   type: string;
   amenities: string[];
 }
