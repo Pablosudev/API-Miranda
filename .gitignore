@@ -1,5 +1,6 @@
 /node_modules
-../src/Utils/database.js
+seed.js
+database.js
 ../src/Models/bookings.js
 ../src/Models/users.js
 ../src/Models/contact.js
