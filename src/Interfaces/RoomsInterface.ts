@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-interface RoomsInterface extends mongoose.Document {
+ export interface RoomsInterface extends mongoose.Document {
   number: number;
   id: string;
   price: number;
@@ -9,4 +9,4 @@ interface RoomsInterface extends mongoose.Document {
   type: string;
   amenities: string[];
 }
-export {RoomsInterface}
+

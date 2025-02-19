@@ -1,11 +1,12 @@
 import { faker } from "@faker-js/faker";
-import connectDB from "../Utils/database";
-import Room from "../Models/rooms";
-import Contact from "../Models/contact";
-import User from "../Models/users";
-import Bookings from "../Models/bookings";
-
+import connectDB from "./src/Utils/database";
+import Room from "./src/Models/rooms";
+import Contact from "./src/Models/contact";
+import User from "./src/Models/users";
+import Bookings from "./src/Models/bookings";
+import 'dotenv/config'
 async function main() {
+ 
   await connectDB();
 
   //RoomsFaker
@@ -56,7 +57,7 @@ async function main() {
 
   async function generateContact() {
     const date = faker.date.recent();
-    const fullName = faker.person.fullName();
+    const fullName = faker.name.fullName();
     const email = faker.internet.email();
     const phone = faker.phone.number();
     const subject = faker.lorem.words(3);
@@ -120,7 +121,7 @@ async function main() {
     const roomNumber = faker.number.int({ min: 1, max: 500 });
     const roomStatus = faker.helpers.arrayElement(["Booked", "Available"]);
     const roomPrice = faker.commerce.price({ min: 80, max: 1000 });
-  
+
 
   const bookings = new Bookings ({
     name,
@@ -140,4 +141,8 @@ async function main() {
 for (let i = 0; i < 10; i++) {
   await generateBookings();
 }
+
 }
+
+main();
+

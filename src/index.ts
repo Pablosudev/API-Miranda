@@ -3,10 +3,10 @@ import { roomsRouter } from './Controllers/room';
 import { bookingsRouter } from './Controllers/booking';
 import { contactRouter } from './Controllers/contact';
 import { userRouter } from './Controllers/user';
-import dotenv from 'dotenv';
+import 'dotenv/config'
 import { loginRouter } from './Controllers/login';
 import { connectDB} from "./Utils/database"
-dotenv.config();
+
 const app = express()
 const port = 3000
 const  swaggerUi  =  require ( 'swagger-ui-express' ) ; 
