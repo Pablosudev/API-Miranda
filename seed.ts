@@ -5,6 +5,7 @@ import Contact from "./src/Models/contact";
 import User from "./src/Models/users";
 import Bookings from "./src/Models/bookings";
 import 'dotenv/config'
+import * as bcrypt from "bcrypt";
 async function main() {
  
   await connectDB();
@@ -86,7 +87,8 @@ async function main() {
     const phone = faker.phone.number();
     const status = faker.helpers.arrayElement(["Active", "Inactive"]);
     const department = faker.helpers.arrayElement(["Manager", "IT", "Finance"]);
-    const password = faker.internet.password();
+    const password = "1234";
+    const hashedPassword = await bcrypt.hash(password, 10)
 
     const user = new User({
       name,
@@ -96,7 +98,7 @@ async function main() {
       phone,
       status,
       department,
-      password,
+      password: hashedPassword,
     });
     await user.save();
   }

@@ -1,6 +1,7 @@
 import { UsersInterface } from "../Interfaces/UsersInterface";
 import { ServiceInterface } from "../Interfaces/ServiceInterface";
 import { UsersModel } from "../Models/users";
+import * as bcrypt from  "bcrypt";
 
 export class UserServices implements ServiceInterface<UsersInterface> {
   async fetchAll(): Promise<UsersInterface[]> {
@@ -25,7 +26,9 @@ export class UserServices implements ServiceInterface<UsersInterface> {
   }
   async create(user: UsersInterface): Promise<UsersInterface> {
     try {
-      const newUser = new UsersModel(user);
+      let newUser = new UsersModel(user);
+      const hashedPassword = await bcrypt.hash(user.password, 10)
+      newUser.password = hashedPassword
       await newUser.save();
       return newUser;
     } catch (error) {

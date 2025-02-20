@@ -43,6 +43,7 @@ var contact_1 = require("./src/Models/contact");
 var users_1 = require("./src/Models/users");
 var bookings_1 = require("./src/Models/bookings");
 require("dotenv/config");
+var bcrypt = require("bcrypt");
 function main() {
     return __awaiter(this, void 0, void 0, function () {
         //RoomsFaker
@@ -122,7 +123,7 @@ function main() {
         //User Faker
         function generateUser() {
             return __awaiter(this, void 0, void 0, function () {
-                var name, email, start_date, description, phone, status, department, password, user;
+                var name, email, start_date, description, phone, status, department, password, hashedPassword, user;
                 return __generator(this, function (_a) {
                     switch (_a.label) {
                         case 0:
@@ -133,7 +134,10 @@ function main() {
                             phone = faker_1.faker.phone.number();
                             status = faker_1.faker.helpers.arrayElement(["Active", "Inactive"]);
                             department = faker_1.faker.helpers.arrayElement(["Manager", "IT", "Finance"]);
-                            password = faker_1.faker.internet.password();
+                            password = "1234";
+                            return [4 /*yield*/, bcrypt.hash(password, 10)];
+                        case 1:
+                            hashedPassword = _a.sent();
                             user = new users_1.default({
                                 name: name,
                                 email: email,
@@ -142,10 +146,10 @@ function main() {
                                 phone: phone,
                                 status: status,
                                 department: department,
-                                password: password,
+                                password: hashedPassword,
                             });
                             return [4 /*yield*/, user.save()];
-                        case 1:
+                        case 2:
                             _a.sent();
                             return [2 /*return*/];
                     }

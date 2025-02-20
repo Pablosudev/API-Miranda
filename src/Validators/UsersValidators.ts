@@ -30,7 +30,7 @@ return phoneRegex.test(contact);
   if( !validDate(start_date)){
     return res.status(400).json({error: 'Invalid date format'})
   }
-  if(description !== 'string' || description.length === 0){
+  if( typeof description !== 'string' || description.length === 0){
     return res.status(400).json({error: 'Invalid description'})
   }
   if(!validContact(phone)){
@@ -39,7 +39,8 @@ return phoneRegex.test(contact);
   if( typeof status !== 'string' || status.length === 0 || status !== 'Active' && status !== 'Inactive'){
     return res.status(400).json({error: 'Invalid status'})
   }
-  if(department !== 'string' || department.length === 0){
+  if(typeof department !== 'string' || department.length <= 0){
+    console.log(department)
     return res.status(400).json({error: 'Invalid departmanet'})
   }
  }

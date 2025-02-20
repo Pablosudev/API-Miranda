@@ -1,31 +1,30 @@
 import { Request, Response, Router } from "express";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
-import admin from "../Data/admin.json";
-import { AdminInterface } from "../Interfaces/AdminInterface";
+import { UsersModel } from "../Models/users";
 
 export const loginRouter = Router();
 
-loginRouter.post("/api/v1/login", async (req: Request, res: Response): Promise<void> => {
+loginRouter.post("/", async (req: Request, res: Response): Promise<void> => {
   try {
     const { email, password } = req.body;
 
-    const adminValue: AdminInterface | undefined = admin.find((admin) => admin.email === email);
+    const userValue =  await UsersModel.findOne({ email });
 
-    if (!adminValue) {
+    if (!userValue) {
       res.status(400).send("Admin not found");
       return;
     }
 
-    const isPasswordValid = await bcrypt.compare(password, adminValue.password);
+    const isPasswordValid = await bcrypt.compare(password, userValue.password);
 
-    if (isPasswordValid === null) {
+    if (!isPasswordValid) {
       res.status(400).send("Invalid password");
       return;
     }
 
     if (process.env.TOKEN_SECRET) {
-      const token = jwt.sign({ email: adminValue.email }, process.env.TOKEN_SECRET, { expiresIn: "1h" });
+      const token = jwt.sign({ email: userValue.email }, process.env.TOKEN_SECRET, { expiresIn: "1h" });
       res.status(200).json({ token });
     } else {
       res.status(500).send("TOKEN_SECRET is not defined");
