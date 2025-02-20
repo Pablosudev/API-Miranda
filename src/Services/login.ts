@@ -5,7 +5,7 @@ import jwt from 'jsonwebtoken';
 
 
 
-class AuthService {
+export class AuthService {
     
     static async login(email: string, password: string): Promise<string | null> {
         
@@ -30,4 +30,3 @@ class AuthService {
     }
 }
 
-export default AuthService;
