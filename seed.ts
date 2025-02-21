@@ -4,10 +4,10 @@ import Room from "./src/Models/rooms";
 import Contact from "./src/Models/contact";
 import User from "./src/Models/users";
 import Bookings from "./src/Models/bookings";
-import 'dotenv/config'
+import "dotenv/config";
 import * as bcrypt from "bcrypt";
+
 async function main() {
- 
   await connectDB();
 
   //RoomsFaker
@@ -88,7 +88,7 @@ async function main() {
     const status = faker.helpers.arrayElement(["Active", "Inactive"]);
     const department = faker.helpers.arrayElement(["Manager", "IT", "Finance"]);
     const password = "1234";
-    const hashedPassword = await bcrypt.hash(password, 10)
+    const hashedPassword = await bcrypt.hash(password, 10);
 
     const user = new User({
       name,
@@ -113,13 +113,17 @@ async function main() {
     const check_in = faker.date.recent();
     const check_out = faker.date.future();
     const request = faker.lorem.paragraph();
-    const status = faker.helpers.arrayElement(['In Progress', 'Check-In', 'Check-Out']);
+    const status = faker.helpers.arrayElement([
+      "In Progress",
+      "Check-In",
+      "Check-Out",
+    ]);
     const price = faker.commerce.price({ min: 80, max: 1000 });
     const type = faker.helpers.arrayElement([
-      'Suite',
-      'Double Bed',
-      'Single Bed',
-      'Double Superior',
+      "Suite",
+      "Double Bed",
+      "Single Bed",
+      "Double Superior",
     ]);
     const number = faker.number.int({ min: 1, max: 500 });
     const roomStatus = faker.helpers.arrayElement(["Booked", "Available"]);
@@ -139,33 +143,28 @@ async function main() {
       { min: 1, max: 5 }
     );
 
-
-  const bookings = new Bookings ({
-    name,
-    date,
-    check_in,
-    check_out,
-    request,
-    price,
-    number,
-    status,
-    type,
-    room: {
-      type,
-      number,
-      roomStatus,
+    const rooms = await Room.find();
+    const randomRoom = faker.helpers.arrayElement(rooms)
+    
+    const bookings = new Bookings({
+      name,
+      date,
+      check_in,
+      check_out,
+      request,
       price,
-      offer,
-      amenities,
-    }
-  })
-  await bookings.save()
-}
-for (let i = 0; i < 10; i++) {
-  await generateBookings();
+      number,
+      status,
+      type,
+      room: randomRoom
+    });
+
+    await bookings.save();
+  }
+  for (let i = 0; i < 10; i++) {
+    await generateBookings();
+  }
 }
 
-}
 
 main();
-

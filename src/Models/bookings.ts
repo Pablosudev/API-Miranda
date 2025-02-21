@@ -41,8 +41,8 @@ price:{
     required: true
 },
 room:{
-    type: RoomModel.schema,
-    required: true
+    type: Object,
+    required: true,
 
 }
 })

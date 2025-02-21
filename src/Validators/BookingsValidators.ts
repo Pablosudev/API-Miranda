@@ -1,5 +1,6 @@
 import { BookingsInterface } from "../Interfaces/BookingsInterface";
 import { Response, Request } from "express";
+import { validateRooms } from "./RoomsValidators";
 
 
 const validDate = (date: string): boolean => {
@@ -36,8 +37,7 @@ export const validateBookings = (req:Request, res: Response) => {
     return res.status(400).json({error: 'Invalid number room'})
   }
   if(typeof status !== 'string' || status === null ||
-    type !== 'In Progress' && type !== 'Check Out' && type !== 'Check In'
-  ){
+    type !== 'In Progress' && type !== 'Check Out' && type !== 'Check In'){
     return res.status(400).json({error: 'Invalid status'})
   }
   if(typeof price !== 'number' || price === null ){
@@ -46,4 +46,6 @@ export const validateBookings = (req:Request, res: Response) => {
   if(typeof room  !== 'object' || room === null){
     return res.status(400).json({error: 'Invalid room'})
   }
+  
 }
+  

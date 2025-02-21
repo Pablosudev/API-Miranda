@@ -12,14 +12,14 @@ loginRouter.post("/", async (req: Request, res: Response): Promise<void> => {
     const userValue =  await UsersModel.findOne({ email });
 
     if (!userValue) {
-      res.status(400).send("Admin not found");
+      res.status(400).send("Invalid user or password");
       return;
     }
 
     const isPasswordValid = await bcrypt.compare(password, userValue.password);
 
     if (!isPasswordValid) {
-      res.status(400).send("Invalid password");
+      res.status(400).send("Invalid user or password");
       return;
     }
 
