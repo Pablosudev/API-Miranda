@@ -1,7 +1,7 @@
 import { UsersInterface } from "../Interfaces/UsersInterface";
 import { ServiceInterface } from "../Interfaces/ServiceInterface";
 import { UsersModel } from "../Models/users";
-import * as bcrypt from  "bcrypt";
+import * as bcryptjs from "bcryptjs";
 
 export class UserServices implements ServiceInterface<UsersInterface> {
   async fetchAll(): Promise<UsersInterface[]> {
@@ -27,8 +27,8 @@ export class UserServices implements ServiceInterface<UsersInterface> {
   async create(user: UsersInterface): Promise<UsersInterface> {
     try {
       let newUser = new UsersModel(user);
-      const hashedPassword = await bcrypt.hash(user.password, 10)
-      newUser.password = hashedPassword
+      const hashedPassword = await bcryptjs.hash(user.password, 10);
+      newUser.password = hashedPassword;
       await newUser.save();
       return newUser;
     } catch (error) {
@@ -40,22 +40,25 @@ export class UserServices implements ServiceInterface<UsersInterface> {
     user: UsersInterface
   ): Promise<UsersInterface | null> {
     try {
-      const usersToUpdate: UsersInterface | null = await UsersModel.findById(
-        id
-      ).lean();
-      if (usersToUpdate === null) {
+      if (user.password) {
+        user.password = await bcryptjs.hash(user.password, 10);
+      }
+
+      const updatedUser = await UsersModel.findByIdAndUpdate(id, user, {
+        new: true,
+      }).exec();
+
+      if (!updatedUser) {
         throw new Error("User not found");
       }
-      const userObj = usersToUpdate.toObject();
-
-      const updatedUser = { ...userObj, ...user };
-      await UsersModel.findByIdAndUpdate(id, updatedUser, { new: true });
 
       return updatedUser;
     } catch (error) {
-      throw error;
+      console.error("Error updating user:", error);
+      throw new Error("Failed to update user");
     }
   }
+
   async delete(id: string): Promise<boolean> {
     try {
       const userToDelete = await UsersModel.findById(id);

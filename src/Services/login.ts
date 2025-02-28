@@ -1,6 +1,6 @@
 import { AdminInterface } from '../Interfaces/AdminInterface';
 import admins from '../Data/admin.json';
-import bcrypt from 'bcrypt';
+import bcryptjs from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
 
@@ -14,7 +14,7 @@ export class AuthService {
             return null; 
         }
 
-        const validPassword = await bcrypt.compare(password, admin[0].password);
+        const validPassword = await bcryptjs.compare(password, admin[0].password);
         if (!validPassword) {
             return null; 
         }

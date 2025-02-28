@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import { BookingsInterface } from "../Interfaces/BookingsInterface";
-import { RoomModel } from "./rooms";
+
 
 const BookingsSchema = new mongoose.Schema<BookingsInterface>({
 name:{

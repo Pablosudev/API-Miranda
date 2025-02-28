@@ -48,4 +48,3 @@ export const validateBookings = (req:Request, res: Response) => {
   }
   
 }
-  

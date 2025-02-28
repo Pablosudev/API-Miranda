@@ -12,7 +12,7 @@ const UsersSchema = new mongoose.Schema<UsersInterface>({
         required: true 
     },
     start_date: {
-        type: String,
+        type: Date,
         required: true 
     },
     description: {

@@ -2,7 +2,7 @@ import mongoose from "mongoose"
 
 interface ContactsInterface extends mongoose.Document{
     date: string,
-    id: string,
+    _id: string,
     name:string,
     email:string,
     phone: string,

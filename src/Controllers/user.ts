@@ -162,7 +162,7 @@ userRouter.put("/:id", async (req: Request, res: any) => {
   if (updatedUser) {
     return res.status(200).json(updatedUser);
   } else {
-    return res.status(404).json({ error: "Usuario no encontrada" });
+    return res.status(404).json({ error: "User not found" });
   }
 });
 /**
