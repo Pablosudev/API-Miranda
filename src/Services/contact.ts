@@ -12,11 +12,11 @@ export class ContactServices implements ServiceInterface<ContactsInterface> {
     }
   }
 
-  async fetchById(id: string): Promise<ContactsInterface | undefined> {
+  async fetchById(id: string): Promise<ContactsInterface> {
     try {
       const contactId: ContactsInterface | null = await ContactModel.findById(
         id
-      );
+      )
       if (!contactId) {
         throw new Error("Contact not found");
       }
