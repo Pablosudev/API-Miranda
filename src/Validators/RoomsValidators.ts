@@ -1,14 +1,11 @@
 import { RoomsInterface } from "../Interfaces/RoomsInterface";
 import { Response, Request } from "express";
 
-export const validateRooms = (req: Request, res: Response,) => {
-  const { number, id, price, offer, roomStatus, type, amenities } =
+export const validateRooms = (req: Request, res: Response) => {
+  const { number, price, offer, roomStatus, type, amenities } =
     req.body as RoomsInterface;
   if (typeof number !== "number" || number === 0) {
     return res.status(400).json({ error: "Invalid number room" });
-  }
-  if (typeof id !== "string" || id === null) {
-    return res.status(400).json({ error: "Invalid Id" });
   }
   if (typeof price !== "number" || price === 0) {
     return res.status(400).json({ error: "Invalida price" });
@@ -28,12 +25,14 @@ export const validateRooms = (req: Request, res: Response,) => {
     (type !== "Suite" &&
       type !== "Double Superior" &&
       type !== "Single Bed" &&
-      type !== "Dobule Bed")
+      type !== "Double Bed")
   ) {
     return res.status(400).json({ error: "Invalid type room" });
   }
-  if(typeof amenities !== 'string'){
-    return res.status(400).json({error: 'Invalid amenities'})
+  if (
+    !Array.isArray(amenities) ||
+    !amenities.every((item) => typeof item === "string")
+  ) {
+    return res.status(400).json({ error: "Invalid amenities" });
   }
 };
-

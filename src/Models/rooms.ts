@@ -25,7 +25,7 @@ const RoomSchema = new mongoose.Schema<RoomsInterface>({
     enum: ["Suite", "Double Superior", "Single Bed", "Double Bed"],
   },
   amenities: {
-    type: [String],
+    type: [],
     required: true,
     enum: [
       "FREE WIFI",

@@ -39,20 +39,20 @@ export class BookingServices implements ServiceInterface<BookingsInterface> {
     booking: BookingsInterface
   ): Promise<BookingsInterface | null> {
     try {
-      const bookingToUpdate: BookingsInterface | null =
-        await BookingModel.findById(id);
-      if (bookingToUpdate === null) {
-        throw new Error("Room not found");
+          const updatedBooking = await BookingModel.findByIdAndUpdate(id, booking, {
+            new: true,
+          }).exec();
+    
+          if (!updatedBooking) {
+            throw new Error("Booking not found");
+          }
+    
+          return updatedBooking;
+        } catch (error) {
+          console.error("Error updating booking:", error);
+          throw new Error("Failed to update booking");
+        }
       }
-      const bookingObj = bookingToUpdate.toObject()
-      const updatedBooking = { ...bookingObj, ...booking };
-      await BookingModel.findByIdAndUpdate(id, updatedBooking, { new: true });
-
-      return updatedBooking;
-    } catch (error) {
-      throw error;
-    }
-  }
   async delete(id: string): Promise<boolean> {
     try {
       const bookingToDelete = await BookingModel.findById(id);

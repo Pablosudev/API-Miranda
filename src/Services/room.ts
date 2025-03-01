@@ -38,19 +38,21 @@ export class RoomServices implements ServiceInterface<RoomsInterface>{
     }
     async update(id: string, room: RoomsInterface): Promise<RoomsInterface | null> {
         try {
-            const roomToUpdate: RoomsInterface | null = await RoomModel.findById(id);
-            if (roomToUpdate === null) {
-                throw new Error('Room not found');
+            
+              const updatedRoom = await RoomModel.findByIdAndUpdate(id, room, {
+                new: true,
+              }).exec();
+        
+              if (!updatedRoom) {
+                throw new Error("Room not found");
+              }
+        
+              return updatedRoom;
+            } catch (error) {
+              console.error("Error updating room:", error);
+              throw new Error("Failed to update room");
             }
-            const roomObJ = roomToUpdate.toObject();
-            const updatedRoom = { ...roomObJ, ...room };
-            await RoomModel.findByIdAndUpdate(id, updatedRoom, { new: true });
-    
-            return updatedRoom;
-        } catch (error) {
-            throw error;
-        }
-    }
+          }
     
     async delete(id:string): Promise<boolean> {
         try {
