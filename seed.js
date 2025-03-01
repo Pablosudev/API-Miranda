@@ -43,7 +43,7 @@ var contact_1 = require("./src/Models/contact");
 var users_1 = require("./src/Models/users");
 var bookings_1 = require("./src/Models/bookings");
 require("dotenv/config");
-var bcrypt = require("bcrypt");
+var bcryptjs = require("bcryptjs");
 function main() {
     return __awaiter(this, void 0, void 0, function () {
         //RoomsFaker
@@ -94,18 +94,22 @@ function main() {
         //ContactFaker
         function generateContact() {
             return __awaiter(this, void 0, void 0, function () {
-                var date, name, email, phone, subject, comment, contact;
+                var date, day, month, year, formattedDate, name, email, phone, subject, comment, contact;
                 return __generator(this, function (_a) {
                     switch (_a.label) {
                         case 0:
                             date = faker_1.faker.date.recent();
+                            day = date.getDate().toString().padStart(2, '0');
+                            month = (date.getMonth() + 1).toString().padStart(2, '0');
+                            year = date.getFullYear();
+                            formattedDate = "".concat(day, "/").concat(month, "/").concat(year);
                             name = faker_1.faker.person.fullName();
                             email = faker_1.faker.internet.email();
                             phone = faker_1.faker.phone.number();
                             subject = faker_1.faker.lorem.words(3);
                             comment = faker_1.faker.lorem.paragraph();
                             contact = new contact_1.default({
-                                date: date,
+                                date: formattedDate,
                                 name: name,
                                 email: email,
                                 phone: phone,
@@ -128,14 +132,14 @@ function main() {
                     switch (_a.label) {
                         case 0:
                             name = faker_1.faker.person.fullName();
-                            email = faker_1.faker.internet.email();
+                            email = "1234@gmail.com";
                             start_date = faker_1.faker.date.recent();
                             description = faker_1.faker.lorem.paragraph();
                             phone = faker_1.faker.phone.number();
                             status = faker_1.faker.helpers.arrayElement(["Active", "Inactive"]);
-                            department = faker_1.faker.helpers.arrayElement(["Manager", "IT", "Finance"]);
+                            department = faker_1.faker.helpers.arrayElement(["MANAGER", "ROOM SERVICE", "RECIPTIONIST"]);
                             password = "1234";
-                            return [4 /*yield*/, bcrypt.hash(password, 10)];
+                            return [4 /*yield*/, bcryptjs.hash(password, 10)];
                         case 1:
                             hashedPassword = _a.sent();
                             user = new users_1.default({
@@ -159,7 +163,7 @@ function main() {
         //Bookings Faker
         function generateBookings() {
             return __awaiter(this, void 0, void 0, function () {
-                var name, date, check_in, check_out, request, status, price, type, number, roomStatus, offer, amenities, rooms, randomRoom, bookings;
+                var name, date, check_in, check_out, request, status, price, type, number, rooms, randomRoom, bookings;
                 return __generator(this, function (_a) {
                     switch (_a.label) {
                         case 0:
@@ -181,19 +185,6 @@ function main() {
                                 "Double Superior",
                             ]);
                             number = faker_1.faker.number.int({ min: 1, max: 500 });
-                            roomStatus = faker_1.faker.helpers.arrayElement(["Booked", "Available"]);
-                            offer = faker_1.faker.number.int({ min: 0, max: 20 });
-                            amenities = faker_1.faker.helpers.arrayElements([
-                                "FREE WIFI",
-                                "TV LED",
-                                "2 BATHROOM",
-                                "AC",
-                                "3 BED SPACE",
-                                "COFEE SET",
-                                "BATHUP",
-                                "TOWEL",
-                                "SHOWER",
-                            ], { min: 1, max: 5 });
                             return [4 /*yield*/, rooms_1.default.find()];
                         case 1:
                             rooms = _a.sent();
