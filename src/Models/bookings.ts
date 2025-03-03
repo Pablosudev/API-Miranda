@@ -36,14 +36,9 @@ status:{
     required: true,
     enum: ['Check-Out', 'Check-In', 'In Progress']
 },
-price:{
-    type: Number,
-    required: true
-},
 room:{
     type: Object,
     required: true,
-
 }
 })
 const Bookings = mongoose.model('Bookings', BookingsSchema);

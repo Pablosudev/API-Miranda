@@ -1,6 +1,6 @@
 import { Request, Response, Router } from "express";
 import { ContactServices } from "../Services/contact";
-import { validateContact } from "../Validators/ContactValidators";
+import { ContactModel } from "../Models/contact";
 
 export const contactRouter = Router();
 const contactServices = new ContactServices
@@ -93,14 +93,32 @@ contactRouter.get('/:id', async (req: Request, res: Response) => {
  *                      type: string
  *                      example: "gsfsgfdsg"
  */
-contactRouter.post('/', async (req: Request , res: Response) => {
-    const validationError = validateContact(req, res);
-        if(validationError) {
-          return;
-        }
-    const newContact =  await contactServices.create(req.body);
-    res.status(201).json(newContact)
+ contactRouter.put('/:id', async (req: Request, res: any) => {
+  const contactId = req.params.id;
+  const { archived } = req.body; // Suponiendo que solo envíes el campo 'archived'
+
+  if (typeof archived !== 'boolean') {
+    return res.status(400).json({ error: 'El valor de archived debe ser un booleano' });
+  }
+
+  try {
+    const updatedContact = await ContactModel.findByIdAndUpdate(
+      contactId,  // El ID del contacto que se va a actualizar
+      { archived },  // Solo actualizamos el campo 'archived'
+      { new: true }  // Devuelve el documento actualizado
+    );
+
+    if (!updatedContact) {
+      return res.status(404).json({ error: 'Contacto no encontrado' });
+    }
+
+    return res.status(200).json(updatedContact); // Devolvemos el contacto actualizado
+  } catch (error) {
+    console.error('Error al actualizar el contacto:', error);
+    return res.status(500).json({ error: 'Error interno del servidor' });
+  }
 });
+  
 /**
  @swagger
  * /api/v1/contact/create :

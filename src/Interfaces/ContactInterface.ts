@@ -7,7 +7,8 @@ interface ContactsInterface extends mongoose.Document{
     email:string,
     phone: string,
     subject: string,
-    comment: string, 
+    comment: string,
+    archived: boolean 
 }
 export {ContactsInterface}
 

@@ -26,6 +26,10 @@ const ContactSchema = new mongoose.Schema<ContactsInterface>({
     comment: {
         type: String,
         required: true
+    },
+    archived:{
+        type: Boolean,
+        default: false
     }
 
 })

@@ -1,6 +1,19 @@
 import mongoose from "mongoose";
 import { RoomsInterface } from "../Interfaces/RoomsInterface";
 
+// Lista de valores permitidos para el campo `amenities`
+const allowedAmenities = [
+  "FREE WIFI",
+  "TV LED",
+  "2 BATHROOM",
+  "AC",
+  "3 BED SPACE",
+  "COFEE SET",
+  "BATHUP",
+  "TOWEL",
+  "SHOWER",
+];
+
 const RoomSchema = new mongoose.Schema<RoomsInterface>({
   number: {
     type: Number,
@@ -17,27 +30,23 @@ const RoomSchema = new mongoose.Schema<RoomsInterface>({
   roomStatus: {
     type: String,
     required: true,
-    enum: ["Booked", "Available"],
+    enum: ["Booked", "Available"], // Esto es válido porque es un solo valor
   },
   type: {
     type: String,
     required: true,
-    enum: ["Suite", "Double Superior", "Single Bed", "Double Bed"],
+    enum: ["Suite", "Double Superior", "Single Bed", "Double Bed"], // Esto es válido porque es un solo valor
   },
   amenities: {
-    type: [],
+    type: [String], // Asegúrate de que sea un array de strings
     required: true,
-    enum: [
-      "FREE WIFI",
-      "TV LED",
-      "2 BATHROOM",
-      "AC",
-      "3 BED SPACE",
-      "COFEE SET",
-      "BATHUP",
-      "TOWEL",
-      "SHOWER",
-    ],
+    validate: {
+      validator: function (amenitiesArray: string[]) {
+        // Verifica que todos los elementos del array estén en la lista de valores permitidos
+        return amenitiesArray.every((amenity) => allowedAmenities.includes(amenity));
+      },
+      message: (props) => `${props.value} contiene valores no permitidos en el campo "amenities".`,
+    },
   },
 });
 

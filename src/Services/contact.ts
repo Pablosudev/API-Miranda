@@ -44,10 +44,10 @@ export class ContactServices implements ServiceInterface<ContactsInterface> {
       if (contactToUpdate === null) {
         throw new Error("Contact not found");
       }
-      const contactObj = contactToUpdate.toObject()
-      const updatedContact = { ...contactObj, ...contact };
-      await ContactModel.findByIdAndUpdate(id, updatedContact, { new: true });
+      const contactObj = contactToUpdate.toObject();
+      const updatedContact = {...contactObj,...contact};
 
+      await ContactModel.findByIdAndUpdate(id, updatedContact, {new:true});
       return updatedContact;
     } catch (error) {
       throw error;
