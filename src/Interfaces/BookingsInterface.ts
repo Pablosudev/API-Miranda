@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 interface BookingsInterface extends mongoose.Document{
     name: string;
     _id: string;
-    date: string;
+    date: Date;
     check_in: string;
     check_out: string;
     request: string;

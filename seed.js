@@ -36,34 +36,31 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var faker_1 = require("@faker-js/faker");
 var database_1 = require("./src/Utils/database");
 var rooms_1 = require("./src/Models/rooms");
-var contact_1 = require("./src/Models/contact");
-var users_1 = require("./src/Models/users");
-var bookings_1 = require("./src/Models/bookings");
 require("dotenv/config");
 var bcryptjs = require("bcryptjs");
 function main() {
     return __awaiter(this, void 0, void 0, function () {
-        //RoomsFaker
+        // Rooms Faker
         function generateRooms() {
             return __awaiter(this, void 0, void 0, function () {
-                var number, price, offer, roomStatus, type, amenities, room;
+                var number, price, offer, roomStatus, type, amenities, query, room;
                 return __generator(this, function (_a) {
                     switch (_a.label) {
                         case 0:
-                            number = faker_1.faker.number.int({ min: 1, max: 500 });
-                            price = faker_1.faker.commerce.price({ min: 80, max: 1000 });
-                            offer = faker_1.faker.number.int({ min: 0, max: 20 });
-                            roomStatus = faker_1.faker.helpers.arrayElement(["Booked", "Available"]);
-                            type = faker_1.faker.helpers.arrayElement([
+                            number = faker.datatype.number({ min: 1, max: 500 });
+                            price = parseFloat(faker.commerce.price({ min: 80, max: 1000 }));
+                            offer = faker.datatype.number({ min: 0, max: 20 });
+                            roomStatus = faker.helpers.shuffle(["Available", "Booked"])[0];
+                            type = faker.helpers.shuffle([
                                 "Suite",
                                 "Double Bed",
                                 "Single Bed",
                                 "Double Superior",
-                            ]);
-                            amenities = faker_1.faker.helpers.arrayElements([
+                            ])[0];
+                            amenities = faker.helpers
+                                .shuffle([
                                 "FREE WIFI",
                                 "TV LED",
                                 "2 BATHROOM",
@@ -73,7 +70,9 @@ function main() {
                                 "BATHUP",
                                 "TOWEL",
                                 "SHOWER",
-                            ], { min: 1, max: 5 });
+                            ], { min: 1, max: 5 })
+                                .join(",");
+                            query = "\n    INSERT INTO rooms (number, price, offer, roomStatus, type, amenities) \n    VALUES (?, ?, ?, ?, ?, ?)\n  ";
                             room = new rooms_1.default({
                                 number: number,
                                 price: price,
@@ -82,67 +81,111 @@ function main() {
                                 type: type,
                                 amenities: amenities,
                             });
-                            return [4 /*yield*/, room.save()];
+                            return [4 /*yield*/, connection.execute(query, [
+                                    number,
+                                    price,
+                                    offer,
+                                    roomStatus,
+                                    type,
+                                    amenities,
+                                ])];
                         case 1:
                             _a.sent();
-                            console.log("Room saved:", room);
+                            console.log("Room saved:", {
+                                number: number,
+                                price: price,
+                                offer: offer,
+                                roomStatus: roomStatus,
+                                type: type,
+                                amenities: amenities,
+                            });
                             return [2 /*return*/];
                     }
                 });
             });
         }
-        //ContactFaker
+        // Contact Faker
         function generateContact() {
             return __awaiter(this, void 0, void 0, function () {
-                var date, day, month, year, formattedDate, name, email, phone, subject, comment, contact;
+                var date, formattedDate, name, email, phone, subject, comment, query, error_1;
                 return __generator(this, function (_a) {
                     switch (_a.label) {
                         case 0:
-                            date = faker_1.faker.date.recent();
-                            day = date.getDate().toString().padStart(2, '0');
-                            month = (date.getMonth() + 1).toString().padStart(2, '0');
-                            year = date.getFullYear();
-                            formattedDate = "".concat(day, "/").concat(month, "/").concat(year);
-                            name = faker_1.faker.person.fullName();
-                            email = faker_1.faker.internet.email();
-                            phone = faker_1.faker.phone.number();
-                            subject = faker_1.faker.lorem.words(3);
-                            comment = faker_1.faker.lorem.paragraph();
-                            contact = new contact_1.default({
-                                date: formattedDate,
+                            date = new Date();
+                            formattedDate = date.toISOString().slice(0, 10);
+                            name = faker.name.findName();
+                            email = faker.internet.email();
+                            phone = faker.datatype.number({ min: 100000000, max: 999999999 }).toString();
+                            subject = faker.lorem.words(3);
+                            comment = faker.lorem.paragraph();
+                            query = "\n      INSERT INTO contacts (date, name, email, phone, subject, comment) \n      VALUES (?, ?, ?, ?, ?, ?)\n    ";
+                            _a.label = 1;
+                        case 1:
+                            _a.trys.push([1, 3, , 4]);
+                            return [4 /*yield*/, connection.execute(query, [
+                                    formattedDate,
+                                    name,
+                                    email,
+                                    phone,
+                                    subject,
+                                    comment,
+                                ])];
+                        case 2:
+                            _a.sent();
+                            console.log("Contact saved:", {
+                                formattedDate: formattedDate,
                                 name: name,
                                 email: email,
                                 phone: phone,
                                 subject: subject,
                                 comment: comment,
                             });
-                            return [4 /*yield*/, contact.save()];
-                        case 1:
-                            _a.sent();
-                            return [2 /*return*/];
+                            return [3 /*break*/, 4];
+                        case 3:
+                            error_1 = _a.sent();
+                            console.error("Error saving contact:", error_1);
+                            return [3 /*break*/, 4];
+                        case 4: return [2 /*return*/];
                     }
                 });
             });
         }
-        //User Faker
+        // User Faker
         function generateUser() {
             return __awaiter(this, void 0, void 0, function () {
-                var name, email, start_date, description, phone, status, department, password, hashedPassword, user;
+                var name, email, start_date, description, phone, status, department, password, hashedPassword, query;
                 return __generator(this, function (_a) {
                     switch (_a.label) {
                         case 0:
-                            name = faker_1.faker.person.fullName();
+                            name = faker.name.findName();
                             email = "1234@gmail.com";
-                            start_date = faker_1.faker.date.recent();
-                            description = faker_1.faker.lorem.paragraph();
-                            phone = faker_1.faker.phone.number();
-                            status = faker_1.faker.helpers.arrayElement(["Active", "Inactive"]);
-                            department = faker_1.faker.helpers.arrayElement(["MANAGER", "ROOM SERVICE", "RECIPTIONIST"]);
+                            start_date = faker.date.recent();
+                            description = faker.lorem.paragraph();
+                            phone = faker.datatype.number({ min: 100000000, max: 999999999 }).toString();
+                            status = faker.helpers.shuffle(["Active", "Inactive"])[0];
+                            department = faker.helpers.shuffle([
+                                "MANAGER",
+                                "ROOM SERVICE",
+                                "RECEPTIONIST",
+                            ])[0];
                             password = "1234";
                             return [4 /*yield*/, bcryptjs.hash(password, 10)];
                         case 1:
                             hashedPassword = _a.sent();
-                            user = new users_1.default({
+                            query = "\n      INSERT INTO users (name, email, start_date, description, phone, status, department, password) \n      VALUES (?, ?, ?, ?, ?, ?, ?, ?)\n    ";
+                            return [4 /*yield*/, connection.execute(query, [
+                                    name,
+                                    email,
+                                    start_date,
+                                    description,
+                                    phone,
+                                    status,
+                                    department,
+                                    hashedPassword,
+                                ])];
+                        case 2:
+                            _a.sent();
+                            console.log("User saved:", {
                                 name: name,
                                 email: email,
                                 start_date: start_date,
@@ -150,46 +193,57 @@ function main() {
                                 phone: phone,
                                 status: status,
                                 department: department,
-                                password: hashedPassword,
                             });
-                            return [4 /*yield*/, user.save()];
-                        case 2:
-                            _a.sent();
                             return [2 /*return*/];
                     }
                 });
             });
         }
-        //Bookings Faker
+        // Bookings Faker
         function generateBookings() {
             return __awaiter(this, void 0, void 0, function () {
-                var name, date, check_in, check_out, request, status, price, type, number, rooms, randomRoom, bookings;
+                var name, date, check_in, check_out, request, status, price, type, number, rows, randomRoom, query;
                 return __generator(this, function (_a) {
                     switch (_a.label) {
                         case 0:
-                            name = faker_1.faker.person.fullName();
-                            date = faker_1.faker.date.past();
-                            check_in = faker_1.faker.date.recent();
-                            check_out = faker_1.faker.date.future();
-                            request = faker_1.faker.lorem.paragraph();
-                            status = faker_1.faker.helpers.arrayElement([
+                            name = faker.name.findName();
+                            date = faker.date.past();
+                            check_in = faker.date.recent();
+                            check_out = faker.date.future();
+                            request = faker.lorem.paragraph();
+                            status = faker.helpers.shuffle([
                                 "In Progress",
                                 "Check-In",
                                 "Check-Out",
-                            ]);
-                            price = faker_1.faker.commerce.price({ min: 80, max: 1000 });
-                            type = faker_1.faker.helpers.arrayElement([
+                            ])[0];
+                            price = faker.commerce.price({ min: 80, max: 1000 });
+                            type = faker.helpers.shuffle([
                                 "Suite",
                                 "Double Bed",
                                 "Single Bed",
                                 "Double Superior",
-                            ]);
-                            number = faker_1.faker.number.int({ min: 1, max: 500 });
-                            return [4 /*yield*/, rooms_1.default.find()];
+                            ])[0];
+                            number = faker.datatype.number({ min: 1, max: 500 });
+                            return [4 /*yield*/, connection.execute("SELECT * FROM rooms")];
                         case 1:
-                            rooms = _a.sent();
-                            randomRoom = faker_1.faker.helpers.arrayElement(rooms);
-                            bookings = new bookings_1.default({
+                            rows = (_a.sent())[0];
+                            randomRoom = rows[Math.floor(Math.random() * rows.length)];
+                            query = "\n      INSERT INTO bookings (name, date, check_in, check_out, request, price, number, status, type, room_id) \n      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)\n    ";
+                            return [4 /*yield*/, connection.execute(query, [
+                                    name,
+                                    date,
+                                    check_in,
+                                    check_out,
+                                    request,
+                                    price,
+                                    number,
+                                    status,
+                                    type,
+                                    randomRoom.id,
+                                ])];
+                        case 2:
+                            _a.sent();
+                            console.log("Booking saved:", {
                                 name: name,
                                 date: date,
                                 check_in: check_in,
@@ -199,22 +253,20 @@ function main() {
                                 number: number,
                                 status: status,
                                 type: type,
-                                room: randomRoom
                             });
-                            return [4 /*yield*/, bookings.save()];
-                        case 2:
-                            _a.sent();
                             return [2 /*return*/];
                     }
                 });
             });
         }
-        var i, i, i, i;
+        var connection, faker, mysql, i, i, i;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, (0, database_1.default)()];
+                case 0: return [4 /*yield*/, (0, database_1.connectDB)()];
                 case 1:
-                    _a.sent();
+                    connection = _a.sent();
+                    faker = require("faker");
+                    mysql = require("mysql2/promise");
                     i = 0;
                     _a.label = 2;
                 case 2:
@@ -231,7 +283,7 @@ function main() {
                     _a.label = 6;
                 case 6:
                     if (!(i < 10)) return [3 /*break*/, 9];
-                    return [4 /*yield*/, generateContact()];
+                    return [4 /*yield*/, generateUser()];
                 case 7:
                     _a.sent();
                     _a.label = 8;
@@ -243,7 +295,7 @@ function main() {
                     _a.label = 10;
                 case 10:
                     if (!(i < 10)) return [3 /*break*/, 13];
-                    return [4 /*yield*/, generateUser()];
+                    return [4 /*yield*/, generateBookings()];
                 case 11:
                     _a.sent();
                     _a.label = 12;
@@ -251,20 +303,11 @@ function main() {
                     i++;
                     return [3 /*break*/, 10];
                 case 13:
-                    i = 0;
-                    _a.label = 14;
-                case 14:
-                    if (!(i < 10)) return [3 /*break*/, 17];
-                    return [4 /*yield*/, generateBookings()];
-                case 15:
-                    _a.sent();
-                    _a.label = 16;
-                case 16:
-                    i++;
-                    return [3 /*break*/, 14];
-                case 17: return [2 /*return*/];
+                    console.log("Seed data insertion completed.");
+                    connection.end();
+                    return [2 /*return*/];
             }
         });
     });
 }
-main();
+main().catch(function (error) { return console.error("Error in seed data insertion:", error); });

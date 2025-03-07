@@ -1,6 +1,7 @@
-import mongoose from "mongoose";
 
- export interface RoomsInterface extends mongoose.Document {
+import { RowDataPacket } from "mysql2";
+
+ export interface RoomsInterface extends RowDataPacket {
   number: number;
   _id: string;
   price: number;

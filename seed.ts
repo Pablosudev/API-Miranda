@@ -1,39 +1,47 @@
-import { faker } from "@faker-js/faker";
-import connectDB from "./src/Utils/database";
+import { connectDB } from "./src/Utils/database";
 import Room from "./src/Models/rooms";
-import Contact from "./src/Models/contact";
-import User from "./src/Models/users";
-import Bookings from "./src/Models/bookings";
 import "dotenv/config";
 import * as bcryptjs from "bcryptjs";
+import { RoomsInterface } from "./src/Interfaces/RoomsInterface";
+
 async function main() {
-  await connectDB();
-  //RoomsFaker
+  const connection = await connectDB();
+  const faker = require("faker");
+  const mysql = require("mysql2/promise");
+
+  // Rooms Faker
   async function generateRooms() {
-    const number = faker.number.int({ min: 1, max: 500 });
-    const price = faker.commerce.price({ min: 80, max: 1000 });
-    const offer = faker.number.int({ min: 0, max: 20 });
-    const roomStatus = faker.helpers.arrayElement(["Booked", "Available"]);
-    const type = faker.helpers.arrayElement([
+    const number = faker.datatype.number({ min: 1, max: 500 }); 
+    const price = parseFloat(faker.commerce.price({ min: 80, max: 1000 }));
+    const offer = faker.datatype.number({ min: 0, max: 20 }); 
+    const roomStatus = faker.helpers.shuffle(["Available", "Booked"])[0];
+    const type = faker.helpers.shuffle([
       "Suite",
       "Double Bed",
       "Single Bed",
       "Double Superior",
-    ]);
-    const amenities = faker.helpers.arrayElements(
-      [
-        "FREE WIFI",
-        "TV LED",
-        "2 BATHROOM",
-        "AC",
-        "3 BED SPACE",
-        "COFEE SET",
-        "BATHUP",
-        "TOWEL",
-        "SHOWER",
-      ],
-      { min: 1, max: 5 }
-    );
+    ])[0];
+    const amenities = faker.helpers
+      .shuffle(
+        [
+          "FREE WIFI",
+          "TV LED",
+          "2 BATHROOM",
+          "AC",
+          "3 BED SPACE",
+          "COFEE SET",
+          "BATHUP",
+          "TOWEL",
+          "SHOWER",
+        ],
+        { min: 1, max: 5 }
+      )
+      .join(",");
+
+    const query = `
+    INSERT INTO rooms (number, price, offer, roomStatus, type, amenities) 
+    VALUES (?, ?, ?, ?, ?, ?)
+  `;
     const room = new Room({
       number,
       price,
@@ -42,50 +50,87 @@ async function main() {
       type,
       amenities,
     });
-    await room.save();
-    console.log("Room saved:", room);
+
+    await connection.execute(query, [
+      number,
+      price,
+      offer,
+      roomStatus,
+      type,
+      amenities,
+    ]);
+    console.log("Room saved:", {
+      number,
+      price,
+      offer,
+      roomStatus,
+      type,
+      amenities,
+    });
   }
+
   for (let i = 0; i < 10; i++) {
     await generateRooms();
   }
-  //ContactFaker
+
+  // Contact Faker
   async function generateContact() {
-    const date = faker.date.recent();
-    const day = date.getDate().toString().padStart(2, '0');
-    const month = (date.getMonth() + 1).toString().padStart(2, '0');
-    const year = date.getFullYear();
-    // Formato de fecha: día/mes/año
-    const formattedDate = `${day}/${month}/${year}`;
-    const name = faker.person.fullName();
+    const date = new Date();
+    const formattedDate = date.toISOString().slice(0, 10);
+    const name = faker.name.findName();
     const email = faker.internet.email();
-    const phone = faker.phone.number();
+    const phone = faker.datatype.number({ min: 100000000, max: 999999999 }).toString();
     const subject = faker.lorem.words(3);
     const comment = faker.lorem.paragraph();
-    const contact = new Contact({
-      date:formattedDate,
-      name,
-      email,
-      phone,
-      subject,
-      comment,
-    });
-    await contact.save();
+
+    const query = `
+      INSERT INTO contacts (date, name, email, phone, subject, comment) 
+      VALUES (?, ?, ?, ?, ?, ?)
+    `;
+
+    try {
+      await connection.execute(query, [
+        formattedDate,
+        name,
+        email,
+        phone,
+        subject,
+        comment,
+      ]);
+      console.log("Contact saved:", {
+        formattedDate,
+        name,
+        email,
+        phone,
+        subject,
+        comment,
+      });
+    } catch (error) {
+      console.error("Error saving contact:", error);
+    }
   }
-  for (let i = 0; i < 10; i++) {
-    await generateContact();
-  }
-  //User Faker
+
+  // User Faker
   async function generateUser() {
-    const name = faker.person.fullName();
+    const name = faker.name.findName();
     const email = "1234@gmail.com";
     const start_date = faker.date.recent();
     const description = faker.lorem.paragraph();
-    const phone = faker.phone.number();
-    const status = faker.helpers.arrayElement(["Active", "Inactive"]);
-    const department = faker.helpers.arrayElement(["MANAGER", "ROOM SERVICE", "RECIPTIONIST"]);
+    const phone = faker.datatype.number({ min: 100000000, max: 999999999 }).toString();
+    const status = faker.helpers.shuffle(["Active", "Inactive"])[0];
+    const department = faker.helpers.shuffle([
+      "MANAGER",
+      "ROOM SERVICE",
+      "RECEPTIONIST",
+    ])[0];
     const password = "1234";
     const hashedPassword = await bcryptjs.hash(password, 10);
-    const user = new User({
+
+    const query = `
+      INSERT INTO users (name, email, start_date, description, phone, status, department, password) 
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+    `;
+    await connection.execute(query, [
       name,
       email,
       start_date,
@@ -93,36 +138,54 @@ async function main() {
       phone,
       status,
       department,
-      password: hashedPassword,
+      hashedPassword,
+    ]);
+    console.log("User saved:", {
+      name,
+      email,
+      start_date,
+      description,
+      phone,
+      status,
+      department,
     });
-    await user.save();
   }
+
   for (let i = 0; i < 10; i++) {
     await generateUser();
   }
-  //Bookings Faker
+
+  // Bookings Faker
   async function generateBookings() {
-    const name = faker.person.fullName();
+    const name = faker.name.findName();
     const date = faker.date.past();
     const check_in = faker.date.recent();
     const check_out = faker.date.future();
     const request = faker.lorem.paragraph();
-    const status = faker.helpers.arrayElement([
+    const status = faker.helpers.shuffle([
       "In Progress",
       "Check-In",
       "Check-Out",
-    ]);
+    ])[0];
     const price = faker.commerce.price({ min: 80, max: 1000 });
-    const type = faker.helpers.arrayElement([
+    const type = faker.helpers.shuffle([
       "Suite",
       "Double Bed",
       "Single Bed",
       "Double Superior",
-    ]);
-    const number = faker.number.int({ min: 1, max: 500 });
-    const rooms = await Room.find();
-    const randomRoom = faker.helpers.arrayElement(rooms)
-    const bookings = new Bookings({
+    ])[0];
+    const number = faker.datatype.number({ min: 1, max: 500 }); 
+
+    const [rows] = await connection.execute<RoomsInterface[]>(
+      "SELECT * FROM rooms"
+    );
+    const randomRoom = rows[Math.floor(Math.random() * rows.length)];
+
+    const query = `
+      INSERT INTO bookings (name, date, check_in, check_out, request, price, number, status, type, room_id) 
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `;
+    await connection.execute(query, [
       name,
       date,
       check_in,
@@ -132,18 +195,28 @@ async function main() {
       number,
       status,
       type,
-      room: randomRoom
+      randomRoom.id,
+    ]);
+    console.log("Booking saved:", {
+      name,
+      date,
+      check_in,
+      check_out,
+      request,
+      price,
+      number,
+      status,
+      type,
     });
-    await bookings.save();
   }
+
   for (let i = 0; i < 10; i++) {
     await generateBookings();
   }
+
+  console.log("Seed data insertion completed.");
+  connection.end();
 }
-main();
 
-
-
-
-
+main().catch((error) => console.error("Error in seed data insertion:", error));
 

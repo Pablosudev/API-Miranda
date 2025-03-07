@@ -30,19 +30,19 @@ const RoomSchema = new mongoose.Schema<RoomsInterface>({
   roomStatus: {
     type: String,
     required: true,
-    enum: ["Booked", "Available"], // Esto es válido porque es un solo valor
+    enum: ["Booked", "Available"], 
   },
   type: {
     type: String,
     required: true,
-    enum: ["Suite", "Double Superior", "Single Bed", "Double Bed"], // Esto es válido porque es un solo valor
+    enum: ["Suite", "Double Superior", "Single Bed", "Double Bed"], 
   },
   amenities: {
-    type: [String], // Asegúrate de que sea un array de strings
+    type: [String], 
     required: true,
     validate: {
       validator: function (amenitiesArray: string[]) {
-        // Verifica que todos los elementos del array estén en la lista de valores permitidos
+        
         return amenitiesArray.every((amenity) => allowedAmenities.includes(amenity));
       },
       message: (props) => `${props.value} contiene valores no permitidos en el campo "amenities".`,

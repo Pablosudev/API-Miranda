@@ -1,6 +1,6 @@
-import mongoose from "mongoose"
 
-interface ContactsInterface extends mongoose.Document{
+
+interface ContactsInterface {
     date: string,
     _id: string,
     name:string,

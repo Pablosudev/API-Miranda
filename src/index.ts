@@ -47,22 +47,27 @@ app.get("/live", (req: Request, res: Response) => {
   res.send(`${new Date().toISOString()}`);
 });
 
-/*const runServer = async () => {
-  await connectDB();
-  console.log("Server is running");
-};*/
+
 const runServer = async () => {
   try {
-    await connectDB();  
-    app.listen(3001, () => {
+    
+    const connection = await connectDB();
+    app.listen(port, () => {
       console.log(`Server is running on port ${port}`);
     });
+    process.on("SIGINT", async () => {
+      await connection.end(); 
+      console.log("Conexión a la base de datos cerrada");
+      process.exit(0);
+    });
   } catch (error) {
-    console.error("Error connecting to the database", error);
-    process.exit(1);  
+    console.error("Error al conectar a la base de datos", error);
+    process.exit(1); 
   }
-}
+};
+
 runServer();
+
 
 export const handler = serverless(app);
 
