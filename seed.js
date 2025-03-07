@@ -115,7 +115,9 @@ function main() {
                             formattedDate = date.toISOString().slice(0, 10);
                             name = faker.name.findName();
                             email = faker.internet.email();
-                            phone = faker.datatype.number({ min: 100000000, max: 999999999 }).toString();
+                            phone = faker.datatype
+                                .number({ min: 100000000, max: 999999999 })
+                                .toString();
                             subject = faker.lorem.words(3);
                             comment = faker.lorem.paragraph();
                             query = "\n      INSERT INTO contacts (date, name, email, phone, subject, comment) \n      VALUES (?, ?, ?, ?, ?, ?)\n    ";
@@ -161,7 +163,9 @@ function main() {
                             email = "1234@gmail.com";
                             start_date = faker.date.recent();
                             description = faker.lorem.paragraph();
-                            phone = faker.datatype.number({ min: 100000000, max: 999999999 }).toString();
+                            phone = faker.datatype
+                                .number({ min: 100000000, max: 999999999 })
+                                .toString();
                             status = faker.helpers.shuffle(["Active", "Inactive"])[0];
                             department = faker.helpers.shuffle([
                                 "MANAGER",
@@ -202,7 +206,7 @@ function main() {
         // Bookings Faker
         function generateBookings() {
             return __awaiter(this, void 0, void 0, function () {
-                var name, date, check_in, check_out, request, status, price, type, number, rows, randomRoom, query;
+                var name, date, check_in, check_out, request, status, rows, room_id, query;
                 return __generator(this, function (_a) {
                     switch (_a.label) {
                         case 0:
@@ -210,36 +214,26 @@ function main() {
                             date = faker.date.past();
                             check_in = faker.date.recent();
                             check_out = faker.date.future();
-                            request = faker.lorem.paragraph();
+                            request = faker.lorem.paragraph().slice(0, 255);
                             status = faker.helpers.shuffle([
-                                "In Progress",
+                                "In progress",
                                 "Check-In",
                                 "Check-Out",
                             ])[0];
-                            price = faker.commerce.price({ min: 80, max: 1000 });
-                            type = faker.helpers.shuffle([
-                                "Suite",
-                                "Double Bed",
-                                "Single Bed",
-                                "Double Superior",
-                            ])[0];
-                            number = faker.datatype.number({ min: 1, max: 500 });
-                            return [4 /*yield*/, connection.execute("SELECT * FROM rooms")];
+                            return [4 /*yield*/, connection.execute("SELECT id FROM rooms ORDER BY RAND() LIMIT 1")];
                         case 1:
                             rows = (_a.sent())[0];
-                            randomRoom = rows[Math.floor(Math.random() * rows.length)];
-                            query = "\n      INSERT INTO bookings (name, date, check_in, check_out, request, price, number, status, type, room_id) \n      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)\n    ";
+                            if (!(Array.isArray(rows) && rows.length > 0)) return [3 /*break*/, 3];
+                            room_id = rows[0].id;
+                            query = "\n      INSERT INTO bookings (name, date, check_in, check_out, request, status, room_id) \n      VALUES (?, ?, ?, ?, ?, ?, ?)\n    ";
                             return [4 /*yield*/, connection.execute(query, [
                                     name,
                                     date,
                                     check_in,
                                     check_out,
                                     request,
-                                    price,
-                                    number,
                                     status,
-                                    type,
-                                    randomRoom.id,
+                                    room_id,
                                 ])];
                         case 2:
                             _a.sent();
@@ -249,17 +243,16 @@ function main() {
                                 check_in: check_in,
                                 check_out: check_out,
                                 request: request,
-                                price: price,
-                                number: number,
                                 status: status,
-                                type: type,
+                                room_id: room_id
                             });
-                            return [2 /*return*/];
+                            _a.label = 3;
+                        case 3: return [2 /*return*/];
                     }
                 });
             });
         }
-        var connection, faker, mysql, i, i, i;
+        var connection, faker, mysql, i, i, i, i;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0: return [4 /*yield*/, (0, database_1.connectDB)()];
@@ -283,7 +276,7 @@ function main() {
                     _a.label = 6;
                 case 6:
                     if (!(i < 10)) return [3 /*break*/, 9];
-                    return [4 /*yield*/, generateUser()];
+                    return [4 /*yield*/, generateContact()];
                 case 7:
                     _a.sent();
                     _a.label = 8;
@@ -295,7 +288,7 @@ function main() {
                     _a.label = 10;
                 case 10:
                     if (!(i < 10)) return [3 /*break*/, 13];
-                    return [4 /*yield*/, generateBookings()];
+                    return [4 /*yield*/, generateUser()];
                 case 11:
                     _a.sent();
                     _a.label = 12;
@@ -303,6 +296,18 @@ function main() {
                     i++;
                     return [3 /*break*/, 10];
                 case 13:
+                    i = 0;
+                    _a.label = 14;
+                case 14:
+                    if (!(i < 10)) return [3 /*break*/, 17];
+                    return [4 /*yield*/, generateBookings()];
+                case 15:
+                    _a.sent();
+                    _a.label = 16;
+                case 16:
+                    i++;
+                    return [3 /*break*/, 14];
+                case 17:
                     console.log("Seed data insertion completed.");
                     connection.end();
                     return [2 /*return*/];

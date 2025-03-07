@@ -11,9 +11,9 @@ async function main() {
 
   // Rooms Faker
   async function generateRooms() {
-    const number = faker.datatype.number({ min: 1, max: 500 }); 
+    const number = faker.datatype.number({ min: 1, max: 500 });
     const price = parseFloat(faker.commerce.price({ min: 80, max: 1000 }));
-    const offer = faker.datatype.number({ min: 0, max: 20 }); 
+    const offer = faker.datatype.number({ min: 0, max: 20 });
     const roomStatus = faker.helpers.shuffle(["Available", "Booked"])[0];
     const type = faker.helpers.shuffle([
       "Suite",
@@ -79,7 +79,9 @@ async function main() {
     const formattedDate = date.toISOString().slice(0, 10);
     const name = faker.name.findName();
     const email = faker.internet.email();
-    const phone = faker.datatype.number({ min: 100000000, max: 999999999 }).toString();
+    const phone = faker.datatype
+      .number({ min: 100000000, max: 999999999 })
+      .toString();
     const subject = faker.lorem.words(3);
     const comment = faker.lorem.paragraph();
 
@@ -109,6 +111,9 @@ async function main() {
       console.error("Error saving contact:", error);
     }
   }
+  for (let i = 0; i < 10; i++) {
+    await generateContact();
+  }
 
   // User Faker
   async function generateUser() {
@@ -116,7 +121,9 @@ async function main() {
     const email = "1234@gmail.com";
     const start_date = faker.date.recent();
     const description = faker.lorem.paragraph();
-    const phone = faker.datatype.number({ min: 100000000, max: 999999999 }).toString();
+    const phone = faker.datatype
+      .number({ min: 100000000, max: 999999999 })
+      .toString();
     const status = faker.helpers.shuffle(["Active", "Inactive"])[0];
     const department = faker.helpers.shuffle([
       "MANAGER",
@@ -161,29 +168,34 @@ async function main() {
     const date = faker.date.past();
     const check_in = faker.date.recent();
     const check_out = faker.date.future();
-    const request = faker.lorem.paragraph();
+    const request = faker.lorem.paragraph().slice(0, 255);
     const status = faker.helpers.shuffle([
-      "In Progress",
+      "In progress",
       "Check-In",
       "Check-Out",
     ])[0];
-    const price = faker.commerce.price({ min: 80, max: 1000 });
-    const type = faker.helpers.shuffle([
-      "Suite",
-      "Double Bed",
-      "Single Bed",
-      "Double Superior",
-    ])[0];
-    const number = faker.datatype.number({ min: 1, max: 500 }); 
+    const [rows] = await connection.execute<RoomsInterface[]>("SELECT id FROM rooms ORDER BY RAND() LIMIT 1");
 
-    const [rows] = await connection.execute<RoomsInterface[]>(
-      "SELECT * FROM rooms"
-    );
-    const randomRoom = rows[Math.floor(Math.random() * rows.length)];
+    // Verificar que se encontró una habitación
+    if (Array.isArray(rows) && rows.length > 0) {
+      const room_id = rows[0].id;
+    // const price = parseFloat(faker.commerce.price({ min: 80, max: 1000 }));
+    // const type = faker.helpers.shuffle([
+    //   "Suite",
+    //   "Double Bed",
+    //   "Single Bed",
+    //   "Double Superior",
+    // ])[0];
+    // const number = faker.datatype.number({ min: 1, max: 500 });
+
+    // const [rows] = await connection.execute<RoomsInterface[]>(
+    //   "SELECT * FROM rooms"
+    // );
+    // const randomRoom = rows[Math.floor(Math.random() * rows.length)];
 
     const query = `
-      INSERT INTO bookings (name, date, check_in, check_out, request, price, number, status, type, room_id) 
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      INSERT INTO bookings (name, date, check_in, check_out, request, status, room_id) 
+      VALUES (?, ?, ?, ?, ?, ?, ?)
     `;
     await connection.execute(query, [
       name,
@@ -191,11 +203,8 @@ async function main() {
       check_in,
       check_out,
       request,
-      price,
-      number,
       status,
-      type,
-      randomRoom.id,
+      room_id,
     ]);
     console.log("Booking saved:", {
       name,
@@ -203,12 +212,10 @@ async function main() {
       check_in,
       check_out,
       request,
-      price,
-      number,
       status,
-      type,
+      room_id
     });
-  }
+  }}
 
   for (let i = 0; i < 10; i++) {
     await generateBookings();
@@ -219,4 +226,3 @@ async function main() {
 }
 
 main().catch((error) => console.error("Error in seed data insertion:", error));
-
