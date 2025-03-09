@@ -8,6 +8,7 @@ export const connectDB = async () => {
       user: process.env.DB_USER || 'root',
       password: process.env.DB_PASSWORD || '',
       database: process.env.DB_NAME || 'mirandahotel',
+      
     });
     
     console.log("Conectado a la base de datos MySQL");

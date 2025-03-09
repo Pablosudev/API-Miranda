@@ -16,7 +16,7 @@ export const validateBookings = (req:Request, res: Response) => {
   if(typeof id !== 'string' || id === null){
     return res.status(400).json({error: 'Invalid Id'})
   }
-  if(!validDate(date) || validDate === null){
+  if(typeof date !== 'string' || date === null){
     return res.status(400).json({error: 'Invalid date'})
   }
   if(!validDate(check_in) || validDate === null){
