@@ -1,55 +1,54 @@
-import mongoose from "mongoose";
+import { sequelize } from "../Utils/database";
+import { DataTypes, Model, NUMBER, STRING } from "sequelize";
 import { RoomsInterface } from "../Interfaces/RoomsInterface";
 
-// Lista de valores permitidos para el campo `amenities`
-const allowedAmenities = [
-  "FREE WIFI",
-  "TV LED",
-  "2 BATHROOM",
-  "AC",
-  "3 BED SPACE",
-  "COFEE SET",
-  "BATHUP",
-  "TOWEL",
-  "SHOWER",
-];
+class Rooms extends Model<RoomsInterface> implements RoomsInterface{
+public id!:number;
+public number!: number;
+public price!: number;
+public offer!: number;
+public type!: string;
+public roomStatus!: string;
+public amenities!: string[];
 
-const RoomSchema = new mongoose.Schema<RoomsInterface>({
+}
+
+Rooms.init({
+  id: {
+    type: DataTypes.INTEGER,
+    autoIncrement: true,
+    primaryKey: true,
+  },
   number: {
-    type: Number,
-    required: true,
+    type: NUMBER,
+    allowNull: false,
   },
-  price: {
-    type: Number,
-    required: true,
+  price:{
+    type: NUMBER,
+    allowNull: false,
   },
-  offer: {
-    type: Number,
-    required: true,
-  },
-  roomStatus: {
-    type: String,
-    required: true,
-    enum: ["Booked", "Available"], 
+  offer:{
+    type: NUMBER,
+    allowNull: false,
   },
   type: {
-    type: String,
-    required: true,
-    enum: ["Suite", "Double Superior", "Single Bed", "Double Bed"], 
+    type: STRING,
+    allowNull: false,
+  },
+  roomStatus: {
+    type: STRING,
+    allowNull: false,
   },
   amenities: {
-    type: [String], 
-    required: true,
-    validate: {
-      validator: function (amenitiesArray: string[]) {
-        
-        return amenitiesArray.every((amenity) => allowedAmenities.includes(amenity));
-      },
-      message: (props) => `${props.value} contiene valores no permitidos en el campo "amenities".`,
-    },
+    type: STRING,
+    allowNull: false,
   },
-});
-
-const Room = mongoose.model('Room', RoomSchema);
-export const RoomModel = mongoose.model<RoomsInterface>('Rooms', RoomSchema);
-export default Room;
+},
+  {
+    sequelize,
+    modelName: "rooms",
+    tableName: "rooms",
+    timestamps: false,
+  }
+)
+export default Rooms;

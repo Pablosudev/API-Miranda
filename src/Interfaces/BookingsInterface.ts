@@ -1,14 +1,14 @@
 import { RoomsInterface } from "./RoomsInterface";
-import mongoose from "mongoose";
-interface BookingsInterface extends mongoose.Document{
+
+export interface BookingsInterface{
     name: string;
-    id: number;
+    id?: number;
     date: Date;
     check_in: Date;
     check_out: Date;
     request: string;
     status: string;
-    room:Partial<RoomsInterface>;
+    roomId:number;
   }
-  export {BookingsInterface}
+ 
   

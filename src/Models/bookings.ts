@@ -1,46 +1,64 @@
-import mongoose from "mongoose";
+import { sequelize } from "../Utils/database";
+import { DataTypes, DATE, Model, STRING } from "sequelize";
 import { BookingsInterface } from "../Interfaces/BookingsInterface";
+import Rooms from "../Models/rooms";
 
-
-const BookingsSchema = new mongoose.Schema<BookingsInterface>({
-name:{
-    type: String,
-    required: true 
-},
-date:{
-    type: String,
-    required: true
-},
-check_in:{
-    type: String,
-    required: true
-},
-check_out:{
-    type: String,
-    required: true
-},
-request:{
-    type: String,
-    required: true
-},
-type:{
-    type: String,
-    required: true 
-},
-number:{
-    type: Number,
-    required: true
-},
-status:{
-    type: String,
-    required: true,
-    enum: ['Check-Out', 'Check-In', 'In Progress']
-},
-room:{
-    type: Object,
-    required: true,
+class Bookings extends Model<BookingsInterface> implements BookingsInterface {
+  public id!: number;
+  public name!: string;
+  public date!: Date;
+  public check_in!: Date;
+  public check_out!: Date;
+  public request!: string;
+  public status!: string;
+  public roomId!: number;
 }
-})
-const Bookings = mongoose.model('Bookings', BookingsSchema);
-export const BookingModel = mongoose.model<BookingsInterface>('Bookings', BookingsSchema);
-export default Bookings;
+Bookings.init(
+  {
+    id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
+    },
+    name: {
+      type: STRING,
+      allowNull: false,
+    },
+    date: {
+      type: DATE,
+      allowNull: false,
+    },
+    check_in: {
+      type: DATE,
+      allowNull: false,
+    },
+
+    check_out: {
+      type: DATE,
+      allowNull: false,
+    },
+    request: {
+      type: STRING,
+      allowNull: false,
+    },
+    status: {
+      type: STRING,
+      allowNull: false,
+    },
+    roomId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: Rooms,
+        key: "id",
+      },
+    },
+  },
+  {
+    sequelize,
+    modelName: "bookings",
+    tableName: "bookings",
+  }
+);
+ Bookings.belongsTo(Rooms, { foreignKey: "roomId"})
+ export default Bookings;

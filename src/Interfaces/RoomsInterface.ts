@@ -1,9 +1,7 @@
 
-import { RowDataPacket } from "mysql2";
-
- export interface RoomsInterface extends RowDataPacket {
+ export interface RoomsInterface {
   number: number;
-  id: number;
+  id?: number;
   price: number;
   offer: number;
   roomStatus: string;

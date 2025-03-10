@@ -1,7 +1,7 @@
 import mongoose from "mongoose"
 
-interface UsersInterface extends mongoose.Document{
-    id: number,
+interface UsersInterface{
+    id?: number,
     name: string,
     email: string,
     start_date: Date,

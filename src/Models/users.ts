@@ -1,42 +1,63 @@
-import mongoose from "mongoose";
+import { sequelize } from "../Utils/database";
 import { UsersInterface } from "../Interfaces/UsersInterface";
+import { DataTypes, DATE, Model, STRING} from "sequelize";
 
 
-const UsersSchema = new mongoose.Schema<UsersInterface>({
-    name:{
-        type: String,
-        required: true
+class Users extends Model<UsersInterface> implements UsersInterface{
+    public id!: number;
+    public name!: string;
+    public email!: string;
+    public start_date!: Date;
+    public description!: string;
+    public phone!: string;
+    public status!: string;
+    public department!: string;
+    public password!: string;
+}
+Users.init({
+    id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
     },
-    email:{
-        type: String,
-        required: true 
+    name: {
+        type: STRING,
+        allowNull: false,
+    },
+    email: {
+        type: STRING,
+        allowNull: false,
     },
     start_date: {
-        type: String,
-        required: true 
+        type: DATE,
+        allowNull: false,
     },
     description: {
-        type: String,
-        required: true 
+        type: STRING,
+        allowNull: false,
     },
-    phone:{
-        type: String,
-        required: true
+    phone: {
+        type: STRING,
+        allowNull: false,
     },
     status: {
-        type: String,
-        required: true,
-        enum: ['Active', 'Inactive']
+        type: STRING,
+        allowNull: false,
     },
     department: {
-        type: String,
-        required: true
+        type: STRING,
+        allowNull: false,
     },
-    password:{
-        type: String,
-        required: true
-    }
-})
-const Users = mongoose.model('Users', UsersSchema)
-export const UsersModel = mongoose.model<UsersInterface>('Users', UsersSchema)
-export default Users
+    password: {
+        type: STRING,
+        allowNull: false,
+    },
+},
+{
+sequelize,
+modelName: "users",
+tableName: "users",
+timestamps: false,
+}
+);
+export default Users;
