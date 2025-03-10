@@ -3,7 +3,7 @@ import { RowDataPacket } from "mysql2";
 
  export interface RoomsInterface extends RowDataPacket {
   number: number;
-  _id: string;
+  id: number;
   price: number;
   offer: number;
   roomStatus: string;
