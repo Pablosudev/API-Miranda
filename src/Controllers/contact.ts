@@ -1,8 +1,5 @@
 import { Request, Response, Router } from "express";
 import { ContactServices } from "../Services/contact";
-import { sequelize } from "../Utils/database";
-import { ResultSetHeader, RowDataPacket } from "mysql2";
-import { where } from "sequelize";
 import Contact from "../Models/contact";
 
 export const contactRouter = Router();

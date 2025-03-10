@@ -1,13 +1,19 @@
 import express, { Request, Response } from "express";
 import { RoomServices } from "../Services/room";
 import { validateRooms } from "../Validators/RoomsValidators";
+import { error } from "console";
+import { RoomsInterface } from "../Interfaces/RoomsInterface";
 export const roomsRouter = express.Router();
 const roomsService = new RoomServices();
 
 
 roomsRouter.get("/", async (req: Request, res: Response) => {
-  const roomList = await roomsService.fetchAll();
-  res.json(roomList);
+  try{
+    const rooms = await roomsService.fetchAll();
+    res.json(rooms)
+  }catch (error) {
+  res.status(500).json( {message:'Rooms not found'})
+  }
 });
 /**
  * @swagger
@@ -48,11 +54,11 @@ roomsRouter.get("/", async (req: Request, res: Response) => {
  *                      example: 
  */
 roomsRouter.get("/:id", async (req: Request, res: Response) => {
-  const roomsId = await roomsService.fetchById(req.params.id);
-  if (roomsId) {
-    res.json(roomsId);
-  } else {
-    res.status(404).json({ message: "Habitación no encontrada" });
+  try{
+    const roomsId = parseInt(req.params.id,10);
+    const rooms = await roomsService.fetchById(roomsId)
+  } catch (error) {
+    res.status(404).json({error})
   }
 });
 /**
@@ -140,17 +146,22 @@ roomsRouter.post("/", async (req: Request, res: Response) => {
  *                      example: WIFI
  */
 roomsRouter.put("/:id", async (req: Request, res: any) => {
-  const validationError = validateRooms(req, res);
-  if (validationError) {
-    return;
-  }
-  const roomId = req.params.id;
-  const updatedRoom =  await roomsService.update(roomId, req.body);
+  try {
+    const roomId = parseInt(req.params.id, 10); 
+    const roomData: Partial<RoomsInterface> = req.body; 
 
-  if (updatedRoom) {
-    return res.status(200).json(updatedRoom);
-  } else {
-    return res.status(404).json({ error: "Habitación no encontrada" });
+    
+    const updatedRoom = await roomsService.update(roomId, roomData);
+
+    
+    if (updatedRoom) {
+      res.status(200).json(updatedRoom);
+    } else {
+      res.status(404).json({ error: "Room not found" });
+    }
+  } catch (error) {
+   
+    res.status(500).json({ error: ' Update not found ' });
   }
 });
 /**
@@ -192,12 +203,16 @@ roomsRouter.put("/:id", async (req: Request, res: any) => {
  *                      example: WIFI
  */
 roomsRouter.delete("/:id", async (req: Request, res: Response) => {
-  const roomId = (req.params.id);
-  const deletedRoom = await roomsService.delete(roomId);
-  if (deletedRoom) {
-    res.status(204).json({ message: "Room deleted" });
-  } else {
-    res.status(404).json({ message: "Room not found" });
+  try{
+const roomId  = parseInt(req.params.id,10);
+const isDeleted = await roomsService.delete(roomId);
+if(isDeleted) {
+  res.status(200).json({message: 'Room deleted sucessfully'})
+}else {
+  res.status(404).json({error: 'Room not found'})
+}
+  }catch (error) {
+    res.status(500).json({error: 'Error delete Room'})
   }
 });
 /**
