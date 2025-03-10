@@ -1,6 +1,6 @@
 import { ServiceInterface } from "../Interfaces/ServiceInterface";
 import { RoomsInterface } from "../Interfaces/RoomsInterface";
-import { RoomModel } from "../Models/rooms";
+
 
 
 export class RoomServices implements ServiceInterface<RoomsInterface>{
@@ -8,7 +8,7 @@ export class RoomServices implements ServiceInterface<RoomsInterface>{
 
     async fetchAll(): Promise<RoomsInterface[]> {
         try{
-            const rooms: RoomsInterface [] = await RoomModel.find();
+            const rooms: RoomsInterface [] = await Rooms.find();
             return rooms
         } catch (error) {
             throw error;

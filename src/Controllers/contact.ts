@@ -1,21 +1,19 @@
 import { Request, Response, Router } from "express";
 import { ContactServices } from "../Services/contact";
-import { connectDB } from "../Utils/database";
+import { sequelize } from "../Utils/database";
 import { ResultSetHeader, RowDataPacket } from "mysql2";
+import { where } from "sequelize";
+import Contact from "../Models/contact";
 
 export const contactRouter = Router();
 const contactServices = new ContactServices();
 
 contactRouter.get("/", async (req: Request, res: Response) => {
-  let connection;
   try {
-    connection = await connectDB();
-    const [rows] = await connection.execute("SELECT * FROM contacts");
-    res.json(rows);
+    const contacts = await contactServices.fetchAll();
+    res.json(contacts)
   } catch (error) {
-    res.status(500).json({ message: "Error al obteener los contactos" });
-  }finally{
-    if (connection) connection.end();
+    res.status(500).json({ message: "Error al obtener los contactos" });
   }
 });
 /**
@@ -57,23 +55,12 @@ contactRouter.get("/", async (req: Request, res: Response) => {
  *                      example: "gsfsgfdsg"
  */
 contactRouter.get("/:id", async (req: Request, res: Response) => {
-  const contactId = req.params.id;
-  let connection;
-
   try {
-    connection = await connectDB();
-    const [rows] = await connection.execute('SELECT * FROM contacts WHERE id = ?', [contactId]);
-
-    if (Array.isArray(rows) && rows.length > 0) {
-      res.json(rows[0]);
-    } else {
-      res.status(404).json({ message: 'Contacto no encontrado' });
-    }
-  } catch (error) {
-    console.error('Error al obtener el contacto:', error);
-    res.status(500).json({ message: 'Error al obtener el contacto' });
-  } finally {
-    if (connection) connection.end();
+    const contactId = parseInt(req.params.id,10)
+    const contact = await contactServices.fetchById(contactId)
+    res.json(contact)
+  }catch (error) {
+    res.status(404).json({error})
   }
 });
 /**
@@ -117,45 +104,30 @@ contactRouter.get("/:id", async (req: Request, res: Response) => {
  contactRouter.put('/:id', async (req: any, res: any) => {
   const { archived } = req.body;
   const contactId = req.params.id;
-  let connection;
-
   
   if (typeof archived !== 'boolean') {
     return res.status(400).json({ error: 'El valor de archived debe ser un booleano' });
   }
 
   try {
-    connection = await connectDB();
-
     
-    const [updateResult] = await connection.execute<ResultSetHeader>(
-      'UPDATE contacts SET archived = ? WHERE id = ?',
-      [archived, contactId]
-    );
-
-    
-    if (updateResult.affectedRows > 0) {
-      
-      const [updatedContact] = await connection.execute<RowDataPacket[]>(
-        'SELECT * FROM contacts WHERE id = ?',
-        [contactId]
-      );
-
-      
-      res.json(updatedContact[0]);
+    const [affectedRows] = await Contact.update(
+      {archived},
+      {where: {id:contactId}}
+    )
+    if (affectedRows > 0) {
+     
+      const updatedContact = await Contact.findByPk(contactId);
+      res.json(updatedContact);
     } else {
       res.status(404).json({ error: 'Contacto no encontrado' });
     }
   } catch (error) {
     console.error('Error al actualizar el contacto:', error);
     res.status(500).json({ error: 'Error interno del servidor' });
-  } finally {
-    
-    if (connection) {
-      connection.end();
-    }
   }
 });
+
 /**
  @swagger
  * /api/v1/contact/create :
@@ -195,29 +167,18 @@ contactRouter.get("/:id", async (req: Request, res: Response) => {
  *                      example: "gsfsgfdsg"
  */
  contactRouter.delete('/:id', async (req: Request, res: Response) => {
-  const contactId = req.params.id;
-  let connection;
-
   try {
-    connection = await connectDB();
-    const [result] = await connection.execute<ResultSetHeader>(
-      'DELETE FROM contacts WHERE id = ?',
-      [contactId]
-    );
-
-    if (result.affectedRows > 0) {
-      res.status(204).json({ message: 'Contacto eliminado' });
+    const contactId = parseInt(req.params.id,10);
+    const isDeleted = await contactServices.delete(contactId);
+    if (isDeleted) {
+      res.status(200).json({ message: "Contact deleted successfully"});
     } else {
-      res.status(404).json({ message: 'Contacto no encontrado' });
+      res.status(404).json({error: 'Contact not found'});
     }
   } catch (error) {
-    console.error('Error al eliminar el contacto:', error);
+    
     res.status(500).json({ message: 'Error al eliminar el contacto' });
-  } finally {
-    if (connection) {
-      connection.end();
-    }
-  }
+  } 
 });
 /**
   @swagger

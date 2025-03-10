@@ -5,7 +5,7 @@ import { contactRouter } from "./Controllers/contact";
 import { userRouter } from "./Controllers/user";
 import "dotenv/config";
 import { loginRouter } from "./Controllers/login";
-import { connectDB } from "./Utils/database";
+import { sequelize } from "./Utils/database";
 import serverless from "serverless-http";
 import { authenticateJWT } from "./Middleware/auth";
 
@@ -51,18 +51,23 @@ app.get("/live", (req: Request, res: Response) => {
 const runServer = async () => {
   try {
     
-    const connection = await connectDB();
+    await sequelize.sync({ force: false }); 
+    console.log("Modelos sincronizados con la base de datos");
+
+   
     app.listen(port, () => {
-      console.log(`Server is running on port ${port}`);
+      console.log(`Servidor corriendo en http://localhost:${port}`);
     });
+
+    
     process.on("SIGINT", async () => {
-      await connection.end(); 
+      await sequelize.close(); 
       console.log("Conexión a la base de datos cerrada");
       process.exit(0);
     });
   } catch (error) {
-    console.error("Error al conectar a la base de datos", error);
-    process.exit(1); 
+    console.error("Error al conectar a la base de datos:", error);
+    process.exit(1);
   }
 };
 
