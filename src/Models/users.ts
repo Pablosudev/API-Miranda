@@ -55,9 +55,9 @@ Users.init({
 },
 {
 sequelize,
-modelName: "users",
+modelName: "Users",
 tableName: "users",
 timestamps: false,
 }
 );
-export default Users;
+export {Users};

@@ -8,7 +8,7 @@ export class RoomServices implements ServiceInterface<RoomsInterface> {
       const rooms = await Rooms.findAll();
       return rooms.map((room) => room.get({ plain: true }));
     } catch (error) {
-      throw new Error(`Error fetching contacts ${error}`);
+      throw new Error(`Error fetching rooms ${error}`);
     }
   }
 

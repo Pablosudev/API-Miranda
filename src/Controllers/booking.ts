@@ -1,13 +1,19 @@
 import { Request, Response, Router } from "express";
 import { BookingServices } from "../Services/booking";
 import { validateBookings } from "../Validators/BookingsValidators";
+import { BookingsInterface } from "../Interfaces/BookingsInterface";
+
 
 export const bookingsRouter = Router();
 const bookingService = new BookingServices();
 
 bookingsRouter.get("/", async (req: Request, res: Response) => {
-  const bookingList = await bookingService.fetchAll();
-  res.json(bookingList);
+  try {
+    const bookingList = await bookingService.fetchAll();
+    res.json(bookingList);
+  } catch (error) {
+    res.status(500).json({ message: "Bookings not found" });
+  }
 });
 /**
  * @swagger
@@ -57,10 +63,10 @@ bookingsRouter.get("/", async (req: Request, res: Response) => {
  *                     example:
  */
 bookingsRouter.get("/:id", async (req: Request, res: Response) => {
-  const booking =  await bookingService.fetchById(req.params.id);
-  if (booking) {
-    res.json(booking);
-  } else {
+  try {
+    const bookingId = parseInt(req.params.id, 10);
+    const booking = await bookingService.fetchById(bookingId);
+  } catch (error) {
     res.status(404).json({ message: "Booking not found" });
   }
 });
@@ -112,11 +118,11 @@ bookingsRouter.get("/:id", async (req: Request, res: Response) => {
  *                     example: 150
  */
 bookingsRouter.post("/", async (req: Request, res: Response) => {
-  const validationError = await validateBookings(req, res);
+  const validationError = validateBookings(req, res);
   if (validationError) {
     return;
   }
-  const newBooking = bookingService.create(req.body);
+  const newBooking = await bookingService.create(req.body);
   res.status(201).json(newBooking);
 });
 /**
@@ -167,17 +173,17 @@ bookingsRouter.post("/", async (req: Request, res: Response) => {
  *                     example: 150
  */
 bookingsRouter.put("/:id", async (req: Request, res: any) => {
-  const validationError = await validateBookings(req, res);
-  if (validationError) {
-    return;
-  }
-  const bookingId = req.params.id;
-  const updatedBooking = bookingService.update(bookingId, req.body);
-
-  if (updatedBooking) {
-    return res.status(200).json(updatedBooking);
-  } else {
-    return res.status(404).json({ error: "Reserva no encontrada" });
+  try{
+    const bookingId = parseInt(req.params.id, 10);
+    const bookingData: Partial<BookingsInterface> = req.body;
+    const updatedBooking = await bookingService.update(bookingId, bookingData);
+    if(updatedBooking){
+      res.status(200).json(updatedBooking)
+    } else {
+      res.status(404).json({error: 'Booking not update'})
+    } 
+  }catch (error){
+    res.status(500).json({error: 'Booking not update'})
   }
 });
 /**
@@ -228,12 +234,18 @@ bookingsRouter.put("/:id", async (req: Request, res: any) => {
  *                     example: 150
  */
 bookingsRouter.delete("/:id", async (req: Request, res: Response) => {
-  const deletedBooking = await bookingService.delete(req.params.id);
-  if (deletedBooking) {
-    res.status(204).json({ message: "Booking deleted" });
-  } else {
-    res.status(404).json({ message: "Booking not found" });
-  }
+  try{
+    const bookingId = parseInt(req.params.id, 10);
+    const isDeleted = await bookingService.delete(bookingId);
+
+    if(isDeleted) {
+      res.status(200).json({message: 'Booking deleted sucessfully'})
+    }else {
+      res.status(404).json({error: 'Booking not found'})
+    }
+      }catch (error) {
+        res.status(500).json({error: 'Error delete Booking'})
+      }
 });
 /**
  @swagger

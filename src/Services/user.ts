@@ -1,72 +1,77 @@
 import { UsersInterface } from "../Interfaces/UsersInterface";
 import { ServiceInterface } from "../Interfaces/ServiceInterface";
-import { UsersModel } from "../Models/users";
 import * as bcryptjs from "bcryptjs";
+import { Users } from "../Models/users";
 
-export class UserServices implements ServiceInterface<UsersInterface> {
+export class UserServices {
   async fetchAll(): Promise<UsersInterface[]> {
-    try {
-      const users: UsersInterface[] = await UsersModel.find();
-      return users;
-    } catch (error) {
-      throw error;
-    }
+  try {
+    console.log("Consultando la base de datos...");
+    const users = await Users.findAll();
+    console.log("Usuarios obtenidos:", users); 
+    return users.map((user) => user.get({ plain: true }));
+  } catch (error) {
+    console.error("Error en el servicio:", error); 
+    throw new Error(`Error fetching users ${error}`);
   }
+}
 
-  async fetchById(id: string): Promise<UsersInterface | undefined> {
+  async fetchById(id: number): Promise<UsersInterface> {
     try {
-      const userId: UsersInterface | null = await UsersModel.findById(id);
+      const userId= await Users.findByPk(id);
       if (!userId) {
         throw new Error("User not found");
       }
-      return userId;
+      return userId.get({ plain:true });
     } catch (error) {
-      throw error;
+      throw new Error(`Error fetching userID ${error}`);
     }
   }
   async create(user: UsersInterface): Promise<UsersInterface> {
     try {
-      let newUser = new UsersModel(user);
+      const newUser = await Users.create(user);
       const hashedPassword = await bcryptjs.hash(user.password, 10);
       newUser.password = hashedPassword;
-      await newUser.save();
+      await newUser.get({ plain: true});
       return newUser;
     } catch (error) {
-      throw error;
+      throw new Error('Failed to create User');
     }
   }
   async update(
-    id: string,
-    user: UsersInterface
+    id: number,
+    user: Partial<UsersInterface>
   ): Promise<UsersInterface | null> {
     try {
-      if (user.password) {
-        user.password = await bcryptjs.hash(user.password, 10);
-      }
+      const userData: Partial<UsersInterface> = Object.fromEntries(
+        Object.entries(user).filter(([_, value]) => value !== undefined)
+      );
 
-      const updatedUser = await UsersModel.findByIdAndUpdate(id, user, {
-        new: true,
-      }).exec();
+      const [affectedRows] = await Users.update(userData, {
+        where: { id },
+      });
 
-      if (!updatedUser) {
+      if (affectedRows === 0) {
         throw new Error("User not found");
       }
 
-      return updatedUser;
+      const updatedUser = await Users.findByPk(id);
+
+      return updatedUser ? updatedUser.get({ plain: true }) : null;
     } catch (error) {
       console.error("Error updating user:", error);
       throw new Error("Failed to update user");
     }
   }
 
-  async delete(id: string): Promise<boolean> {
+  async delete(id: number): Promise<boolean> {
     try {
-      const userToDelete = await UsersModel.findById(id);
+      const userToDelete = await Users.findByPk(id);
       if (!userToDelete) {
-        throw new Error("User not founf");
+        throw new Error("User not found");
       }
 
-      await UsersModel.findByIdAndDelete(id);
+      await userToDelete.destroy();
       return true;
     } catch (error) {
       throw error;

@@ -5,7 +5,7 @@ export class ContactServices {
   async fetchAll(): Promise<ContactsInterface[]> {
     try {
       const contacts = await Contact.findAll();
-      return contacts.map((contact) => contact.get({ plain: true }));
+      return contacts;
     } catch (error) {
       throw new Error(`Error fetching contacts ${error}`);
     }

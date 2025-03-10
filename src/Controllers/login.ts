@@ -1,7 +1,7 @@
 import { Request, Response, Router } from "express";
 import jwt from "jsonwebtoken";
 import bcryptjs from "bcryptjs";
-import { UsersModel } from "../Models/users";
+import  {Users}  from "../Models/users";
 
 export const loginRouter = Router();
 
@@ -9,7 +9,7 @@ loginRouter.post("/", async (req: Request, res: Response): Promise<void> => {
   try {
     const { email, password } = req.body;
 
-    const userValue =  await UsersModel.findOne({ email });
+    const userValue =  await Users.findOne({ where: {email} });
 
     if (!userValue) {
       res.status(400).send("Invalid user or password");
@@ -24,7 +24,7 @@ loginRouter.post("/", async (req: Request, res: Response): Promise<void> => {
     }
 
     if (process.env.TOKEN_SECRET) {
-      const token = jwt.sign({ email: userValue.email }, process.env.TOKEN_SECRET, { expiresIn: "1year" });
+      const token = jwt.sign({ email: userValue.email }, process.env.TOKEN_SECRET, { expiresIn: "20m" });
       res.status(200).json({ token });
     } else {
       res.status(500).send("TOKEN_SECRET is not defined");
