@@ -1,7 +1,7 @@
-import mongoose from "mongoose"
+
 
 interface UsersInterface{
-    id?: number,
+    id: number,
     name: string,
     email: string,
     start_date: Date,

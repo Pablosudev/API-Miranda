@@ -6,6 +6,6 @@
   offer: number;
   roomStatus: string;
   type: string;
-  amenities: string[];
+  amenities: string;
 }
 

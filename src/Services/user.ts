@@ -1,7 +1,9 @@
 import { UsersInterface } from "../Interfaces/UsersInterface";
-import { ServiceInterface } from "../Interfaces/ServiceInterface";
 import * as bcryptjs from "bcryptjs";
-import { Users } from "../Models/users";
+import { sequelize } from "../Utils/database";
+import  UserModel  from "../Models/users";
+
+const Users = UserModel(sequelize)
 
 export class UserServices {
   async fetchAll(): Promise<UsersInterface[]> {
@@ -9,7 +11,7 @@ export class UserServices {
     console.log("Consultando la base de datos...");
     const users = await Users.findAll();
     console.log("Usuarios obtenidos:", users); 
-    return users.map((user) => user.get({ plain: true }));
+    return users.map((user: { get: (arg0: { plain: boolean; }) => any; }) => user.get({ plain: true }));
   } catch (error) {
     console.error("Error en el servicio:", error); 
     throw new Error(`Error fetching users ${error}`);
@@ -29,15 +31,22 @@ export class UserServices {
   }
   async create(user: UsersInterface): Promise<UsersInterface> {
     try {
-      const newUser = await Users.create(user);
-      const hashedPassword = await bcryptjs.hash(user.password, 10);
-      newUser.password = hashedPassword;
-      await newUser.get({ plain: true});
-      return newUser;
+        
+        const hashedPassword = await bcryptjs.hash(user.password, 10);
+        
+        
+        const newUser = await Users.create({
+            ...user,  
+            password: hashedPassword  
+        });
+        
+       
+        return newUser.get({ plain: true });
     } catch (error) {
-      throw new Error('Failed to create User');
+        
+        throw new Error(`Failed to create User`);
     }
-  }
+}
   async update(
     id: number,
     user: Partial<UsersInterface>

@@ -1,7 +1,6 @@
 import express, { Request, Response } from "express";
 import { RoomServices } from "../Services/room";
 import { validateRooms } from "../Validators/RoomsValidators";
-import { error } from "console";
 import { RoomsInterface } from "../Interfaces/RoomsInterface";
 export const roomsRouter = express.Router();
 const roomsService = new RoomServices();

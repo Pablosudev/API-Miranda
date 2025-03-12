@@ -1,12 +1,22 @@
 import { Sequelize } from "sequelize";
 
-const sequelize = new Sequelize({
+
+export const sequelize = new Sequelize({
   dialect: "mysql",
-  host: process.env.DB_HOST || "localhost",
-  username: process.env.DB_USER || "root",
-  password: process.env.DB_PASSWORD || "",
-  database: process.env.DB_NAME || "mirandahotel",
+  host: 'localhost',
+  username: 'root',
+  password: '24Miranda97',
+  database: 'hotelmiranda',
   logging: false,
-  
 });
-export {sequelize};
+
+
+sequelize.authenticate()
+  .then(() => {
+    console.log('Conexión exitosa a la base de datos.');
+  })
+  .catch(err => {
+    console.error('Error al conectar a la base de datos:', err);
+  });
+
+

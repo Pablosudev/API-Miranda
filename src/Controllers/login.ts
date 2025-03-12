@@ -1,21 +1,27 @@
 import { Request, Response, Router } from "express";
 import jwt from "jsonwebtoken";
 import bcryptjs from "bcryptjs";
-import  {Users}  from "../Models/users";
+import { sequelize } from "../Utils/database";
+import  UserModel  from "../Models/users";
+
+const User = UserModel(sequelize)
 
 export const loginRouter = Router();
 
 loginRouter.post("/", async (req: Request, res: Response): Promise<void> => {
+  console.log('Solicitud post recibida')
   try {
     const { email, password } = req.body;
-
-    const userValue =  await Users.findOne({ where: {email} });
+    console.log("Users model: ", User);
+    const userValue =  await User.findOne({ where: {email} });
 
     if (!userValue) {
+      console.log('Usuario no encontrado')
       res.status(400).send("Invalid user or password");
       return;
     }
-
+    console.log('Usuario encontrado', userValue)
+    console.log(userValue.password)
     const isPasswordValid = await bcryptjs.compare(password, userValue.password);
 
     if (!isPasswordValid) {
@@ -24,6 +30,7 @@ loginRouter.post("/", async (req: Request, res: Response): Promise<void> => {
     }
 
     if (process.env.TOKEN_SECRET) {
+      console.log('Generando Token')
       const token = jwt.sign({ email: userValue.email }, process.env.TOKEN_SECRET, { expiresIn: "20m" });
       res.status(200).json({ token });
     } else {

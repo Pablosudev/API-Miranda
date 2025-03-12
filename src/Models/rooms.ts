@@ -1,5 +1,5 @@
 import { sequelize } from "../Utils/database";
-import { DataTypes, Model, NUMBER, STRING } from "sequelize";
+import { DataTypes, INTEGER, Model, NUMBER, STRING } from "sequelize";
 import { RoomsInterface } from "../Interfaces/RoomsInterface";
 
 class Rooms extends Model<RoomsInterface> implements RoomsInterface{
@@ -9,7 +9,7 @@ public price!: number;
 public offer!: number;
 public type!: string;
 public roomStatus!: string;
-public amenities!: string[];
+public amenities!: string;
 
 }
 
@@ -20,33 +20,33 @@ Rooms.init({
     primaryKey: true,
   },
   number: {
-    type: NUMBER,
+    type: DataTypes.INTEGER,
     allowNull: false,
   },
   price:{
-    type: NUMBER,
+    type: DataTypes.FLOAT,
     allowNull: false,
   },
   offer:{
-    type: NUMBER,
+    type: DataTypes.INTEGER,
     allowNull: false,
   },
   type: {
-    type: STRING,
+    type: DataTypes.STRING,
     allowNull: false,
   },
   roomStatus: {
-    type: STRING,
+    type: DataTypes.STRING,
     allowNull: false,
   },
   amenities: {
-    type: STRING,
+    type: DataTypes.STRING,
     allowNull: false,
   },
 },
   {
     sequelize,
-    modelName: "rooms",
+    modelName: "Rooms",
     tableName: "rooms",
     timestamps: false,
   }

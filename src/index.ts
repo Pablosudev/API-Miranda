@@ -10,8 +10,9 @@ import { authenticateJWT } from "./Middleware/auth";
 import  {sequelize}  from './Utils/database';
 
 
+
 const app = express();
-const port = 3001;
+const port = 3005;
 const swaggerUi = require("swagger-ui-express");
 const swaggerJsDoc = require("swagger-jsdoc");
 const cors = require("cors");
@@ -50,15 +51,14 @@ app.get("/live", (req: Request, res: Response) => {
 
 
 
-
-console.log(sequelize); // Verifica si la instancia de sequelize se está importando correctamente
-
 const runServer = async () => {
   try {
     await sequelize.authenticate();
     console.log("Conexión a la base de datos establecida correctamente.");
-    await sequelize.sync({ force: false });
-    console.log("Modelos sincronizados con la base de datos.");
+    
+  
+    await sequelize.sync({force:false});
+    
     app.listen(port, () => {
       console.log(`Servidor corriendo en http://localhost:${port}`);
     });
@@ -67,8 +67,6 @@ const runServer = async () => {
     process.exit(1);
   }
 };
-
-runServer();
 
 
 process.on("SIGINT", async () => {
