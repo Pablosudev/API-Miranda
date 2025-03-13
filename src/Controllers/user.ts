@@ -60,15 +60,16 @@ userRouter.get("/", async (req: Request, res: Response) => {
  *                     example: finance
  *
  */
-
 userRouter.get("/:id", async (req: Request, res: Response) => {
   try {
-    const userId = parseInt(req.params.id, 10);
-    const user = await userServices.fetchById(userId);
-  } catch (error) {
-    res.status(404).json({ error });
+    const usertId = parseInt(req.params.id,10)
+    const user = await userServices.fetchById(usertId)
+    res.json(user)
+  }catch (error) {
+    res.status(404).json({error})
   }
 });
+
 /**
  @swagger
  * /api/v1/users/:id :

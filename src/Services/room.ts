@@ -1,12 +1,12 @@
-import { ServiceInterface } from "../Interfaces/ServiceInterface";
 import { RoomsInterface } from "../Interfaces/RoomsInterface";
 import Rooms from "../Models/rooms";
 
-export class RoomServices implements ServiceInterface<RoomsInterface> {
+
+export class RoomServices {
   async fetchAll(): Promise<RoomsInterface[]> {
     try {
       const rooms = await Rooms.findAll();
-      return rooms.map((room) => room.get({ plain: true }));
+      return rooms;
     } catch (error) {
       throw new Error(`Error fetching rooms ${error}`);
     }

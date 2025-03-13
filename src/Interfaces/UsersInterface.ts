@@ -1,6 +1,6 @@
 
 
-interface UsersInterface{
+export interface UsersInterface{
     id: number,
     name: string,
     email: string,
@@ -11,5 +11,5 @@ interface UsersInterface{
     department: string, 
     password: string 
 }
- export {UsersInterface}
+
 

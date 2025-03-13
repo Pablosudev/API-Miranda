@@ -1,6 +1,6 @@
-import { sequelize } from "../Utils/database";
-import { DataTypes, INTEGER, Model, NUMBER, STRING } from "sequelize";
+import { DataTypes, Model} from "sequelize";
 import { RoomsInterface } from "../Interfaces/RoomsInterface";
+import { sequelize } from "../Utils/database";
 
 class Rooms extends Model<RoomsInterface> implements RoomsInterface{
 public id!:number;
@@ -51,4 +51,5 @@ Rooms.init({
     timestamps: false,
   }
 )
+
 export default Rooms;

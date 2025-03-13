@@ -56,6 +56,7 @@ roomsRouter.get("/:id", async (req: Request, res: Response) => {
   try{
     const roomsId = parseInt(req.params.id,10);
     const rooms = await roomsService.fetchById(roomsId)
+    res.json(rooms)
   } catch (error) {
     res.status(404).json({error})
   }
@@ -201,7 +202,7 @@ roomsRouter.put("/:id", async (req: Request, res: any) => {
  *                      type: string
  *                      example: WIFI
  */
-roomsRouter.delete("/:id", async (req: Request, res: Response) => {
+roomsRouter.delete('/:id', async (req: Request, res: Response) => {
   try{
 const roomId  = parseInt(req.params.id,10);
 const isDeleted = await roomsService.delete(roomId);

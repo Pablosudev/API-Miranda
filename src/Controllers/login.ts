@@ -2,9 +2,9 @@ import { Request, Response, Router } from "express";
 import jwt from "jsonwebtoken";
 import bcryptjs from "bcryptjs";
 import { sequelize } from "../Utils/database";
-import  UserModel  from "../Models/users";
+import Users from "../Models/users";
 
-const User = UserModel(sequelize)
+
 
 export const loginRouter = Router();
 
@@ -12,8 +12,8 @@ loginRouter.post("/", async (req: Request, res: Response): Promise<void> => {
   console.log('Solicitud post recibida')
   try {
     const { email, password } = req.body;
-    console.log("Users model: ", User);
-    const userValue =  await User.findOne({ where: {email} });
+    console.log("Users model: ", Users);
+    const userValue =  await Users.findOne({ where: {email} });
 
     if (!userValue) {
       console.log('Usuario no encontrado')

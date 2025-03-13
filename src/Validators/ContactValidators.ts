@@ -1,4 +1,3 @@
-import { error } from "console";
 import { ContactsInterface } from "../Interfaces/ContactInterface";
 import { Response, Request } from "express";
 
@@ -18,11 +17,11 @@ const validContact = (contact: string): boolean => {
 
 
 export const validateContact = (req: Request, res: Response) => {
-  const {date, _id, name, email, phone, subject, comment }= req.body  as ContactsInterface;
+  const {date, id, name, email, phone, subject, comment }= req.body  as ContactsInterface;
   if(!validDate(date)){
     return res.status(400).json({error: 'Invalid Date'})
   }
-  if(typeof _id !== 'string' || _id === null){
+  if(typeof id !== 'number' || id === null){
     return res.status(400).json({error: 'Invalid id'})
   }
   if(typeof name !== 'string' || name.length <= 3){

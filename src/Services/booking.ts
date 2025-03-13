@@ -1,12 +1,11 @@
-import { ServiceInterface } from "../Interfaces/ServiceInterface";
 import { BookingsInterface } from "../Interfaces/BookingsInterface";
 import Bookings from "../Models/bookings";
 
-export class BookingServices implements ServiceInterface<BookingsInterface> {
+export class BookingServices {
   async fetchAll(): Promise<BookingsInterface[]> {
     try {
       const bookings = await Bookings.findAll();
-      return bookings.map((booking) => booking.get({ plain: true }));
+      return bookings;
     } catch (error) {
       throw new Error(`Error fetching Bookings ${error}`);
     }

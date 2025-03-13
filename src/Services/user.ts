@@ -1,19 +1,16 @@
 import { UsersInterface } from "../Interfaces/UsersInterface";
 import * as bcryptjs from "bcryptjs";
-import { sequelize } from "../Utils/database";
-import  UserModel  from "../Models/users";
+import Users from "../Models/users";
 
-const Users = UserModel(sequelize)
+
 
 export class UserServices {
   async fetchAll(): Promise<UsersInterface[]> {
   try {
-    console.log("Consultando la base de datos...");
     const users = await Users.findAll();
-    console.log("Usuarios obtenidos:", users); 
-    return users.map((user: { get: (arg0: { plain: boolean; }) => any; }) => user.get({ plain: true }));
+    return users;
   } catch (error) {
-    console.error("Error en el servicio:", error); 
+    
     throw new Error(`Error fetching users ${error}`);
   }
 }

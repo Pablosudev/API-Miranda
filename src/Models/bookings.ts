@@ -1,7 +1,8 @@
-import { sequelize } from "../Utils/database";
+
 import { DataTypes, DATE, Model, STRING } from "sequelize";
 import { BookingsInterface } from "../Interfaces/BookingsInterface";
 import Rooms from "../Models/rooms";
+import { sequelize } from "../Utils/database";
 
 class Bookings extends Model<BookingsInterface> implements BookingsInterface {
   public id!: number;
@@ -13,6 +14,7 @@ class Bookings extends Model<BookingsInterface> implements BookingsInterface {
   public status!: string;
   public roomId!: number;
 }
+
 Bookings.init(
   {
     id: {
@@ -56,9 +58,11 @@ Bookings.init(
   },
   {
     sequelize,
-    modelName: "bookings",
+    modelName: "Bookings",
     tableName: "bookings",
+    timestamps: false
   }
 );
+
  Bookings.belongsTo(Rooms, { foreignKey: "roomId"})
  export default Bookings;
