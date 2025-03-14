@@ -1,4 +1,4 @@
-import { RoomsInterface } from "./RoomsInterface";
+
 
 export interface BookingsInterface{
     name: string;

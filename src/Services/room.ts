@@ -1,4 +1,3 @@
-import { Console } from "console";
 import { RoomsInterface } from "../Interfaces/RoomsInterface";
 import Rooms from "../Models/rooms";
 
