@@ -1,3 +1,4 @@
+import { Console } from "console";
 import { RoomsInterface } from "../Interfaces/RoomsInterface";
 import Rooms from "../Models/rooms";
 
@@ -25,9 +26,9 @@ export class RoomServices {
   }
   async create(room: RoomsInterface): Promise<RoomsInterface> {
     try {
+      console.log(room)
       const newRoom = await Rooms.create(room)
-     
-      return newRoom.get({plain: true});
+      return newRoom.get({plain: true})
     } catch (error) {
       throw new Error('Failed to create room');
     }
@@ -61,10 +62,10 @@ export class RoomServices {
   async delete(id: number): Promise<boolean> {
     try {
       const room = await Rooms.findByPk(id);
+      console.log(room)
       if (!room) {
         throw new Error("Room not found");
       }
-
       await room.destroy();
       return true;
     } catch (error) {

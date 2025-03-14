@@ -17,6 +17,7 @@ export class UserServices {
 
   async fetchById(id: number): Promise<UsersInterface> {
     try {
+      
       const userId= await Users.findByPk(id);
       if (!userId) {
         throw new Error("User not found");

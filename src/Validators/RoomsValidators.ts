@@ -2,7 +2,7 @@ import { RoomsInterface } from "../Interfaces/RoomsInterface";
 import { Response, Request } from "express";
 
 export const validateRooms = (req: Request, res: Response) => {
-  const { number, price, offer, roomStatus, type, amenities } =
+  const { number, price, offer, roomStatus, type} =
     req.body as RoomsInterface;
   if (typeof number !== "number" || number === 0) {
     return res.status(400).json({ error: "Invalid number room" });
@@ -29,10 +29,10 @@ export const validateRooms = (req: Request, res: Response) => {
   ) {
     return res.status(400).json({ error: "Invalid type room" });
   }
-  if (
-    !Array.isArray(amenities) ||
-    !amenities.every((item) => typeof item === "string")
-  ) {
-    return res.status(400).json({ error: "Invalid amenities" });
-  }
+  // if (
+  //   !Array.isArray(amenities) ||
+  //   !amenities.every((item) => typeof item === "string")
+  // ) {
+  //   return res.status(400).json({ error: "Invalid amenities" });
+  // }
 };
