@@ -9,6 +9,7 @@ const roomsService = new RoomServices();
 roomsRouter.get("/", async (req: Request, res: Response) => {
   try {
     const rooms = await roomsService.fetchAll();
+
     res.json(rooms);
   } catch (error) {
     res.status(500).json({ message: "Rooms not found" });
@@ -206,11 +207,11 @@ roomsRouter.delete("/:id", async (req: Request, res: Response) => {
     if (isDeleted) {
       res.status(200).json({ message: "Room deleted sucessfully" });
     } else {
-      console.error("Hola")
+      console.error("Hola");
       res.status(404).json({ error: "Room not found" });
     }
   } catch (error) {
-    console.error("Error in delete of roomController:", error)
+    console.error("Error in delete of roomController:", error);
     res.status(500).json({ error: "Error delete Room" });
   }
 });

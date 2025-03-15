@@ -12,7 +12,7 @@ class Bookings extends Model<BookingsInterface> implements BookingsInterface {
   public check_out!: Date;
   public request!: string;
   public status!: string;
-  public roomId!: number;
+  public room_id!: number;
 }
 
 Bookings.init(
@@ -47,7 +47,7 @@ Bookings.init(
       type: STRING,
       allowNull: false,
     },
-    roomId: {
+    room_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
@@ -64,5 +64,5 @@ Bookings.init(
   }
 );
 
- Bookings.belongsTo(Rooms, { foreignKey: "roomId"})
+ Bookings.belongsTo(Rooms, { foreignKey: "room_id"})
  export default Bookings;

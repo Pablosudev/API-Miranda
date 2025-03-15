@@ -2,7 +2,7 @@ import { BookingsInterface } from "../Interfaces/BookingsInterface";
 import { Response, Request } from "express";
 
 export const validateBookings = (req:Request, res: Response) => {
-  const {name, id, date, check_in, check_out, request,status, roomId} = req.body as BookingsInterface;
+  const {name, id, date, check_in, check_out, request,status, room_id} = req.body as BookingsInterface;
   if(typeof name !== 'string' || name.length <= 3){
     return res.status(400).json({error: 'Invalid name'})
   }
@@ -32,7 +32,7 @@ export const validateBookings = (req:Request, res: Response) => {
     status !== 'In Progress' && status !== 'Check Out' && status !== 'Check In'){
     return res.status(400).json({error: 'Invalid status'})
   }
-  if(typeof roomId  !== 'number' ){
+  if(typeof room_id  !== 'number' ){
     return res.status(400).json({error: 'Invalid room'})
   }
   

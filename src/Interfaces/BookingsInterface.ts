@@ -8,7 +8,7 @@ export interface BookingsInterface{
     check_out: Date;
     request: string;
     status: string;
-    roomId:number;
+    room_id:number;
   }
  
   

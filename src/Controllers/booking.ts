@@ -3,15 +3,17 @@ import { BookingServices } from "../Services/booking";
 import { validateBookings } from "../Validators/BookingsValidators";
 import { BookingsInterface } from "../Interfaces/BookingsInterface";
 
-
 export const bookingsRouter = Router();
 const bookingService = new BookingServices();
 
 bookingsRouter.get("/", async (req: Request, res: Response) => {
   try {
+   
     const bookingList = await bookingService.fetchAll();
+    
     res.json(bookingList);
   } catch (error) {
+    console.log(error)
     res.status(500).json({ message: "Bookings not found" });
   }
 });
@@ -173,17 +175,17 @@ bookingsRouter.post("/", async (req: Request, res: Response) => {
  *                     example: 150
  */
 bookingsRouter.put("/:id", async (req: Request, res: any) => {
-  try{
+  try {
     const bookingId = parseInt(req.params.id, 10);
     const bookingData: Partial<BookingsInterface> = req.body;
     const updatedBooking = await bookingService.update(bookingId, bookingData);
-    if(updatedBooking){
-      res.status(200).json(updatedBooking)
+    if (updatedBooking) {
+      res.status(200).json(updatedBooking);
     } else {
-      res.status(404).json({error: 'Booking not update'})
-    } 
-  }catch (error){
-    res.status(500).json({error: 'Booking not update'})
+      res.status(404).json({ error: "Booking not update" });
+    }
+  } catch (error) {
+    res.status(500).json({ error: "Booking not update" });
   }
 });
 /**
@@ -234,18 +236,18 @@ bookingsRouter.put("/:id", async (req: Request, res: any) => {
  *                     example: 150
  */
 bookingsRouter.delete("/:id", async (req: Request, res: Response) => {
-  try{
+  try {
     const bookingId = parseInt(req.params.id, 10);
     const isDeleted = await bookingService.delete(bookingId);
 
-    if(isDeleted) {
-      res.status(200).json({message: 'Booking deleted sucessfully'})
-    }else {
-      res.status(404).json({error: 'Booking not found'})
+    if (isDeleted) {
+      res.status(200).json({ message: "Booking deleted sucessfully" });
+    } else {
+      res.status(404).json({ error: "Booking not found" });
     }
-      }catch (error) {
-        res.status(500).json({error: 'Error delete Booking'})
-      }
+  } catch (error) {
+    res.status(500).json({ error: "Error delete Booking" });
+  }
 });
 /**
  @swagger
