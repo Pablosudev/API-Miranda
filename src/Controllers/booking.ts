@@ -68,6 +68,7 @@ bookingsRouter.get("/:id", async (req: Request, res: Response) => {
   try {
     const bookingId = parseInt(req.params.id, 10);
     const booking = await bookingService.fetchById(bookingId);
+    res.json(booking);
   } catch (error) {
     res.status(404).json({ message: "Booking not found" });
   }
