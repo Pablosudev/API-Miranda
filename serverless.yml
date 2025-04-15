@@ -13,7 +13,7 @@ provider:
   runtime: nodejs22.x
 functions:
   app:
-    handler: src/index.handler
+    handler: dist/src/index.handler
     events:
       - http:
           path: /
