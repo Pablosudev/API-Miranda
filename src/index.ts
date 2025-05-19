@@ -10,11 +10,12 @@ import serverless from "serverless-http";
 import { authenticateJWT } from "./Middleware/auth";
 
 const app = express();
-const port = 3001;
+// const port = 3001;
 const swaggerUi = require("swagger-ui-express");
 const swaggerJsDoc = require("swagger-jsdoc");
 const cors = require("cors");
 app.use(cors());
+connectDB();
 
 const swaggerOptions = {
   definition: {
@@ -51,18 +52,18 @@ app.get("/live", (req: Request, res: Response) => {
   await connectDB();
   console.log("Server is running");
 };*/
-const runServer = async () => {
-  try {
-    await connectDB();  
-    app.listen(3001, () => {
-      console.log(`Server is running on port ${port}`);
-    });
-  } catch (error) {
-    console.error("Error connecting to the database", error);
-    process.exit(1);  
-  }
-}
-runServer();
+// const runServer = async () => {
+//   try {
+//     await connectDB();  
+//     app.listen(3001, () => {
+//       console.log(`Server is running on port ${port}`);
+//     });
+//   } catch (error) {
+//     console.error("Error connecting to the database", error);
+//     process.exit(1);  
+//   }
+// }
+// runServer();
 
 export const handler = serverless(app);
 
