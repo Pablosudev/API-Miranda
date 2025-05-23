@@ -1,4 +1,4 @@
-import express, { Request, Response, NextFunction } from "express";
+import express from "express";
 import { roomsRouter } from "./Controllers/room";
 import { bookingsRouter } from "./Controllers/booking";
 import { contactRouter } from "./Controllers/contact";
@@ -8,22 +8,31 @@ import { loginRouter } from "./Controllers/login";
 import { connectDB } from "./Utils/database";
 import serverless from "serverless-http";
 import { authenticateJWT } from "./Middleware/auth";
-
+import { Request, Response, NextFunction } from "express";
 const app = express();
 // const port = 3001;
 const swaggerUi = require("swagger-ui-express");
 const swaggerJsDoc = require("swagger-jsdoc");
-app.use(function corsMiddleware(req: Request, res: Response, next: NextFunction): void {
+
+
+
+
+const allowCors = (req: Request, res: Response, next: NextFunction): void => {
   res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Credentials", "true");
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
 
   if (req.method === "OPTIONS") {
     res.sendStatus(200);
-  } else {
-    next();
+    return;
   }
-});
+
+  next();
+};
+
+app.use(allowCors); // ✅ Esto ahora funciona sin error
+
 connectDB();
 
 const swaggerOptions = {
