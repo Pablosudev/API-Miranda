@@ -12,6 +12,8 @@ provider:
   name: aws
   region: eu-west-3
   runtime: nodejs22.x
+  environment:
+    MONGO_URI: ${env:MONGO_URI}
 functions:
   app:
     handler: dist/src/index.handler
