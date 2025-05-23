@@ -7,6 +7,7 @@ package:
     - "dist/**"
     - "data/**"
     - "public/**"
+    - "!**/.env"
 provider:
   name: aws
   region: eu-west-3
