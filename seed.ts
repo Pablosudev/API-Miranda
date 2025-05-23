@@ -108,9 +108,7 @@ async function main() {
     });
     await contact.save();
   }
-  for (let i = 0; i < 10; i++) {
-    await generateContact();
-  }
+  
   //User Faker
   async function generateUser() {
     const name = faker.person.fullName();
