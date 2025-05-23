@@ -6,8 +6,45 @@ import User from "./src/Models/users";
 import Bookings from "./src/Models/bookings";
 import "dotenv/config";
 import * as bcryptjs from "bcryptjs";
+import mongoose from "mongoose";
 async function main() {
-  await connectDB();
+  try {
+    await connectDB();
+
+    // Generar Rooms
+    for (let i = 0; i < 10; i++) {
+      await generateRooms();
+    }
+    console.log("✅ 10 Rooms generadas");
+
+    // Generar Contacts
+    for (let i = 0; i < 10; i++) {
+      await generateContact();
+    }
+    console.log("✅ 10 Contacts generados");
+
+    // Generar Users
+    for (let i = 0; i < 10; i++) {
+      await generateUser();
+    }
+    console.log("✅ 10 Users generados");
+
+    // Generar Bookings
+    for (let i = 0; i < 10; i++) {
+      await generateBookings();
+    }
+    console.log("✅ 10 Bookings generadas");
+
+    await mongoose.connection.close(); // 👈 importante para terminar bien
+    console.log("✅ Conexión cerrada");
+
+    process.exit(0); // 👈 cierra el proceso de Node correctamente
+  } catch (error) {
+    console.error("❌ Error durante el seed:", error);
+    await mongoose.connection.close(); // incluso si falla, cerramos
+    process.exit(1);
+  }
+
   //RoomsFaker
   async function generateRooms() {
     const number = faker.number.int({ min: 1, max: 500 });
@@ -132,7 +169,7 @@ async function main() {
       number,
       status,
       type,
-      room: randomRoom
+      room_id: randomRoom._id
     });
     await bookings.save();
   }

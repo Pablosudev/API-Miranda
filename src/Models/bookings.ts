@@ -36,7 +36,7 @@ status:{
     required: true,
     enum: ['Check-Out', 'Check-In', 'In Progress']
 },
-room:{
+room_id:{
     type: Object,
     required: true,
 }

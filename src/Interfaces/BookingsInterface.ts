@@ -8,7 +8,7 @@ interface BookingsInterface extends mongoose.Document{
     check_out: string;
     request: string;
     status: string;
-    room:Partial<RoomsInterface>;
+    room_id:Partial<RoomsInterface>;
     type: string;
     number: number;
   }

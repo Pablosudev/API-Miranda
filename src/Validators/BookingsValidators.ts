@@ -9,7 +9,7 @@ const validDate = (date: string): boolean => {
 };
 
 export const validateBookings = (req:Request, res: Response) => {
-  const {name, id, date, check_in, check_out, request, type, number ,status, room} = req.body as BookingsInterface;
+  const {name, id, date, check_in, check_out, request, type, number ,status, room_id} = req.body as BookingsInterface;
   if(typeof name !== 'string' || name.length <= 3){
     return res.status(400).json({error: 'Invalid name'})
   }
@@ -40,7 +40,7 @@ export const validateBookings = (req:Request, res: Response) => {
     type !== 'In Progress' && type !== 'Check Out' && type !== 'Check In'){
     return res.status(400).json({error: 'Invalid status'})
   }
-  if(typeof room  !== 'object' || room === null){
+  if(typeof room_id  !== 'object' || room_id === null){
     return res.status(400).json({error: 'Invalid room'})
   }
   
