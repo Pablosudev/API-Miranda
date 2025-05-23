@@ -10,7 +10,6 @@ import serverless from "serverless-http";
 import { authenticateJWT } from "./Middleware/auth";
 import { Request, Response, NextFunction } from "express";
 const app = express();
-// const port = 3001;
 const swaggerUi = require("swagger-ui-express");
 const swaggerJsDoc = require("swagger-jsdoc");
 
